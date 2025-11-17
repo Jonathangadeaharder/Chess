@@ -12,7 +12,7 @@ import { Colors } from '../constants/theme';
 // Import screens
 import LearnScreen from '../screens/Learn/LearnScreen';
 import TrainScreen from '../screens/Train/TrainScreen';
-import PlayScreen from '../screens/Play/PlayScreen';
+import PlayStackNavigator from './PlayStackNavigator';
 import ProfileStackNavigator from './ProfileStackNavigator';
 
 const Tab = createBottomTabNavigator<MainTabParamList>();
@@ -88,10 +88,10 @@ export default function MainTabNavigator() {
       />
       <Tab.Screen
         name="Play"
-        component={PlayScreen}
+        component={PlayStackNavigator}
         options={{
           title: 'Sparring Ring',
-          headerTitle: 'Play',
+          headerShown: false,
         }}
       />
       <Tab.Screen

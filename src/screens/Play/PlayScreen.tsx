@@ -7,6 +7,8 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, Modal } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Chess } from 'chess.js';
+import { useNavigation } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import Chessboard from '../../components/organisms/Chessboard';
 import DigitalCoachDialog from '../../components/organisms/DigitalCoachDialog';
 import { useGameStore } from '../../state/gameStore';
@@ -14,11 +16,14 @@ import { useUserStore } from '../../state/userStore';
 import { Colors, Typography, Spacing, BorderRadius } from '../../constants/theme';
 import type { CoachPrompt, Square, SimpleGameHistory } from '../../types';
 import { getAIMoveDelayed, type AIDifficulty, getDifficultyDescription, getEstimatedELO } from '../../services/ai/enhancedAI';
+import type { PlayStackParamList } from '../../navigation/PlayStackNavigator';
 import * as Haptics from 'expo-haptics';
 
 type GameState = 'setup' | 'playing' | 'finished';
+type PlayScreenNavigationProp = NativeStackNavigationProp<PlayStackParamList, 'PlayHome'>;
 
 export default function PlayScreen() {
+  const navigation = useNavigation<PlayScreenNavigationProp>();
   const { position, resetGame, moves, loadPosition } = useGameStore();
   const { addGameToHistory, addXP } = useUserStore();
 
@@ -418,6 +423,28 @@ export default function PlayScreen() {
 
       {/* Action Buttons */}
       <View style={styles.actions}>
+        <TouchableOpacity
+          style={[styles.actionButton, styles.secondaryButton]}
+          onPress={() => {
+            const gameToAnalyze: SimpleGameHistory = {
+              id: Date.now().toString(),
+              date: new Date(),
+              playerColor,
+              opponentType: 'ai',
+              opponentRating: getEstimatedELO(difficulty),
+              result: gameResult?.includes('won') ? 'win' : gameResult?.includes('lost') ? 'loss' : 'draw',
+              moves: chess.history(),
+              finalPosition: chess.fen(),
+              timeSpent: 0,
+              accuracy: 0,
+            };
+            navigation.navigate('GameAnalysis', { game: gameToAnalyze });
+          }}
+        >
+          <Ionicons name="analytics" size={20} color={Colors.text} />
+          <Text style={styles.secondaryButtonText}>Analyze Game</Text>
+        </TouchableOpacity>
+
         <TouchableOpacity
           style={[styles.actionButton, styles.primaryButton]}
           onPress={() => setGameState('setup')}
