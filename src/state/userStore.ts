@@ -5,7 +5,7 @@
 
 import { create } from 'zustand';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import type { UserState, UserProfile, Achievement, SRSItem, Weakness, GameSession } from '../types';
+import type { UserState, UserProfile, Achievement, SRSItem, Weakness, SimpleGameHistory } from '../types';
 import { ALL_ACHIEVEMENTS } from '../constants/achievements';
 
 interface UserStore extends UserState {
@@ -25,7 +25,7 @@ interface UserStore extends UserState {
   removeSRSItem: (itemId: string) => void;
   getDueSRSItems: () => SRSItem[];
   addWeakness: (weakness: Weakness) => void;
-  addGameToHistory: (session: GameSession) => void;
+  addGameToHistory: (session: SimpleGameHistory) => void;
   resetProgress: () => Promise<void>;
 }
 
@@ -296,7 +296,7 @@ export const useUserStore = create<UserStore>((set, get) => ({
   },
 
   // Game history
-  addGameToHistory: (session: GameSession) => {
+  addGameToHistory: (session: SimpleGameHistory) => {
     const { gameHistory, profile, updateProfile } = get();
     const updatedHistory = [session, ...gameHistory].slice(0, 50); // Keep last 50 games
 

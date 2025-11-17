@@ -16,8 +16,9 @@ import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 
 import { useUIStore } from '../../state/uiStore';
-import { Colors, Typography, Spacing, BorderRadius } from '../../constants/theme';
-import type { BoardTheme, InteractionMode } from '../../types';
+import { Colors, Typography, Spacing, BorderRadius, BoardThemes } from '../../constants/theme';
+import type { BoardThemeName } from '../../constants/theme';
+import type { InteractionMode } from '../../types';
 
 export default function SettingsScreen() {
   const {
@@ -31,12 +32,12 @@ export default function SettingsScreen() {
 
   const [selectedInteractionMode, setSelectedInteractionMode] = useState<InteractionMode>('both');
 
-  const boardThemes: Array<{ id: BoardTheme; name: string }> = [
-    { id: 'classic', name: 'Classic' },
+  const boardThemes: Array<{ id: BoardThemeName; name: string }> = [
+    { id: 'modern', name: 'Modern' },
     { id: 'wood', name: 'Wooden' },
-    { id: 'blue', name: 'Blue' },
-    { id: 'green', name: 'Green' },
-    { id: 'purple', name: 'Purple' },
+    { id: 'neo', name: 'Neo' },
+    { id: 'green', name: 'Classic Green' },
+    { id: 'blue', name: 'Ocean Blue' },
   ];
 
   const interactionModes: Array<{ id: InteractionMode; name: string; description: string }> = [
@@ -45,7 +46,7 @@ export default function SettingsScreen() {
     { id: 'both', name: 'Both', description: 'Use either method' },
   ];
 
-  const handleThemeChange = (theme: BoardTheme) => {
+  const handleThemeChange = (theme: BoardThemeName) => {
     if (hapticsEnabled) {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     }
@@ -244,15 +245,9 @@ export default function SettingsScreen() {
 }
 
 // Helper function to get preview color for themes
-function getThemePreviewColor(theme: BoardTheme): string {
-  const colors: Record<BoardTheme, string> = {
-    classic: '#F0D9B5',
-    wood: '#DDB88C',
-    blue: '#8CA2AD',
-    green: '#AADC82',
-    purple: '#B4A7D6',
-  };
-  return colors[theme];
+function getThemePreviewColor(theme: BoardThemeName): string {
+  const themeObj = BoardThemes[theme];
+  return themeObj?.light || '#F0D9B5';
 }
 
 const styles = StyleSheet.create({

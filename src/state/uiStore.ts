@@ -12,6 +12,8 @@ interface UIStore extends UIState {
   // Actions
   setBoardTheme: (theme: BoardThemeName) => Promise<void>;
   setPieceTheme: (theme: PieceThemeName) => Promise<void>;
+  setSoundEnabled: (enabled: boolean) => Promise<void>;
+  setHapticsEnabled: (enabled: boolean) => Promise<void>;
   toggleSound: () => Promise<void>;
   toggleHaptics: () => Promise<void>;
   toggleAnimations: () => Promise<void>;
@@ -64,6 +66,16 @@ export const useUIStore = create<UIStore>((set, get) => ({
   setPieceTheme: async (theme: PieceThemeName) => {
     const { saveSettings } = get() as any;
     await saveSettings({ pieceTheme: theme });
+  },
+
+  setSoundEnabled: async (enabled: boolean) => {
+    const { saveSettings } = get() as any;
+    await saveSettings({ soundEnabled: enabled });
+  },
+
+  setHapticsEnabled: async (enabled: boolean) => {
+    const { saveSettings } = get() as any;
+    await saveSettings({ hapticsEnabled: enabled });
   },
 
   toggleSound: async () => {

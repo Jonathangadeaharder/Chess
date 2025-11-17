@@ -268,6 +268,20 @@ export interface GameSession {
   coachInterventions: CoachIntervention[];
 }
 
+// Simpler game history for storage
+export interface SimpleGameHistory {
+  id: string;
+  date: Date;
+  playerColor: 'white' | 'black';
+  opponentType: 'ai' | 'human';
+  opponentRating: number;
+  result: 'win' | 'loss' | 'draw';
+  moves: string[]; // SAN notation
+  finalPosition: string; // FEN string
+  timeSpent: number;
+  accuracy: number;
+}
+
 /**
  * Curriculum types
  */
@@ -329,7 +343,7 @@ export interface UserState {
   achievements: Achievement[];
   srsQueue: SRSItem[];
   weaknesses: Weakness[];
-  gameHistory: GameSession[];
+  gameHistory: SimpleGameHistory[];
 }
 
 export interface UIState {

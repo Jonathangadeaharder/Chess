@@ -13,7 +13,7 @@ import { Colors } from '../constants/theme';
 import LearnScreen from '../screens/Learn/LearnScreen';
 import TrainScreen from '../screens/Train/TrainScreen';
 import PlayScreen from '../screens/Play/PlayScreen';
-import ProfileScreen from '../screens/Profile/ProfileScreen';
+import ProfileStackNavigator from './ProfileStackNavigator';
 
 const Tab = createBottomTabNavigator<MainTabParamList>();
 
@@ -96,10 +96,10 @@ export default function MainTabNavigator() {
       />
       <Tab.Screen
         name="Profile"
-        component={ProfileScreen}
+        component={ProfileStackNavigator}
         options={{
           title: 'Trophy Room',
-          headerTitle: 'Profile',
+          headerShown: false,
         }}
       />
     </Tab.Navigator>
