@@ -344,6 +344,7 @@ export interface UserState {
   srsQueue: SRSItem[];
   weaknesses: Weakness[];
   gameHistory: SimpleGameHistory[];
+  tacticalProgression: any; // TacticalProgressionState from tacticalProgressionService
 }
 
 export interface UIState {
