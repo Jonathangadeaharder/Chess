@@ -1,12 +1,25 @@
 /**
  * User State Store
- * Manages user profile, progress, and achievements
+ * Manages user profile, progress, and achievements using SQLite
  */
 
 import { create } from 'zustand';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import type { UserState, UserProfile, Achievement, SRSItem, Weakness, SimpleGameHistory } from '../types';
 import { ALL_ACHIEVEMENTS } from '../constants/achievements';
+import {
+  getUserProfile,
+  saveUserProfile,
+  getSRSItems,
+  saveSRSItem,
+  deleteSRSItem,
+  getDueSRSItems as getSQLiteDueSRSItems,
+  getGameHistory,
+  saveGame,
+  getWeaknesses,
+  saveWeakness,
+  clearAllData,
+} from '../services/storage/sqliteService';
+import { migrateToSQLite } from '../services/storage/migrationService';
 
 interface UserStore extends UserState {
   // Loading state
@@ -20,22 +33,14 @@ interface UserStore extends UserState {
   addXP: (amount: number) => void;
   unlockAchievement: (achievementId: string) => void;
   completeLesson: (lessonId: string, estimatedMinutes: number) => Promise<void>;
-  addSRSItem: (item: SRSItem) => void;
-  updateSRSItem: (itemId: string, updates: Partial<SRSItem>) => void;
-  removeSRSItem: (itemId: string) => void;
+  addSRSItem: (item: SRSItem) => Promise<void>;
+  updateSRSItem: (itemId: string, updates: Partial<SRSItem>) => Promise<void>;
+  removeSRSItem: (itemId: string) => Promise<void>;
   getDueSRSItems: () => SRSItem[];
-  addWeakness: (weakness: Weakness) => void;
-  addGameToHistory: (session: SimpleGameHistory) => void;
+  addWeakness: (weakness: Weakness) => Promise<void>;
+  addGameToHistory: (session: SimpleGameHistory) => Promise<void>;
   resetProgress: () => Promise<void>;
 }
-
-const STORAGE_KEYS = {
-  PROFILE: '@chess_learning_profile',
-  ACHIEVEMENTS: '@chess_learning_achievements',
-  SRS_QUEUE: '@chess_learning_srs_queue',
-  WEAKNESSES: '@chess_learning_weaknesses',
-  GAME_HISTORY: '@chess_learning_game_history',
-};
 
 // Default user profile
 const createDefaultProfile = (): UserProfile => ({
@@ -72,39 +77,35 @@ export const useUserStore = create<UserStore>((set, get) => ({
   isLoading: false,
   error: null,
 
-  // Load user profile from storage
+  // Load user profile from SQLite
   loadUserProfile: async () => {
     set({ isLoading: true, error: null });
 
     try {
-      const [profileData, achievementsData, srsData, weaknessesData, historyData] =
-        await Promise.all([
-          AsyncStorage.getItem(STORAGE_KEYS.PROFILE),
-          AsyncStorage.getItem(STORAGE_KEYS.ACHIEVEMENTS),
-          AsyncStorage.getItem(STORAGE_KEYS.SRS_QUEUE),
-          AsyncStorage.getItem(STORAGE_KEYS.WEAKNESSES),
-          AsyncStorage.getItem(STORAGE_KEYS.GAME_HISTORY),
-        ]);
+      // Run migration if needed
+      await migrateToSQLite();
 
-      const profile = profileData ? JSON.parse(profileData) : createDefaultProfile();
-      const achievements = achievementsData ? JSON.parse(achievementsData) : ALL_ACHIEVEMENTS;
-      const srsQueue = srsData ? JSON.parse(srsData) : [];
-      const weaknesses = weaknessesData ? JSON.parse(weaknessesData) : [];
-      const gameHistory = historyData ? JSON.parse(historyData) : [];
-
-      // If no achievements stored, save the initialized ones
-      if (!achievementsData) {
-        await AsyncStorage.setItem(STORAGE_KEYS.ACHIEVEMENTS, JSON.stringify(ALL_ACHIEVEMENTS));
-      }
+      // Load data from SQLite
+      const [profile, srsQueue, gameHistory, weaknesses] = await Promise.all([
+        getUserProfile(),
+        getSRSItems(),
+        getGameHistory(50),
+        getWeaknesses(50),
+      ]);
 
       set({
-        profile,
-        achievements,
+        profile: profile || createDefaultProfile(),
+        achievements: ALL_ACHIEVEMENTS,
         srsQueue,
-        weaknesses,
         gameHistory,
+        weaknesses,
         isLoading: false,
       });
+
+      // Save default profile if none exists
+      if (!profile) {
+        await saveUserProfile(createDefaultProfile());
+      }
     } catch (error) {
       console.error('Error loading user profile:', error);
       set({ error: 'Failed to load user profile', isLoading: false });
@@ -119,10 +120,7 @@ export const useUserStore = create<UserStore>((set, get) => ({
     const updatedProfile = { ...currentProfile, ...updates };
 
     try {
-      await AsyncStorage.setItem(
-        STORAGE_KEYS.PROFILE,
-        JSON.stringify(updatedProfile)
-      );
+      await saveUserProfile(updatedProfile);
       set({ profile: updatedProfile });
     } catch (error) {
       console.error('Error updating profile:', error);
@@ -205,12 +203,6 @@ export const useUserStore = create<UserStore>((set, get) => ({
 
       // Award XP
       get().addXP(achievement.xpReward);
-
-      // Save to storage
-      AsyncStorage.setItem(
-        STORAGE_KEYS.ACHIEVEMENTS,
-        JSON.stringify(updatedAchievements)
-      );
     }
   },
 
@@ -236,30 +228,35 @@ export const useUserStore = create<UserStore>((set, get) => ({
   },
 
   // SRS Management
-  addSRSItem: (item: SRSItem) => {
+  addSRSItem: async (item: SRSItem) => {
     const { srsQueue } = get();
     const updatedQueue = [...srsQueue, item];
 
     set({ srsQueue: updatedQueue });
-    AsyncStorage.setItem(STORAGE_KEYS.SRS_QUEUE, JSON.stringify(updatedQueue));
+    await saveSRSItem(item);
   },
 
-  updateSRSItem: (itemId: string, updates: Partial<SRSItem>) => {
+  updateSRSItem: async (itemId: string, updates: Partial<SRSItem>) => {
     const { srsQueue } = get();
-    const updatedQueue = srsQueue.map((item) =>
-      item.id === itemId ? { ...item, ...updates } : item
+    const item = srsQueue.find((i) => i.id === itemId);
+
+    if (!item) return;
+
+    const updatedItem = { ...item, ...updates };
+    const updatedQueue = srsQueue.map((i) =>
+      i.id === itemId ? updatedItem : i
     );
 
     set({ srsQueue: updatedQueue });
-    AsyncStorage.setItem(STORAGE_KEYS.SRS_QUEUE, JSON.stringify(updatedQueue));
+    await saveSRSItem(updatedItem);
   },
 
-  removeSRSItem: (itemId: string) => {
+  removeSRSItem: async (itemId: string) => {
     const { srsQueue } = get();
     const updatedQueue = srsQueue.filter((item) => item.id !== itemId);
 
     set({ srsQueue: updatedQueue });
-    AsyncStorage.setItem(STORAGE_KEYS.SRS_QUEUE, JSON.stringify(updatedQueue));
+    await deleteSRSItem(itemId);
   },
 
   getDueSRSItems: () => {
@@ -272,43 +269,26 @@ export const useUserStore = create<UserStore>((set, get) => ({
   },
 
   // Weakness tracking
-  addWeakness: (weakness: Weakness) => {
+  addWeakness: async (weakness: Weakness) => {
     const { weaknesses } = get();
-    const existingWeakness = weaknesses.find((w) => w.concept === weakness.concept);
+    await saveWeakness(weakness);
 
-    let updatedWeaknesses;
-    if (existingWeakness) {
-      // Increment frequency
-      updatedWeaknesses = weaknesses.map((w) =>
-        w.concept === weakness.concept
-          ? { ...w, frequency: w.frequency + 1 }
-          : w
-      );
-    } else {
-      updatedWeaknesses = [...weaknesses, weakness];
-    }
-
+    // Reload weaknesses from database to get updated frequencies
+    const updatedWeaknesses = await getWeaknesses(50);
     set({ weaknesses: updatedWeaknesses });
-    AsyncStorage.setItem(
-      STORAGE_KEYS.WEAKNESSES,
-      JSON.stringify(updatedWeaknesses)
-    );
   },
 
   // Game history
-  addGameToHistory: (session: SimpleGameHistory) => {
+  addGameToHistory: async (session: SimpleGameHistory) => {
     const { gameHistory, profile, updateProfile } = get();
     const updatedHistory = [session, ...gameHistory].slice(0, 50); // Keep last 50 games
 
     set({ gameHistory: updatedHistory });
-    AsyncStorage.setItem(
-      STORAGE_KEYS.GAME_HISTORY,
-      JSON.stringify(updatedHistory)
-    );
+    await saveGame(session);
 
     // Update statistics
     if (profile) {
-      updateProfile({
+      await updateProfile({
         totalGamesPlayed: profile.totalGamesPlayed + 1,
       });
     }
@@ -319,12 +299,13 @@ export const useUserStore = create<UserStore>((set, get) => ({
     const defaultProfile = createDefaultProfile();
     set({
       profile: defaultProfile,
-      achievements: [],
+      achievements: ALL_ACHIEVEMENTS,
       srsQueue: [],
       weaknesses: [],
       gameHistory: [],
     });
 
-    await AsyncStorage.multiRemove(Object.values(STORAGE_KEYS));
+    await clearAllData();
+    await saveUserProfile(defaultProfile);
   },
 }));
