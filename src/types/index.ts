@@ -192,6 +192,9 @@ export interface UserProfile {
   totalPuzzlesSolved: number;
   totalStudyTime: number; // Minutes
 
+  // Lesson progress
+  completedLessons: string[]; // Array of lesson IDs
+
   // External accounts (for Weakness Finder)
   lichessUsername?: string;
   chessComUsername?: string;

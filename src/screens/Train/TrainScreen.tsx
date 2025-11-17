@@ -12,6 +12,7 @@ import { createSRSItem, scheduleNextReview } from '../../services/srs/fsrs';
 import MoveTrainer from '../../components/organisms/MoveTrainer';
 import ConceptTrainer from '../../components/organisms/ConceptTrainer';
 import BishopsPrison from '../../components/organisms/BishopsPrison';
+import TheFuse from '../../components/organisms/TheFuse';
 import AchievementCelebration from '../../components/organisms/AchievementCelebration';
 import { getRandomOpeningLine } from '../../constants/openingLines';
 import { getRandomConceptCard } from '../../constants/conceptCards';
@@ -27,6 +28,7 @@ export default function TrainScreen() {
   const [currentSRSItem, setCurrentSRSItem] = useState<SRSItem | null>(null);
   const [reviewQueue, setReviewQueue] = useState<SRSItem[]>([]);
   const [showBishopsPrison, setShowBishopsPrison] = useState(false);
+  const [showTheFuse, setShowTheFuse] = useState(false);
   const [celebratedAchievement, setCelebratedAchievement] = useState<Achievement | null>(null);
   const [showCelebration, setShowCelebration] = useState(false);
 
@@ -142,6 +144,18 @@ export default function TrainScreen() {
     }
   };
 
+  const handleFuseComplete = async (solvedCount: number, averageTime: number) => {
+    setShowTheFuse(false);
+
+    // Award XP for completion
+    // Check for achievements (pattern master achievement)
+    const newAchievements = await checkAndUnlockAchievements();
+    if (newAchievements.length > 0) {
+      setCelebratedAchievement(newAchievements[0]);
+      setShowCelebration(true);
+    }
+  };
+
   // Overview mode
   if (mode === 'overview') {
     return (
@@ -209,20 +223,21 @@ export default function TrainScreen() {
               <Ionicons name="chevron-forward" size={24} color={Colors.textSecondary} />
             </TouchableOpacity>
 
-            <View style={styles.miniGameCard}>
+            <TouchableOpacity
+              style={styles.miniGameCard}
+              onPress={() => setShowTheFuse(true)}
+            >
               <View style={styles.miniGameIcon}>
                 <Text style={styles.miniGameEmoji}>🔥</Text>
               </View>
               <View style={styles.miniGameContent}>
                 <Text style={styles.miniGameTitle}>The Fuse</Text>
                 <Text style={styles.miniGameDescription}>
-                  Coming soon - Timed pattern recognition
+                  Timed pattern recognition - solve before the fuse burns!
                 </Text>
               </View>
-              <View style={styles.comingSoonBadge}>
-                <Text style={styles.comingSoonText}>SOON</Text>
-              </View>
-            </View>
+              <Ionicons name="chevron-forward" size={24} color={Colors.textSecondary} />
+            </TouchableOpacity>
 
             <View style={styles.miniGameCard}>
               <View style={styles.miniGameIcon}>
@@ -258,6 +273,16 @@ export default function TrainScreen() {
             <BishopsPrison
               onComplete={handleMiniGameComplete}
               onExit={() => setShowBishopsPrison(false)}
+            />
+          </Modal>
+        )}
+
+        {/* The Fuse Modal */}
+        {showTheFuse && (
+          <Modal visible={showTheFuse} animationType="slide">
+            <TheFuse
+              onComplete={handleFuseComplete}
+              onExit={() => setShowTheFuse(false)}
             />
           </Modal>
         )}

@@ -19,6 +19,7 @@ interface UserStore extends UserState {
   incrementStreak: () => Promise<void>;
   addXP: (amount: number) => void;
   unlockAchievement: (achievementId: string) => void;
+  completeLesson: (lessonId: string, estimatedMinutes: number) => Promise<void>;
   addSRSItem: (item: SRSItem) => void;
   updateSRSItem: (itemId: string, updates: Partial<SRSItem>) => void;
   removeSRSItem: (itemId: string) => void;
@@ -58,6 +59,7 @@ const createDefaultProfile = (): UserProfile => ({
   totalGamesPlayed: 0,
   totalPuzzlesSolved: 0,
   totalStudyTime: 0,
+  completedLessons: [],
 });
 
 export const useUserStore = create<UserStore>((set, get) => ({
@@ -210,6 +212,27 @@ export const useUserStore = create<UserStore>((set, get) => ({
         JSON.stringify(updatedAchievements)
       );
     }
+  },
+
+  // Complete lesson
+  completeLesson: async (lessonId: string, estimatedMinutes: number) => {
+    const { profile, updateProfile } = get();
+    if (!profile) return;
+
+    // Check if already completed
+    if (profile.completedLessons.includes(lessonId)) return;
+
+    // Add to completed lessons
+    const updatedCompletedLessons = [...profile.completedLessons, lessonId];
+
+    // Award XP (10 XP per estimated minute)
+    get().addXP(estimatedMinutes * 10);
+
+    // Update study time
+    await updateProfile({
+      completedLessons: updatedCompletedLessons,
+      totalStudyTime: profile.totalStudyTime + estimatedMinutes,
+    });
   },
 
   // SRS Management
