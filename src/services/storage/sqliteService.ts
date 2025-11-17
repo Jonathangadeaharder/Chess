@@ -93,6 +93,13 @@ export async function initDatabase(): Promise<void> {
         last_updated INTEGER NOT NULL
       );
 
+      -- Tactical Analytics Table (daily goals, pattern tracking, spaced repetition)
+      CREATE TABLE IF NOT EXISTS tactical_analytics (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        analytics_data TEXT NOT NULL,
+        last_updated INTEGER NOT NULL
+      );
+
       -- Create indexes for common queries
       CREATE INDEX IF NOT EXISTS idx_srs_next_review ON srs_items(next_review_date);
       CREATE INDEX IF NOT EXISTS idx_srs_type ON srs_items(type);
@@ -527,6 +534,49 @@ export async function getTacticalProgression(): Promise<any | null> {
 }
 
 /**
+ * Tactical Analytics Operations
+ */
+export async function saveTacticalAnalytics(analytics: any): Promise<void> {
+  if (!db) throw new Error('Database not initialized');
+
+  const analyticsData = JSON.stringify(analytics);
+  const now = Date.now();
+
+  // Check if analytics exists
+  const existing = await db.getFirstAsync<{ id: number }>(
+    'SELECT id FROM tactical_analytics LIMIT 1'
+  );
+
+  if (existing) {
+    // Update existing
+    await db.runAsync(
+      'UPDATE tactical_analytics SET analytics_data = ?, last_updated = ? WHERE id = ?',
+      [analyticsData, now, existing.id]
+    );
+  } else {
+    // Insert new
+    await db.runAsync(
+      'INSERT INTO tactical_analytics (analytics_data, last_updated) VALUES (?, ?)',
+      [analyticsData, now]
+    );
+  }
+}
+
+export async function getTacticalAnalytics(): Promise<any | null> {
+  if (!db) throw new Error('Database not initialized');
+
+  const result = await db.getFirstAsync<{ analytics_data: string }>(
+    'SELECT analytics_data FROM tactical_analytics LIMIT 1'
+  );
+
+  if (result) {
+    return JSON.parse(result.analytics_data);
+  }
+
+  return null;
+}
+
+/**
  * Database Maintenance
  */
 export async function clearAllData(): Promise<void> {
@@ -538,6 +588,7 @@ export async function clearAllData(): Promise<void> {
     DELETE FROM game_history;
     DELETE FROM weaknesses;
     DELETE FROM tactical_progression;
+    DELETE FROM tactical_analytics;
   `);
 }
 

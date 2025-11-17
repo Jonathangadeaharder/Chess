@@ -152,6 +152,95 @@ export const PROFICIENCY_ACHIEVEMENTS: Achievement[] = [
     icon: '💯',
     xpReward: 1500,
   },
+  // Tactical Drill Achievements
+  {
+    id: 'achievement-flash-master',
+    name: 'Flash Master',
+    description: 'Solve 100 tactical puzzles with flash speed (< 40% time)',
+    category: 'proficiency',
+    unlocked: false,
+    unlockedAt: null,
+    icon: '⚡',
+    xpReward: 1200,
+    unlockableReward: {
+      type: 'theme',
+      id: 'neo',
+    },
+  },
+  {
+    id: 'achievement-speed-demon',
+    name: 'Speed Demon',
+    description: 'Maintain < 4 second average solve time across 50 drills',
+    category: 'proficiency',
+    unlocked: false,
+    unlockedAt: null,
+    icon: '👹',
+    xpReward: 1500,
+  },
+  {
+    id: 'achievement-tactical-accuracy',
+    name: 'Tactical Accuracy',
+    description: 'Achieve 95%+ accuracy on 100 tactical drills',
+    category: 'proficiency',
+    unlocked: false,
+    unlockedAt: null,
+    icon: '🎯',
+    xpReward: 1000,
+  },
+  {
+    id: 'achievement-elo-climber',
+    name: 'ELO Climber',
+    description: 'Unlock all ELO tiers (800 → 2000+)',
+    category: 'proficiency',
+    unlocked: false,
+    unlockedAt: null,
+    icon: '🚀',
+    xpReward: 2500,
+    unlockableReward: {
+      type: 'coach',
+      id: 'tactical',
+    },
+  },
+  {
+    id: 'achievement-pattern-hunter',
+    name: 'Pattern Hunter',
+    description: 'Master all tactical patterns (10+ correct each)',
+    category: 'proficiency',
+    unlocked: false,
+    unlockedAt: null,
+    icon: '🔍',
+    xpReward: 800,
+  },
+  {
+    id: 'achievement-fork-specialist',
+    name: 'Fork Specialist',
+    description: 'Solve 50 fork patterns with 90%+ flash speed',
+    category: 'proficiency',
+    unlocked: false,
+    unlockedAt: null,
+    icon: '♞',
+    xpReward: 600,
+  },
+  {
+    id: 'achievement-pin-master',
+    name: 'Pin Master',
+    description: 'Solve 50 pin patterns with 90%+ flash speed',
+    category: 'proficiency',
+    unlocked: false,
+    unlockedAt: null,
+    icon: '📍',
+    xpReward: 600,
+  },
+  {
+    id: 'achievement-perfect-streak',
+    name: 'Perfect Streak',
+    description: 'Complete 10 consecutive drills with 100% accuracy',
+    category: 'proficiency',
+    unlocked: false,
+    unlockedAt: null,
+    icon: '💯',
+    xpReward: 1000,
+  },
 ];
 
 /**
@@ -222,6 +311,27 @@ export const CONSISTENCY_ACHIEVEMENTS: Achievement[] = [
     unlockedAt: null,
     icon: '🏆',
     xpReward: 1500,
+  },
+  // Tactical Drill Consistency
+  {
+    id: 'achievement-daily-tactician',
+    name: 'Daily Tactician',
+    description: 'Complete 20+ tactical drills in a single day',
+    category: 'consistency',
+    unlocked: false,
+    unlockedAt: null,
+    icon: '⚔️',
+    xpReward: 500,
+  },
+  {
+    id: 'achievement-tactical-grind',
+    name: 'Tactical Grind',
+    description: 'Complete 1000 total tactical drills',
+    category: 'consistency',
+    unlocked: false,
+    unlockedAt: null,
+    icon: '🎯',
+    xpReward: 2000,
   },
 ];
 
@@ -298,6 +408,17 @@ export function checkAchievementUnlock(
     conceptsCorrectFirstTry: number;
     perfectLineStreaks: number;
     completedSystems: OpeningSystem[];
+    // Tactical drill stats
+    totalTacticalDrills?: number;
+    tacticalFlashCount?: number;
+    tacticalAccuracyHigh?: number; // Count of drills with 95%+ accuracy
+    averageTacticalTime?: number;
+    unlockedTiers?: number[]; // Array of unlocked ELO tiers
+    patternMastery?: Record<string, number>; // Count per pattern
+    forkFlashCount?: number;
+    pinFlashCount?: number;
+    perfectStreakCount?: number;
+    drillsToday?: number;
   }
 ): boolean {
   switch (achievementId) {
@@ -314,6 +435,10 @@ export function checkAchievementUnlock(
       return stats.totalSessions >= 100;
     case 'achievement-srs-champion':
       return stats.totalSRSReviews >= 500;
+    case 'achievement-daily-tactician':
+      return (stats.drillsToday || 0) >= 20;
+    case 'achievement-tactical-grind':
+      return (stats.totalTacticalDrills || 0) >= 1000;
 
     // Proficiency
     case 'achievement-punisher':
@@ -328,6 +453,24 @@ export function checkAchievementUnlock(
       return stats.conceptsCorrectFirstTry >= 50;
     case 'achievement-perfect-recall':
       return stats.perfectLineStreaks >= 20;
+    // Tactical Drill Proficiency
+    case 'achievement-flash-master':
+      return (stats.tacticalFlashCount || 0) >= 100;
+    case 'achievement-speed-demon':
+      return (stats.averageTacticalTime || Infinity) < 4 && (stats.totalTacticalDrills || 0) >= 50;
+    case 'achievement-tactical-accuracy':
+      return (stats.tacticalAccuracyHigh || 0) >= 100;
+    case 'achievement-elo-climber':
+      return (stats.unlockedTiers || []).includes(2000);
+    case 'achievement-pattern-hunter':
+      const patternMastery = stats.patternMastery || {};
+      return Object.values(patternMastery).filter(count => count >= 10).length >= 10;
+    case 'achievement-fork-specialist':
+      return (stats.forkFlashCount || 0) >= 50;
+    case 'achievement-pin-master':
+      return (stats.pinFlashCount || 0) >= 50;
+    case 'achievement-perfect-streak':
+      return (stats.perfectStreakCount || 0) >= 10;
 
     // Curriculum
     case 'achievement-stonewaller':
