@@ -3,54 +3,298 @@
  * Daily SRS review queue and mini-games
  */
 
-import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import { Colors, Typography, Spacing } from '../../constants/theme';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Modal } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { Colors, Typography, Spacing, BorderRadius } from '../../constants/theme';
 import { useUserStore } from '../../state/userStore';
+import { createSRSItem, scheduleNextReview } from '../../services/srs/fsrs';
+import MoveTrainer from '../../components/organisms/MoveTrainer';
+import ConceptTrainer from '../../components/organisms/ConceptTrainer';
+import BishopsPrison from '../../components/organisms/BishopsPrison';
+import AchievementCelebration from '../../components/organisms/AchievementCelebration';
+import { getRandomOpeningLine } from '../../constants/openingLines';
+import { getRandomConceptCard } from '../../constants/conceptCards';
+import { checkAndUnlockAchievements } from '../../services/achievements/achievementService';
+import type { SRSItem, ReviewResult, Achievement } from '../../types';
+
+type TrainingMode = 'overview' | 'move-review' | 'concept-review' | 'minigame';
 
 export default function TrainScreen() {
-  const { getDueSRSItems, profile } = useUserStore();
+  const { getDueSRSItems, updateSRSItem, addSRSItem, incrementStreak, profile } = useUserStore();
+
+  const [mode, setMode] = useState<TrainingMode>('overview');
+  const [currentSRSItem, setCurrentSRSItem] = useState<SRSItem | null>(null);
+  const [reviewQueue, setReviewQueue] = useState<SRSItem[]>([]);
+  const [showBishopsPrison, setShowBishopsPrison] = useState(false);
+  const [celebratedAchievement, setCelebratedAchievement] = useState<Achievement | null>(null);
+  const [showCelebration, setShowCelebration] = useState(false);
+
+  // Load due items on mount
+  useEffect(() => {
+    loadDueItems();
+  }, []);
+
+  const loadDueItems = () => {
+    const dueItems = getDueSRSItems();
+    setReviewQueue(dueItems);
+
+    // If no items, create some demo items
+    if (dueItems.length === 0) {
+      createDemoItems();
+    }
+  };
+
+  const createDemoItems = () => {
+    // Create 3 demo move items
+    const demoMoveItems: SRSItem[] = [];
+    for (let i = 0; i < 3; i++) {
+      const line = getRandomOpeningLine();
+      const item = createSRSItem(`demo-move-${i}`, 'move', line);
+      demoMoveItems.push(item);
+      addSRSItem(item);
+    }
+
+    // Create 3 demo concept items
+    const demoConceptItems: SRSItem[] = [];
+    for (let i = 0; i < 3; i++) {
+      const card = getRandomConceptCard();
+      const item = createSRSItem(`demo-concept-${i}`, 'concept', card);
+      demoConceptItems.push(item);
+      addSRSItem(item);
+    }
+
+    setReviewQueue([...demoMoveItems, ...demoConceptItems]);
+  };
 
   const dueItems = getDueSRSItems();
   const movesToReview = dueItems.filter((item) => item.type === 'move').length;
   const conceptsToReview = dueItems.filter((item) => item.type === 'concept').length;
 
-  return (
-    <View style={styles.container}>
-      <ScrollView contentContainerStyle={styles.content}>
-        <Text style={styles.title}>The Gym</Text>
-        <Text style={styles.subtitle}>
-          Your daily training and review
-        </Text>
+  const handleStartMoveReview = () => {
+    const moveItems = reviewQueue.filter(item => item.type === 'move');
+    if (moveItems.length > 0) {
+      setCurrentSRSItem(moveItems[0]);
+      setMode('move-review');
+    }
+  };
 
-        {/* Daily Review Stats */}
-        <View style={styles.reviewCard}>
-          <Text style={styles.cardTitle}>Today's Reviews</Text>
-          <View style={styles.statsRow}>
-            <View style={styles.statItem}>
-              <Text style={styles.statNumber}>{movesToReview}</Text>
-              <Text style={styles.statLabel}>Moves</Text>
+  const handleStartConceptReview = () => {
+    const conceptItems = reviewQueue.filter(item => item.type === 'concept');
+    if (conceptItems.length > 0) {
+      setCurrentSRSItem(conceptItems[0]);
+      setMode('concept-review');
+    }
+  };
+
+  const handleReviewComplete = async (result: ReviewResult) => {
+    if (!currentSRSItem) return;
+
+    // Update the SRS item with new schedule
+    const updatedItem = scheduleNextReview(currentSRSItem, result);
+    updateSRSItem(updatedItem.id, updatedItem);
+
+    // Remove from queue
+    const newQueue = reviewQueue.filter(item => item.id !== currentSRSItem.id);
+    setReviewQueue(newQueue);
+
+    // Check if all reviews are complete
+    if (newQueue.length === 0) {
+      // Increment streak
+      await incrementStreak();
+
+      // Check for new achievements
+      const newAchievements = await checkAndUnlockAchievements();
+      if (newAchievements.length > 0) {
+        setCelebratedAchievement(newAchievements[0]);
+        setShowCelebration(true);
+      }
+
+      // Return to overview
+      setMode('overview');
+      setCurrentSRSItem(null);
+    } else {
+      // Move to next item of same type or return to overview
+      const sameTypeItems = newQueue.filter(item => item.type === currentSRSItem.type);
+      if (sameTypeItems.length > 0) {
+        setCurrentSRSItem(sameTypeItems[0]);
+      } else {
+        setMode('overview');
+        setCurrentSRSItem(null);
+      }
+    }
+  };
+
+  const handleSkipReview = () => {
+    setMode('overview');
+    setCurrentSRSItem(null);
+  };
+
+  const handleMiniGameComplete = async (success: boolean, moves: number, timeSpent: number) => {
+    setShowBishopsPrison(false);
+
+    // Award XP for completion
+    // Check for achievements
+    const newAchievements = await checkAndUnlockAchievements();
+    if (newAchievements.length > 0) {
+      setCelebratedAchievement(newAchievements[0]);
+      setShowCelebration(true);
+    }
+  };
+
+  // Overview mode
+  if (mode === 'overview') {
+    return (
+      <View style={styles.container}>
+        <ScrollView contentContainerStyle={styles.content}>
+          <Text style={styles.title}>The Gym</Text>
+          <Text style={styles.subtitle}>
+            Your daily training and review
+          </Text>
+
+          {/* Daily Review Stats */}
+          <View style={styles.reviewCard}>
+            <Text style={styles.cardTitle}>Today's Reviews</Text>
+            <View style={styles.statsRow}>
+              <View style={styles.statItem}>
+                <Text style={styles.statNumber}>{movesToReview}</Text>
+                <Text style={styles.statLabel}>Moves</Text>
+              </View>
+              <View style={styles.statDivider} />
+              <View style={styles.statItem}>
+                <Text style={styles.statNumber}>{conceptsToReview}</Text>
+                <Text style={styles.statLabel}>Concepts</Text>
+              </View>
             </View>
-            <View style={styles.statDivider} />
-            <View style={styles.statItem}>
-              <Text style={styles.statNumber}>{conceptsToReview}</Text>
-              <Text style={styles.statLabel}>Concepts</Text>
+
+            {/* Start Review Buttons */}
+            <View style={styles.reviewActions}>
+              <TouchableOpacity
+                style={[styles.reviewButton, movesToReview === 0 && styles.reviewButtonDisabled]}
+                onPress={handleStartMoveReview}
+                disabled={movesToReview === 0}
+              >
+                <Ionicons name="play-circle" size={24} color={Colors.textInverse} />
+                <Text style={styles.reviewButtonText}>Review Moves</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={[styles.reviewButton, conceptsToReview === 0 && styles.reviewButtonDisabled]}
+                onPress={handleStartConceptReview}
+                disabled={conceptsToReview === 0}
+              >
+                <Ionicons name="play-circle" size={24} color={Colors.textInverse} />
+                <Text style={styles.reviewButtonText}>Review Concepts</Text>
+              </TouchableOpacity>
             </View>
           </View>
-        </View>
 
-        {/* Mini-games section */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Strategic Mini-Games</Text>
-          <View style={styles.placeholder}>
-            <Text style={styles.placeholderText}>
-              Mini-games will appear here
-            </Text>
+          {/* Mini-games section */}
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Strategic Mini-Games</Text>
+
+            <TouchableOpacity
+              style={styles.miniGameCard}
+              onPress={() => setShowBishopsPrison(true)}
+            >
+              <View style={styles.miniGameIcon}>
+                <Text style={styles.miniGameEmoji}>♗</Text>
+              </View>
+              <View style={styles.miniGameContent}>
+                <Text style={styles.miniGameTitle}>Bishop's Prison</Text>
+                <Text style={styles.miniGameDescription}>
+                  Master the good vs. bad bishop endgame
+                </Text>
+              </View>
+              <Ionicons name="chevron-forward" size={24} color={Colors.textSecondary} />
+            </TouchableOpacity>
+
+            <View style={styles.miniGameCard}>
+              <View style={styles.miniGameIcon}>
+                <Text style={styles.miniGameEmoji}>🔥</Text>
+              </View>
+              <View style={styles.miniGameContent}>
+                <Text style={styles.miniGameTitle}>The Fuse</Text>
+                <Text style={styles.miniGameDescription}>
+                  Coming soon - Timed pattern recognition
+                </Text>
+              </View>
+              <View style={styles.comingSoonBadge}>
+                <Text style={styles.comingSoonText}>SOON</Text>
+              </View>
+            </View>
+
+            <View style={styles.miniGameCard}>
+              <View style={styles.miniGameIcon}>
+                <Text style={styles.miniGameEmoji}>🥷</Text>
+              </View>
+              <View style={styles.miniGameContent}>
+                <Text style={styles.miniGameTitle}>Transposition Maze</Text>
+                <Text style={styles.miniGameDescription}>
+                  Coming soon - Navigate to target positions
+                </Text>
+              </View>
+              <View style={styles.comingSoonBadge}>
+                <Text style={styles.comingSoonText}>SOON</Text>
+              </View>
+            </View>
           </View>
-        </View>
-      </ScrollView>
-    </View>
-  );
+
+          {/* Progress Info */}
+          {reviewQueue.length === 0 && (
+            <View style={styles.completedCard}>
+              <Ionicons name="checkmark-circle" size={48} color={Colors.success} />
+              <Text style={styles.completedTitle}>All Done!</Text>
+              <Text style={styles.completedText}>
+                Great work! You've completed all reviews for today. Come back tomorrow to keep your streak alive!
+              </Text>
+            </View>
+          )}
+        </ScrollView>
+
+        {/* Bishop's Prison Modal */}
+        {showBishopsPrison && (
+          <Modal visible={showBishopsPrison} animationType="slide">
+            <BishopsPrison
+              onComplete={handleMiniGameComplete}
+              onExit={() => setShowBishopsPrison(false)}
+            />
+          </Modal>
+        )}
+
+        {/* Achievement Celebration */}
+        <AchievementCelebration
+          achievement={celebratedAchievement}
+          visible={showCelebration}
+          onDismiss={() => setShowCelebration(false)}
+        />
+      </View>
+    );
+  }
+
+  // Move Review mode
+  if (mode === 'move-review' && currentSRSItem) {
+    return (
+      <MoveTrainer
+        srsItem={currentSRSItem}
+        onComplete={handleReviewComplete}
+        onSkip={handleSkipReview}
+      />
+    );
+  }
+
+  // Concept Review mode
+  if (mode === 'concept-review' && currentSRSItem) {
+    return (
+      <ConceptTrainer
+        srsItem={currentSRSItem}
+        onComplete={handleReviewComplete}
+        onSkip={handleSkipReview}
+      />
+    );
+  }
+
+  return null;
 }
 
 const styles = StyleSheet.create({
@@ -74,7 +318,7 @@ const styles = StyleSheet.create({
   },
   reviewCard: {
     backgroundColor: Colors.primary,
-    borderRadius: 16,
+    borderRadius: BorderRadius.xl,
     padding: Spacing.lg,
     marginBottom: Spacing.xl,
   },
@@ -88,6 +332,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
+    marginBottom: Spacing.lg,
   },
   statItem: {
     alignItems: 'center',
@@ -108,6 +353,28 @@ const styles = StyleSheet.create({
     height: 40,
     backgroundColor: 'rgba(255, 255, 255, 0.3)',
   },
+  reviewActions: {
+    flexDirection: 'row',
+    gap: Spacing.sm,
+  },
+  reviewButton: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    paddingVertical: Spacing.md,
+    borderRadius: BorderRadius.md,
+    gap: Spacing.xs,
+  },
+  reviewButtonDisabled: {
+    opacity: 0.5,
+  },
+  reviewButtonText: {
+    fontSize: Typography.fontSize.base,
+    fontWeight: Typography.fontWeight.bold,
+    color: Colors.textInverse,
+  },
   section: {
     marginTop: Spacing.lg,
   },
@@ -117,15 +384,68 @@ const styles = StyleSheet.create({
     color: Colors.text,
     marginBottom: Spacing.md,
   },
-  placeholder: {
+  miniGameCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
     backgroundColor: Colors.backgroundSecondary,
-    borderRadius: 12,
+    borderRadius: BorderRadius.lg,
+    padding: Spacing.md,
+    marginBottom: Spacing.md,
+  },
+  miniGameIcon: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: Colors.background,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: Spacing.md,
+  },
+  miniGameEmoji: {
+    fontSize: 28,
+  },
+  miniGameContent: {
+    flex: 1,
+  },
+  miniGameTitle: {
+    fontSize: Typography.fontSize.lg,
+    fontWeight: Typography.fontWeight.bold,
+    color: Colors.text,
+    marginBottom: Spacing.xs,
+  },
+  miniGameDescription: {
+    fontSize: Typography.fontSize.sm,
+    color: Colors.textSecondary,
+  },
+  comingSoonBadge: {
+    backgroundColor: Colors.warning + '40',
+    paddingHorizontal: Spacing.sm,
+    paddingVertical: Spacing.xs,
+    borderRadius: BorderRadius.sm,
+  },
+  comingSoonText: {
+    fontSize: Typography.fontSize.xs,
+    fontWeight: Typography.fontWeight.bold,
+    color: Colors.warning,
+  },
+  completedCard: {
+    backgroundColor: Colors.success + '20',
+    borderRadius: BorderRadius.lg,
     padding: Spacing.xl,
     alignItems: 'center',
+    marginTop: Spacing.lg,
   },
-  placeholderText: {
+  completedTitle: {
+    fontSize: Typography.fontSize.xl,
+    fontWeight: Typography.fontWeight.bold,
+    color: Colors.success,
+    marginTop: Spacing.md,
+    marginBottom: Spacing.sm,
+  },
+  completedText: {
     fontSize: Typography.fontSize.base,
-    color: Colors.textSecondary,
+    color: Colors.text,
     textAlign: 'center',
+    lineHeight: Typography.lineHeight.relaxed * Typography.fontSize.base,
   },
 });

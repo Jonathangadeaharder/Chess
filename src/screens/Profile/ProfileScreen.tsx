@@ -10,7 +10,7 @@ import { Colors, Typography, Spacing } from '../../constants/theme';
 import { useUserStore } from '../../state/userStore';
 
 export default function ProfileScreen() {
-  const { profile, loadUserProfile } = useUserStore();
+  const { profile, loadUserProfile, achievements } = useUserStore();
 
   useEffect(() => {
     loadUserProfile();
@@ -98,14 +98,49 @@ export default function ProfileScreen() {
           </View>
         </View>
 
-        {/* Achievements section placeholder */}
+        {/* Achievements section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Achievements</Text>
-          <View style={styles.placeholder}>
-            <Text style={styles.placeholderText}>
-              Your achievements will appear here
-            </Text>
+
+          {/* Achievement Stats */}
+          <View style={styles.achievementStats}>
+            <View style={styles.achievementStatItem}>
+              <Text style={styles.achievementStatNumber}>
+                {achievements.filter(a => a.unlocked).length}
+              </Text>
+              <Text style={styles.achievementStatLabel}>Unlocked</Text>
+            </View>
+            <View style={styles.achievementStatDivider} />
+            <View style={styles.achievementStatItem}>
+              <Text style={styles.achievementStatNumber}>
+                {achievements.length}
+              </Text>
+              <Text style={styles.achievementStatLabel}>Total</Text>
+            </View>
           </View>
+
+          {/* Recent Achievements */}
+          {achievements.filter(a => a.unlocked).length > 0 ? (
+            <View style={styles.achievementsGrid}>
+              {achievements
+                .filter(a => a.unlocked)
+                .slice(0, 6)
+                .map(achievement => (
+                  <View key={achievement.id} style={styles.achievementBadge}>
+                    <Text style={styles.achievementIcon}>{achievement.icon}</Text>
+                    <Text style={styles.achievementName} numberOfLines={2}>
+                      {achievement.name}
+                    </Text>
+                  </View>
+                ))}
+            </View>
+          ) : (
+            <View style={styles.placeholder}>
+              <Text style={styles.placeholderText}>
+                Complete reviews and reach milestones to unlock achievements!
+              </Text>
+            </View>
+          )}
         </View>
       </ScrollView>
     </View>
@@ -239,6 +274,56 @@ const styles = StyleSheet.create({
   placeholderText: {
     fontSize: Typography.fontSize.base,
     color: Colors.textSecondary,
+    textAlign: 'center',
+  },
+  achievementStats: {
+    flexDirection: 'row',
+    backgroundColor: Colors.backgroundSecondary,
+    borderRadius: 12,
+    padding: Spacing.md,
+    marginBottom: Spacing.md,
+  },
+  achievementStatItem: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  achievementStatNumber: {
+    fontSize: Typography.fontSize['2xl'],
+    fontWeight: Typography.fontWeight.bold,
+    color: Colors.primary,
+  },
+  achievementStatLabel: {
+    fontSize: Typography.fontSize.sm,
+    color: Colors.textSecondary,
+    marginTop: Spacing.xs,
+  },
+  achievementStatDivider: {
+    width: 1,
+    backgroundColor: Colors.border,
+    marginHorizontal: Spacing.md,
+  },
+  achievementsGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: Spacing.sm,
+  },
+  achievementBadge: {
+    width: '31%',
+    aspectRatio: 1,
+    backgroundColor: Colors.backgroundSecondary,
+    borderRadius: 12,
+    padding: Spacing.sm,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  achievementIcon: {
+    fontSize: 32,
+    marginBottom: Spacing.xs,
+  },
+  achievementName: {
+    fontSize: Typography.fontSize.xs,
+    fontWeight: Typography.fontWeight.semibold,
+    color: Colors.text,
     textAlign: 'center',
   },
 });
