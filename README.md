@@ -151,6 +151,70 @@ Comprehensive TypeScript definitions for:
 - Game sessions and analysis
 - Navigation types
 
+### 7. Sound System ✅
+
+`src/services/audio/soundService.ts`
+
+Multi-sensory audio feedback using expo-av:
+
+- **Context-aware sounds**: Different sounds for moves, captures, checks, checkmate
+- **Gamification sounds**: Success, error, streak, level-up, achievement unlock
+- **Smart playback**: Respects user preferences, preloading for low latency
+- **Sound sequences**: Chain multiple sounds for compound events
+- **Key function**: `playMoveSound()` - Intelligently selects sound based on move type
+
+### 8. MoveTrainer Component ✅
+
+`src/components/organisms/MoveTrainer.tsx`
+
+SRS-based drill for learning opening sequences (Procedural Memory):
+
+- **Progressive training**: Walk through opening lines move-by-move
+- **Immediate feedback**: Visual and audio response to correct/incorrect moves
+- **Adaptive rating**: Grades performance (Easy/Good/Hard/Again) based on mistakes
+- **Progress tracking**: Shows move count and completion percentage
+- **Integrated with FSRS**: Automatically schedules next review
+- **Hint system**: Optional hints without penalty
+
+### 9. Digital Coach Dialog ✅
+
+`src/components/organisms/DigitalCoachDialog.tsx`
+
+Socratic dialogue system for pedagogical guidance:
+
+- **Multiple prompt types**: Questions, hints, explanations, encouragement
+- **Coach personalities**: Friendly, Attacker, Positional, Tactical (unlockable)
+- **Follow-up prompts**: Multi-step dialogues for complex concepts
+- **Visual highlights**: Coordinates with board to highlight squares/arrows
+- **Animated presentation**: Smooth fade and slide animations
+- **Voice support**: Ready for text-to-speech integration
+
+### 10. Bishop's Prison Mini-Game ✅
+
+`src/components/organisms/BishopsPrison.tsx`
+
+Asymmetric endgame drill teaching "Good vs. Bad Bishop":
+
+- **Educational setup**: User has good bishop, AI has bad bishop
+- **Win condition**: Exploit the trapped bad bishop to win the endgame
+- **Integrated coach**: Socratic prompts explain the concept during play
+- **Performance metrics**: Tracks moves and time to completion
+- **Concept reinforcement**: Clear explanation of good vs. bad bishops
+- **Replayability**: Reset and try different approaches
+
+### 11. Opening Lines Database ✅
+
+`src/constants/openingLines.ts`
+
+Sample repertoire for 5 universal opening systems:
+
+- **King's Indian Attack**: 2 lines with variations
+- **Colle System**: Main line with e4 break
+- **Stonewall Attack**: Classic pawn chain formation
+- **London System**: Early Bf4 development
+- **Torre Attack**: Classical pin setup
+- **Utility functions**: Get lines by system, random selection, ID lookup
+
 ## Key Design Principles
 
 ### 1. Pedagogical First
@@ -217,41 +281,55 @@ The app initializes on launch:
 
 ## Current Status
 
-### ✅ Completed
+### ✅ Completed (Phase 1)
 
+**Core Architecture:**
 - [x] Project setup with TypeScript and Expo
 - [x] Atomic Design folder structure
-- [x] Bottom tab navigation
+- [x] Bottom tab navigation (4 screens)
 - [x] Three Zustand stores (game, user, UI)
-- [x] Interactive chessboard component
+- [x] Complete type definitions (200+ lines)
+- [x] Theme system with multiple board themes
+- [x] User profile and streak tracking
+
+**Interactive Components:**
+- [x] Interactive chessboard component with chess.js
 - [x] Tap-tap interaction mode
 - [x] Legal move highlighting
 - [x] Haptic feedback integration
+- [x] Sound system integration (expo-av)
 - [x] FSRS algorithm implementation
-- [x] Theme system with multiple board themes
-- [x] User profile and streak tracking
-- [x] Complete type definitions
 
-### 🚧 In Progress / Pending
+**Pedagogical Features:**
+- [x] Digital Coach dialog component with Socratic prompts
+- [x] MoveTrainer component for SRS move drills
+- [x] Bishop's Prison mini-game (Good vs. Bad Bishop)
+- [x] Sample opening lines data (5 systems)
+- [x] Interactive Play screen with chessboard demo
 
+### 🚧 In Progress / Pending (Phase 2)
+
+**Core Features:**
+- [ ] ConceptTrainer component (strategic flashcards)
+- [ ] SQLite database setup for SRS persistence
+- [ ] Achievement system implementation
+- [ ] More mini-games (Transposition Maze, The Fuse, Blunder Hunter)
 - [ ] Drag-and-drop interaction mode
 - [ ] SVG drawing layer for arrows/highlights
-- [ ] Sound system integration
-- [ ] Digital Coach framework implementation
-- [ ] Mini-game framework (Bishop's Prison, etc.)
-- [ ] MoveTrainer component
-- [ ] ConceptTrainer component
-- [ ] SQLite database setup for SRS
-- [ ] Firebase/Supabase backend
+
+**Integration & Backend:**
+- [ ] Firebase/Supabase backend setup
 - [ ] Daily streak validation (server-side)
-- [ ] Achievement system implementation
-- [ ] Onboarding flow (Playstyle Sorter)
+- [ ] Maia AI integration via API
 - [ ] Weakness Finder (PGN analysis)
-- [ ] Maia AI integration
+- [ ] External account linking (Lichess, Chess.com)
+
+**Content & UX:**
+- [ ] Onboarding flow (Playstyle Sorter quiz)
 - [ ] Curriculum system (lesson modules)
-- [ ] Full Learn screen implementation
-- [ ] Full Train screen implementation
-- [ ] Full Play screen implementation
+- [ ] Full Learn screen with lessons
+- [ ] Full Train screen with SRS queue
+- [ ] Analytics and progress tracking
 
 ## Next Steps
 

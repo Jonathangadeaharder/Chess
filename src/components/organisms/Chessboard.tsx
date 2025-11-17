@@ -24,6 +24,7 @@ import * as Haptics from 'expo-haptics';
 import { useGameStore } from '../../state/gameStore';
 import { useUIStore } from '../../state/uiStore';
 import { Colors, BoardThemes } from '../../constants/theme';
+import { playSound } from '../../services/audio/soundService';
 import type { Square } from '../../types';
 
 // Get square notation from coordinates
@@ -145,12 +146,17 @@ export default function Chessboard({
       }
       // If a square is selected, try to move
       else if (selectedSquare) {
+        const targetPiece = piecePositions[square];
+        const isCapture = !!targetPiece;
         const moved = makeMove(selectedSquare, square);
 
         if (moved) {
           if (hapticsEnabled) {
             Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
           }
+          // Play appropriate sound
+          playSound(isCapture ? 'capture' : 'move');
+
           if (onMove) {
             onMove(selectedSquare, square);
           }
