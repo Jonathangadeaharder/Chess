@@ -15,9 +15,16 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { Chess } from 'chess.js';
 import Chessboard from '../../components/organisms/Chessboard';
+import DigitalCoachDialog from '../../components/organisms/DigitalCoachDialog';
 import { Colors, Typography, Spacing, BorderRadius } from '../../constants/theme';
 import { analyzeGame, type MoveEvaluation } from '../../services/ai/enhancedAI';
-import type { SimpleGameHistory } from '../../types';
+import {
+  identifyCriticalPositions,
+  getCoachPromptForMove,
+  isCriticalMove,
+  type CriticalPosition,
+} from '../../services/coach/coachCommentary';
+import type { SimpleGameHistory, CoachPrompt } from '../../types';
 
 interface GameAnalysisScreenProps {
   route: {
@@ -35,6 +42,9 @@ export default function GameAnalysisScreen({ route, navigation }: GameAnalysisSc
   const [chess] = useState(() => new Chess());
   const [isAnalyzing, setIsAnalyzing] = useState(true);
   const [evaluations, setEvaluations] = useState<MoveEvaluation[]>([]);
+  const [criticalPositions, setCriticalPositions] = useState<CriticalPosition[]>([]);
+  const [showCoach, setShowCoach] = useState(false);
+  const [currentCoachPrompt, setCurrentCoachPrompt] = useState<CoachPrompt | null>(null);
 
   // Analyze the game on mount
   useEffect(() => {
@@ -46,6 +56,11 @@ export default function GameAnalysisScreen({ route, navigation }: GameAnalysisSc
 
       const results = analyzeGame(game.moves);
       setEvaluations(results);
+
+      // Identify critical positions for coach commentary
+      const critical = identifyCriticalPositions(game.moves);
+      setCriticalPositions(critical);
+
       setIsAnalyzing(false);
     };
 
@@ -60,7 +75,11 @@ export default function GameAnalysisScreen({ route, navigation }: GameAnalysisSc
         chess.move(game.moves[i]);
       }
     }
-  }, [currentMoveIndex, game.moves]);
+
+    // Check if current move is critical and update coach prompt
+    const coachPrompt = getCoachPromptForMove(criticalPositions, currentMoveIndex);
+    setCurrentCoachPrompt(coachPrompt);
+  }, [currentMoveIndex, game.moves, criticalPositions]);
 
   // Calculate statistics
   const stats = useMemo(() => {
@@ -210,6 +229,18 @@ export default function GameAnalysisScreen({ route, navigation }: GameAnalysisSc
               {(currentEvaluation.evaluation / 100).toFixed(2)}
             </Text>
           </View>
+
+          {/* Coach Insight Button for Critical Positions */}
+          {currentCoachPrompt && (
+            <TouchableOpacity
+              style={styles.coachInsightButton}
+              onPress={() => setShowCoach(true)}
+            >
+              <Ionicons name="school" size={20} color={Colors.primary} />
+              <Text style={styles.coachInsightText}>Get Coach Insight</Text>
+              <Ionicons name="chevron-forward" size={16} color={Colors.primary} />
+            </TouchableOpacity>
+          )}
         </View>
 
         {/* Chessboard */}
@@ -287,11 +318,21 @@ export default function GameAnalysisScreen({ route, navigation }: GameAnalysisSc
                     >
                       {move}
                     </Text>
-                    <Ionicons
-                      name={getMoveIcon(evaluation)}
-                      size={14}
-                      color={getMoveColor(evaluation)}
-                    />
+                    <View style={styles.moveListIcons}>
+                      <Ionicons
+                        name={getMoveIcon(evaluation)}
+                        size={14}
+                        color={getMoveColor(evaluation)}
+                      />
+                      {isCriticalMove(criticalPositions, index) && (
+                        <Ionicons
+                          name="school"
+                          size={12}
+                          color={Colors.primary}
+                          style={styles.coachIcon}
+                        />
+                      )}
+                    </View>
                   </View>
                 </TouchableOpacity>
               );
@@ -299,6 +340,15 @@ export default function GameAnalysisScreen({ route, navigation }: GameAnalysisSc
           </ScrollView>
         </View>
       </ScrollView>
+
+      {/* Digital Coach Dialog */}
+      {currentCoachPrompt && (
+        <DigitalCoachDialog
+          visible={showCoach}
+          prompt={currentCoachPrompt}
+          onDismiss={() => setShowCoach(false)}
+        />
+      )}
     </View>
   );
 }
@@ -421,6 +471,23 @@ const styles = StyleSheet.create({
     fontWeight: Typography.fontWeight.bold,
     color: Colors.text,
   },
+  coachInsightButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: Spacing.xs,
+    backgroundColor: Colors.primary + '15',
+    borderWidth: 1,
+    borderColor: Colors.primary,
+    borderRadius: BorderRadius.md,
+    padding: Spacing.sm,
+    marginTop: Spacing.sm,
+  },
+  coachInsightText: {
+    fontSize: Typography.fontSize.base,
+    fontWeight: Typography.fontWeight.semibold,
+    color: Colors.primary,
+  },
   boardSection: {
     alignItems: 'center',
     marginVertical: Spacing.md,
@@ -490,5 +557,13 @@ const styles = StyleSheet.create({
   moveListMoveTextActive: {
     fontWeight: Typography.fontWeight.semibold,
     color: Colors.primary,
+  },
+  moveListIcons: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.xs,
+  },
+  coachIcon: {
+    marginLeft: Spacing.xs,
   },
 });

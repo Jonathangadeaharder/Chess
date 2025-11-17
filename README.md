@@ -766,5 +766,32 @@ Built following the comprehensive blueprint for an adaptive chess learning appli
   - Respects player color for board orientation
   - Statistics grid with visual dividers
 
-**Version**: 1.3.0 (Game Analysis Screen)
+### Phase 12 Part 3: Coach Commentary System
+- **Intelligent Critical Position Detection**: Automatic identification of learning moments
+  - Blunder detection (>300 centipawn loss) with high/medium severity classification
+  - Missed tactic identification (150-300 centipawn loss)
+  - Checkmate threat and missed checkmate detection
+  - Critical decision point recognition
+- **Socratic Coach Prompts**: Question-based learning for deep understanding
+  - Randomized Socratic questions tailored to position type
+  - Hint system with progressive disclosure
+  - Detailed explanations after user engagement
+  - Context-aware coaching based on move quality
+- **Visual Learning Aids**: Arrow and circle highlights for key positions
+  - Red arrows for blunder moves
+  - Green arrows for best alternative moves
+  - Blue arrows and circles for tactical opportunities
+  - Yellow circles for checkmate threats
+- **Seamless Integration**: Coach insights embedded in analysis flow
+  - "Get Coach Insight" button appears on critical positions
+  - School icon indicators in move history for learning moments
+  - DigitalCoachDialog modal for interactive learning
+  - Non-intrusive design - coach appears only when helpful
+- **Pattern Recognition**: Sophisticated tactical detection
+  - Fork, pin, and skewer identification
+  - Forcing move recognition (checks + captures)
+  - Material imbalance detection
+  - King safety evaluation
+
+**Version**: 1.4.0 (Coach Commentary System)
 **Last Updated**: 2025-11-17

@@ -107,7 +107,7 @@ const PIECE_VALUES = {
 /**
  * Enhanced position evaluation considering multiple factors
  */
-function evaluatePosition(chess: Chess): number {
+export function evaluatePosition(chess: Chess): number {
   if (chess.isCheckmate()) {
     return chess.turn() === 'w' ? -30000 : 30000;
   }
