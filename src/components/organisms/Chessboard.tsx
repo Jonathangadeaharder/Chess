@@ -26,7 +26,11 @@ import { useGameStore } from '../../state/gameStore';
 import { useUIStore } from '../../state/uiStore';
 import { Colors, BoardThemes } from '../../constants/theme';
 import { playSound } from '../../services/audio/soundService';
+import ChessboardOverlay, { type Arrow, type Highlight } from '../molecules/ChessboardOverlay';
 import type { Square } from '../../types';
+
+// Re-export types for convenience
+export type { Arrow, Highlight };
 
 // Get square notation from coordinates
 const getSquareFromCoords = (x: number, y: number, squareSize: number, isFlipped: boolean): Square => {
@@ -68,6 +72,8 @@ interface ChessboardProps {
   showCoordinates?: boolean;
   interactionMode?: 'drag-drop' | 'tap-tap' | 'both';
   onMove?: (from: Square, to: Square) => void;
+  arrows?: Arrow[];
+  highlights?: Highlight[];
 }
 
 export default function Chessboard({
@@ -76,6 +82,8 @@ export default function Chessboard({
   showCoordinates = true,
   interactionMode = 'both',
   onMove,
+  arrows = [],
+  highlights = [],
 }: ChessboardProps) {
   const { position, selectedSquare, highlightedSquares, selectSquare, makeMove, getLegalMoves } =
     useGameStore();
@@ -407,6 +415,15 @@ export default function Chessboard({
   return (
     <View style={[styles.container, { width: boardSize, height: boardSize }]}>
       {renderBoard()}
+      {/* SVG Overlay for arrows and highlights */}
+      {(arrows.length > 0 || highlights.length > 0) && (
+        <ChessboardOverlay
+          size={boardSize}
+          isFlipped={isFlipped}
+          arrows={arrows}
+          highlights={highlights}
+        />
+      )}
     </View>
   );
 }
