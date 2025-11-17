@@ -6,6 +6,7 @@
 import { create } from 'zustand';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import type { UserState, UserProfile, Achievement, SRSItem, Weakness, GameSession } from '../types';
+import { ALL_ACHIEVEMENTS } from '../constants/achievements';
 
 interface UserStore extends UserState {
   // Loading state
@@ -84,10 +85,15 @@ export const useUserStore = create<UserStore>((set, get) => ({
         ]);
 
       const profile = profileData ? JSON.parse(profileData) : createDefaultProfile();
-      const achievements = achievementsData ? JSON.parse(achievementsData) : [];
+      const achievements = achievementsData ? JSON.parse(achievementsData) : ALL_ACHIEVEMENTS;
       const srsQueue = srsData ? JSON.parse(srsData) : [];
       const weaknesses = weaknessesData ? JSON.parse(weaknessesData) : [];
       const gameHistory = historyData ? JSON.parse(historyData) : [];
+
+      // If no achievements stored, save the initialized ones
+      if (!achievementsData) {
+        await AsyncStorage.setItem(STORAGE_KEYS.ACHIEVEMENTS, JSON.stringify(ALL_ACHIEVEMENTS));
+      }
 
       set({
         profile,
