@@ -294,9 +294,10 @@ The app initializes on launch:
 
 **Interactive Components:**
 - [x] Interactive chessboard component with chess.js
-- [x] Tap-tap interaction mode
+- [x] **Dual interaction modes**: tap-tap and drag-and-drop
+- [x] Smooth drag-and-drop with spring animations
 - [x] Legal move highlighting
-- [x] Haptic feedback integration
+- [x] Haptic feedback integration (differentiated by action)
 - [x] Sound system integration (expo-av)
 - [x] FSRS algorithm implementation
 
@@ -357,12 +358,23 @@ The app initializes on launch:
 - [x] Learning progress breakdown
 - [x] Game statistics with win rate
 
-### 🚧 In Progress (Phase 8)
+### ✅ Phase 8 Complete (UX Enhancements)
+
+**Drag-and-Drop Interaction:**
+- [x] Full drag-and-drop support for chessboard
+- [x] Smooth spring animations (scale + opacity)
+- [x] Differentiated haptic feedback (Light → Medium → Heavy)
+- [x] Three interaction modes: 'drag-drop', 'tap-tap', 'both'
+- [x] Automatic legal move validation on drop
+- [x] Spring-back animation for invalid moves
+- [x] Maintains backward compatibility with existing components
+
+### 🚧 In Progress (Phase 9)
 
 **Features:**
-- [ ] Drag-and-drop interaction mode
 - [ ] SVG drawing layer for arrows/highlights
 - [ ] Additional mini-games (Blunder Hunter)
+- [ ] Settings screen with interaction mode toggle
 
 ### 📋 Planned (Future Phases)
 
@@ -544,5 +556,24 @@ Built following the comprehensive blueprint for an adaptive chess learning appli
   - Learning progress breakdown by opening system
   - Game performance metrics (win rate, W/D/L record)
 
-**Version**: 0.7.0 (Content Expansion & Analytics Complete)
+### Phase 8: Drag-and-Drop Interaction
+- **Chessboard Drag-and-Drop**: Complete implementation with smooth animations
+  - Full gesture handling using react-native-gesture-handler
+  - Spring animations for natural feel (scale: 1.0 → 1.2, opacity: 1.0 → 0.8)
+  - Piece enlarges on drag start, springs back on invalid move
+  - Three interaction modes:
+    * 'drag-drop' - Drag-only mode
+    * 'tap-tap' - Classic two-tap mode
+    * 'both' - Supports both methods (default)
+  - Differentiated haptic feedback:
+    * Light: Tap to select
+    * Medium: Drag start
+    * Heavy: Successful drop
+    * Error notification: Invalid drop
+  - Automatic legal move detection on drop location
+  - Maintains legal move highlighting during drag
+  - Sound effects integrated (move/capture)
+  - Backward compatible with all existing components
+
+**Version**: 0.8.0 (Drag-and-Drop Complete)
 **Last Updated**: 2025-11-17

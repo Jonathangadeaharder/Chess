@@ -17,6 +17,7 @@ import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withSpring,
+  withTiming,
   runOnJS,
 } from 'react-native-reanimated';
 import * as Haptics from 'expo-haptics';
@@ -84,6 +85,13 @@ export default function Chessboard({
   const boardSize = size || Math.min(screenWidth - 32, 400);
   const squareSize = boardSize / 8;
 
+  // Drag state
+  const [draggedSquare, setDraggedSquare] = useState<Square | null>(null);
+  const translateX = useSharedValue(0);
+  const translateY = useSharedValue(0);
+  const scale = useSharedValue(1);
+  const opacity = useSharedValue(1);
+
   // Parse the FEN string to get piece positions
   const piecePositions = useMemo(() => {
     const positions: { [key: string]: string } = {};
@@ -128,9 +136,12 @@ export default function Chessboard({
     return symbols[piece] || '';
   };
 
-  // Handle tap on square
+  // Handle tap on square (tap-tap mode)
   const handleSquareTap = useCallback(
     (square: Square) => {
+      // Only allow tap-tap if not in drag-drop-only mode
+      if (interactionMode === 'drag-drop') return;
+
       if (hapticsEnabled) {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
       }
@@ -175,8 +186,93 @@ export default function Chessboard({
         }
       }
     },
-    [selectedSquare, piecePositions, getLegalMoves, selectSquare, makeMove, hapticsEnabled, onMove]
+    [selectedSquare, piecePositions, getLegalMoves, selectSquare, makeMove, hapticsEnabled, onMove, interactionMode]
   );
+
+  // Handle drag gesture (drag-drop mode)
+  const createDragGesture = (square: Square) => {
+    const piece = piecePositions[square];
+    if (!piece) return null;
+
+    // Only allow drag-drop if not in tap-tap-only mode
+    if (interactionMode === 'tap-tap') return null;
+
+    const legalMoves = getLegalMoves(square);
+    if (legalMoves.length === 0) return null;
+
+    return Gesture.Pan()
+      .onStart(() => {
+        runOnJS(setDraggedSquare)(square);
+        runOnJS(selectSquare)(square);
+
+        if (hapticsEnabled) {
+          runOnJS(Haptics.impactAsync)(Haptics.ImpactFeedbackStyle.Medium);
+        }
+
+        scale.value = withSpring(1.2);
+        opacity.value = withTiming(0.8);
+      })
+      .onUpdate((event) => {
+        translateX.value = event.translationX;
+        translateY.value = event.translationY;
+      })
+      .onEnd((event) => {
+        const coords = getCoordsFromSquare(square, squareSize, isFlipped);
+        const dropX = coords.x + event.translationX + squareSize / 2;
+        const dropY = coords.y + event.translationY + squareSize / 2;
+
+        // Ensure drop is within board bounds
+        if (dropX >= 0 && dropX < boardSize && dropY >= 0 && dropY < boardSize) {
+          const targetSquare = getSquareFromCoords(dropX, dropY, squareSize, isFlipped);
+
+          const targetPiece = piecePositions[targetSquare];
+          const isCapture = !!targetPiece;
+          const moved = makeMove(square, targetSquare);
+
+          if (moved) {
+            if (hapticsEnabled) {
+              runOnJS(Haptics.impactAsync)(Haptics.ImpactFeedbackStyle.Heavy);
+            }
+            runOnJS(playSound)(isCapture ? 'capture' : 'move');
+
+            if (onMove) {
+              runOnJS(onMove)(square, targetSquare);
+            }
+          } else {
+            // Invalid move - spring back
+            if (hapticsEnabled) {
+              runOnJS(Haptics.notificationAsync)(Haptics.NotificationFeedbackType.Error);
+            }
+          }
+        }
+
+        // Reset animation
+        translateX.value = withSpring(0);
+        translateY.value = withSpring(0);
+        scale.value = withSpring(1);
+        opacity.value = withTiming(1);
+        runOnJS(setDraggedSquare)(null);
+      });
+  };
+
+  // Animated style for dragged piece
+  const getDraggedPieceStyle = (square: Square) => {
+    return useAnimatedStyle(() => {
+      if (draggedSquare !== square) {
+        return {};
+      }
+
+      return {
+        transform: [
+          { translateX: translateX.value },
+          { translateY: translateY.value },
+          { scale: scale.value },
+        ],
+        opacity: opacity.value,
+        zIndex: 1000,
+      };
+    });
+  };
 
   // Get board theme colors
   const theme = BoardThemes[boardTheme];
@@ -187,13 +283,15 @@ export default function Chessboard({
     const isSelected = selectedSquare === square;
     const isHighlighted = highlightedSquares.includes(square);
     const piece = piecePositions[square];
+    const isDragged = draggedSquare === square;
 
     const squareColor = isLightSquare ? theme.light : theme.dark;
     const highlightColor = isSelected ? Colors.primary + '80' : isHighlighted ? Colors.success + '40' : null;
 
-    return (
-      <TouchableOpacity
-        key={square}
+    const dragGesture = createDragGesture(square);
+
+    const squareContent = (
+      <View
         style={[
           styles.square,
           {
@@ -202,10 +300,8 @@ export default function Chessboard({
             backgroundColor: highlightColor || squareColor,
           },
         ]}
-        onPress={() => handleSquareTap(square)}
-        activeOpacity={0.7}
       >
-        {piece && (
+        {piece && !isDragged && (
           <Text
             style={[
               styles.piece,
@@ -231,8 +327,58 @@ export default function Chessboard({
               : String.fromCharCode(97 + colIndex)}
           </Text>
         )}
-      </TouchableOpacity>
+      </View>
     );
+
+    // Render draggable piece overlay if this square has the dragged piece
+    const draggablePieceOverlay = piece && (
+      <Animated.View
+        style={[
+          styles.draggablePiece,
+          {
+            width: squareSize,
+            height: squareSize,
+          },
+          getDraggedPieceStyle(square),
+        ]}
+        pointerEvents={isDragged ? 'none' : 'auto'}
+      >
+        <Text
+          style={[
+            styles.piece,
+            {
+              fontSize: squareSize * 0.7,
+            },
+          ]}
+        >
+          {getPieceSymbol(piece)}
+        </Text>
+      </Animated.View>
+    );
+
+    if (dragGesture && piece) {
+      return (
+        <GestureDetector key={square} gesture={dragGesture}>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => handleSquareTap(square)}
+          >
+            {squareContent}
+            {draggablePieceOverlay}
+          </TouchableOpacity>
+        </GestureDetector>
+      );
+    } else {
+      return (
+        <TouchableOpacity
+          key={square}
+          activeOpacity={0.7}
+          onPress={() => handleSquareTap(square)}
+        >
+          {squareContent}
+        </TouchableOpacity>
+      );
+    }
   };
 
   // Render all squares
@@ -288,6 +434,11 @@ const styles = StyleSheet.create({
     textShadowColor: 'rgba(0, 0, 0, 0.2)',
     textShadowOffset: { width: 0, height: 1 },
     textShadowRadius: 2,
+  },
+  draggablePiece: {
+    position: 'absolute',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   rankLabel: {
     position: 'absolute',
