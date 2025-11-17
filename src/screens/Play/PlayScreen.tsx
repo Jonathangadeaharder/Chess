@@ -13,7 +13,7 @@ import { useGameStore } from '../../state/gameStore';
 import { useUserStore } from '../../state/userStore';
 import { Colors, Typography, Spacing, BorderRadius } from '../../constants/theme';
 import type { CoachPrompt, Square, SimpleGameHistory } from '../../types';
-import { getAIMoveDelayed, type AIDifficulty, getDifficultyDescription, getEstimatedELO } from '../../services/ai/simpleAI';
+import { getAIMoveDelayed, type AIDifficulty, getDifficultyDescription, getEstimatedELO } from '../../services/ai/enhancedAI';
 import * as Haptics from 'expo-haptics';
 
 type GameState = 'setup' | 'playing' | 'finished';
@@ -253,8 +253,23 @@ export default function PlayScreen() {
             color={difficulty === 'advanced' ? Colors.primary : Colors.textSecondary}
           />
           <View style={styles.difficultyInfo}>
-            <Text style={styles.difficultyName}>Advanced (~1600 ELO)</Text>
+            <Text style={styles.difficultyName}>Advanced (~1800 ELO)</Text>
             <Text style={styles.difficultyDesc}>{getDifficultyDescription('advanced')}</Text>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.difficultyOption, difficulty === 'expert' && styles.difficultySelected]}
+          onPress={() => setDifficulty('expert')}
+        >
+          <Ionicons
+            name={difficulty === 'expert' ? 'radio-button-on' : 'radio-button-off'}
+            size={24}
+            color={difficulty === 'expert' ? Colors.primary : Colors.textSecondary}
+          />
+          <View style={styles.difficultyInfo}>
+            <Text style={styles.difficultyName}>Expert (~2200 ELO)</Text>
+            <Text style={styles.difficultyDesc}>{getDifficultyDescription('expert')}</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -300,7 +315,7 @@ export default function PlayScreen() {
         <View style={styles.infoRow}>
           <Ionicons name="person" size={16} color={Colors.textSecondary} />
           <Text style={styles.infoLabel}>
-            {difficulty === 'beginner' ? 'Beginner' : difficulty === 'intermediate' ? 'Intermediate' : 'Advanced'} AI
+            {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)} AI
           </Text>
         </View>
         <View style={styles.infoRow}>
