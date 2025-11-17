@@ -281,7 +281,7 @@ The app initializes on launch:
 
 ## Current Status
 
-### ✅ Completed (Phase 1)
+### ✅ Completed (Phases 1-6)
 
 **Core Architecture:**
 - [x] Project setup with TypeScript and Expo
@@ -289,8 +289,8 @@ The app initializes on launch:
 - [x] Bottom tab navigation (4 screens)
 - [x] Three Zustand stores (game, user, UI)
 - [x] Complete type definitions (200+ lines)
-- [x] Theme system with multiple board themes
-- [x] User profile and streak tracking
+- [x] Theme system with 5 board themes
+- [x] User profile with lesson tracking and streak management
 
 **Interactive Components:**
 - [x] Interactive chessboard component with chess.js
@@ -302,60 +302,120 @@ The app initializes on launch:
 
 **Pedagogical Features:**
 - [x] Digital Coach dialog component with Socratic prompts
-- [x] MoveTrainer component for SRS move drills
-- [x] Bishop's Prison mini-game (Good vs. Bad Bishop)
+- [x] MoveTrainer component for SRS move drills (procedural memory)
+- [x] ConceptTrainer component for strategic flashcards (declarative memory)
+- [x] **Bifurcated SRS system complete** - moves + concepts
+- [x] 8 concept cards across multiple openings
 - [x] Sample opening lines data (5 systems)
-- [x] Interactive Play screen with chessboard demo
 
-### 🚧 In Progress / Pending (Phase 2)
+**Mini-Games (3 Complete):**
+- [x] **Bishop's Prison** - Good vs. Bad Bishop endgame drill
+- [x] **The Fuse** - Timed pattern recognition (15 sec challenges)
+- [x] **Transposition Maze** - Navigate different move orders to target positions
 
-**Core Features:**
-- [ ] ConceptTrainer component (strategic flashcards)
-- [ ] SQLite database setup for SRS persistence
-- [ ] Achievement system implementation
-- [ ] More mini-games (Transposition Maze, The Fuse, Blunder Hunter)
+**Learn Screen (The Academy):**
+- [x] **15 structured lessons** across 5 opening systems
+- [x] Interactive lesson viewer with multiple content types
+- [x] Progress tracking per system
+- [x] Sequential lesson unlocking
+- [x] XP rewards (10 XP per minute)
+- [x] Completion statistics
+
+**Train Screen (The Gym):**
+- [x] Fully integrated SRS review queue
+- [x] Demo content generation (3 moves + 3 concepts)
+- [x] "All Done!" completion state
+- [x] Achievement checking after reviews
+- [x] All 3 mini-games integrated
+
+**Profile Screen:**
+- [x] Achievement system (17 achievements)
+- [x] Achievement celebration with confetti animation
+- [x] User statistics display
+- [x] Achievement tracking section
+
+### 🚧 In Progress (Phase 7)
+
+**Content Enhancement:**
+- [ ] Additional opening lines for all systems
+- [ ] More concept cards (target: 20+)
+- [ ] Advanced lessons for intermediate players
+
+**Features:**
+- [ ] Enhanced statistics dashboard
 - [ ] Drag-and-drop interaction mode
 - [ ] SVG drawing layer for arrows/highlights
 
+### 📋 Planned (Future Phases)
+
 **Integration & Backend:**
+- [ ] SQLite database setup for SRS persistence
 - [ ] Firebase/Supabase backend setup
 - [ ] Daily streak validation (server-side)
 - [ ] Maia AI integration via API
 - [ ] Weakness Finder (PGN analysis)
 - [ ] External account linking (Lichess, Chess.com)
 
-**Content & UX:**
+**Additional Features:**
+- [ ] Blunder Hunter mini-game
 - [ ] Onboarding flow (Playstyle Sorter quiz)
-- [ ] Curriculum system (lesson modules)
-- [ ] Full Learn screen with lessons
-- [ ] Full Train screen with SRS queue
-- [ ] Analytics and progress tracking
+- [ ] Advanced analytics and progress tracking
+- [ ] Cloud sync across devices
 
 ## Next Steps
 
-### Immediate Priorities
+### Immediate Priorities (Phase 7)
 
-1. **Test the chessboard**: Add it to a screen and verify functionality
-2. **Implement sound system**: Add move sounds using expo-av
-3. **Create MoveTrainer component**: First SRS drill interface
-4. **Build first mini-game**: Bishop's Prison as proof of concept
-5. **Implement Digital Coach dialog**: Modal with Socratic prompts
+1. **Expand Content Library**:
+   - Add more opening lines for all 5 systems
+   - Create 10+ additional concept cards
+   - Add intermediate/advanced lessons
 
-### Medium-Term Goals
+2. **Enhanced Statistics**:
+   - Build comprehensive stats dashboard
+   - Add chart visualization for progress
+   - Show retention rates and review forecast
 
-1. Complete the bifurcated SRS system
-2. Create 3-5 mini-games covering key concepts
-3. Set up SQLite for persistent SRS storage
-4. Implement achievement system
-5. Build onboarding flow
+3. **Polish & UX**:
+   - Add drag-and-drop board interaction
+   - Implement SVG drawing layer for arrows
+   - Improve animations and transitions
 
-### Long-Term Goals
+### Medium-Term Goals (Phase 8-9)
 
-1. Backend integration (Firebase/Supabase)
-2. Maia AI integration via API
-3. Weakness Finder with PGN analysis
-4. Full curriculum system
-5. Analytics and progress tracking
+1. **Persistent Storage**:
+   - Migrate to SQLite for SRS data
+   - Implement data export/import
+   - Add cloud backup capability
+
+2. **Additional Mini-Games**:
+   - Blunder Hunter (spot common mistakes)
+   - More endgame trainers
+   - Opening repertoire builder
+
+3. **AI Integration**:
+   - Maia AI for realistic opponents
+   - Adaptive difficulty based on performance
+   - Post-game analysis with coach feedback
+
+### Long-Term Goals (Phase 10+)
+
+1. **Backend & Sync**:
+   - Firebase/Supabase integration
+   - Multi-device synchronization
+   - Server-side streak validation
+
+2. **Advanced Features**:
+   - Weakness Finder (PGN analysis)
+   - External account linking (Lichess, Chess.com)
+   - Community features (share progress)
+   - Onboarding flow with Playstyle Sorter
+
+3. **Scaling & Performance**:
+   - Optimize bundle size
+   - Implement code splitting
+   - Add offline mode
+   - Performance monitoring
 
 ## Testing Strategy
 
@@ -426,5 +486,26 @@ Built following the comprehensive blueprint for an adaptive chess learning appli
 
 ---
 
-**Version**: 0.1.0 (Initial Implementation)
+## Recent Updates (Phases 4-6)
+
+### Phase 4: Interactive Mini-Games
+- Created **The Fuse** - Timed tactical pattern recognition
+- 5 puzzles with 15-second countdown and explosion animation
+- Fully integrated into Train screen
+
+### Phase 5: Complete Lesson System
+- Built **15 structured lessons** across all 5 opening systems
+- Created **LessonViewer** component with multiple content types
+- Added **lesson completion tracking** to user profile
+- Implemented XP rewards for completed lessons
+- Sequential unlocking system (must complete previous lesson)
+
+### Phase 6: Transposition Training
+- Created **Transposition Maze** mini-game
+- 3 progressive puzzles teaching move order flexibility
+- Multiple valid solution paths per puzzle
+- Real-time path validation and feedback
+- Expanded London System and Torre Attack lesson content (2 lessons each)
+
+**Version**: 0.6.0 (Mini-Games & Lesson System Complete)
 **Last Updated**: 2025-11-17
