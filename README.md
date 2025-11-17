@@ -312,10 +312,11 @@ The app initializes on launch:
 - [x] 13 opening lines across 5 systems
 - [x] **15 tactical puzzles** library (easy, medium, hard)
 
-**Mini-Games (3 Complete):**
+**Mini-Games (4 Complete):**
 - [x] **Bishop's Prison** - Good vs. Bad Bishop endgame drill
 - [x] **The Fuse** - Timed pattern recognition (15 sec challenges)
 - [x] **Transposition Maze** - Navigate different move orders to target positions
+- [x] **Blunder Hunter** - Spot and exploit opponent blunders (5 tactical puzzles)
 
 **Learn Screen (The Academy):**
 - [x] **15 structured lessons** across 5 opening systems
@@ -391,12 +392,20 @@ The app initializes on launch:
 - [x] Zero performance impact when not in use (conditional rendering)
 - [x] Easy integration with any component using Chessboard
 
-### 🚧 In Progress (Phase 10)
+### ✅ Phase 10 Complete (Polish & Settings)
 
-**Features:**
-- [ ] Additional mini-games (Blunder Hunter)
-- [ ] Settings screen with interaction mode toggle
-- [ ] Game analysis screen with move-by-move review
+**Mini-Games:**
+- [x] Blunder Hunter mini-game with 5 tactical puzzles
+- [x] Theme-based training (Hanging Piece, Back Rank, Fork, etc.)
+- [x] Progressive difficulty with hints and explanations
+- [x] Performance tracking and accuracy metrics
+
+**Settings Screen:**
+- [x] Board theme selection with visual previews (5 themes)
+- [x] Interaction mode toggle (drag-drop, tap-tap, both)
+- [x] Audio & feedback preferences (haptics, sound effects)
+- [x] App information and version details
+- [x] Content library statistics display
 
 ### 📋 Planned (Future Phases)
 
@@ -409,48 +418,33 @@ The app initializes on launch:
 - [ ] External account linking (Lichess, Chess.com)
 
 **Additional Features:**
-- [ ] Blunder Hunter mini-game
+- [ ] Full Play screen with AI opponent selection
+- [ ] Game analysis screen with move-by-move review
 - [ ] Onboarding flow (Playstyle Sorter quiz)
 - [ ] Advanced analytics and progress tracking
 - [ ] Cloud sync across devices
 
 ## Next Steps
 
-### Immediate Priorities (Phase 7)
+### Immediate Priorities (Phase 11+)
 
-1. **Expand Content Library**:
-   - Add more opening lines for all 5 systems
-   - Create 10+ additional concept cards
-   - Add intermediate/advanced lessons
+1. **Full Play Experience**:
+   - Implement complete Play screen with game session management
+   - AI opponent selection (different difficulty levels)
+   - In-game coach interventions
+   - Post-game analysis with move review
 
-2. **Enhanced Statistics**:
-   - Build comprehensive stats dashboard
-   - Add chart visualization for progress
-   - Show retention rates and review forecast
+2. **Persistent Storage**:
+   - Migrate to SQLite for SRS data persistence
+   - Implement data export/import functionality
+   - Add offline data management
 
-3. **Polish & UX**:
-   - Add drag-and-drop board interaction
-   - Implement SVG drawing layer for arrows
-   - Improve animations and transitions
+3. **Content Expansion**:
+   - Add more lessons for intermediate/advanced players
+   - Create additional mini-games for specific skills
+   - Expand tactical puzzle library
 
-### Medium-Term Goals (Phase 8-9)
-
-1. **Persistent Storage**:
-   - Migrate to SQLite for SRS data
-   - Implement data export/import
-   - Add cloud backup capability
-
-2. **Additional Mini-Games**:
-   - Blunder Hunter (spot common mistakes)
-   - More endgame trainers
-   - Opening repertoire builder
-
-3. **AI Integration**:
-   - Maia AI for realistic opponents
-   - Adaptive difficulty based on performance
-   - Post-game analysis with coach feedback
-
-### Long-Term Goals (Phase 10+)
+### Medium-Term Goals (Phase 12-13)
 
 1. **Backend & Sync**:
    - Firebase/Supabase integration
@@ -626,5 +620,32 @@ Built following the comprehensive blueprint for an adaptive chess learning appli
   - Type-safe with TypeScript
   - Works with all interaction modes
 
-**Version**: 0.9.0 (SVG Annotations Complete)
+### Phase 10: Polish & Settings Screen
+- **Blunder Hunter Mini-Game**: Fourth mini-game complete
+  - 5 tactical puzzles teaching exploitation of blunders
+  - Themes: Hanging Piece, Back Rank Mate, Discovered Attack, Fork
+  - Progressive puzzle flow with attempt tracking
+  - Hint system with coach integration
+  - Automatic solution validation
+  - Visual feedback with best move arrows (green)
+  - Performance metrics (solved count, accuracy)
+- **Settings Screen**: Comprehensive preferences management
+  - Board theme selection with 5 visual preview cards
+  - Interaction mode toggle (drag-drop, tap-tap, both)
+  - Audio & Feedback section:
+    * Haptic feedback toggle
+    * Sound effects toggle
+  - App information display (version, build, platform)
+  - Content library statistics:
+    * 15 lessons across 5 opening systems
+    * 20 concept cards for strategic learning
+    * 15 tactical puzzles (3 difficulty levels)
+    * 4 mini-games for skill training
+    * 17 achievements to unlock
+- **Type System Updates**:
+  - Added InteractionMode type definition
+  - Added BoardTheme type definition
+  - Full type safety across settings
+
+**Version**: 1.0.0 (Core App Complete - All 10 Phases)
 **Last Updated**: 2025-11-17

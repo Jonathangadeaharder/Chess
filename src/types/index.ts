@@ -12,6 +12,8 @@ export type Square = string; // e.g., 'e4', 'a1'
 export type Piece = 'p' | 'n' | 'b' | 'r' | 'q' | 'k';
 export type Color = 'w' | 'b';
 export type PieceSymbol = 'p' | 'n' | 'b' | 'r' | 'q' | 'k' | 'P' | 'N' | 'B' | 'R' | 'Q' | 'K';
+export type InteractionMode = 'drag-drop' | 'tap-tap' | 'both';
+export type BoardTheme = 'classic' | 'wood' | 'blue' | 'green' | 'purple';
 
 export interface ChessMove {
   from: Square;
