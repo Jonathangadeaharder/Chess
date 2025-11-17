@@ -23,71 +23,8 @@ import DigitalCoachDialog from './DigitalCoachDialog';
 import { useGameStore } from '../../state/gameStore';
 import { playSound } from '../../services/audio/soundService';
 import { Colors, Typography, Spacing, BorderRadius } from '../../constants/theme';
+import { getFusePuzzles, getPatternDisplayName, type TacticalPuzzle } from '../../constants/tacticalPatterns';
 import type { CoachPrompt, Square } from '../../types';
-
-interface FusePuzzle {
-  id: string;
-  name: string;
-  fen: string;
-  solution: string; // Move in SAN notation
-  pattern: string; // Pattern name (e.g., "Greek Gift", "Back Rank Mate")
-  hint: string;
-  explanation: string;
-  timeLimit: number; // Seconds
-}
-
-const FUSE_PUZZLES: FusePuzzle[] = [
-  {
-    id: 'fuse-1',
-    name: 'Greek Gift Sacrifice',
-    fen: 'r1bq1rk1/ppp2ppp/2n2n2/3p4/1b1P4/2NBPN2/PPP2PPP/R1BQK2R w KQ - 0 1',
-    solution: 'Bxh7+',
-    pattern: 'Greek Gift',
-    hint: 'Look at Black\'s castled king. What piece can sacrifice itself on h7?',
-    explanation: 'The Greek Gift! Bxh7+ forces Kxh7, then Ng5+ wins the queen or delivers checkmate. This is one of the most famous attacking patterns.',
-    timeLimit: 15,
-  },
-  {
-    id: 'fuse-2',
-    name: 'Back Rank Mate',
-    fen: '6k1/5ppp/8/8/8/8/5PPP/3R2K1 w - - 0 1',
-    solution: 'Rd8#',
-    pattern: 'Back Rank Mate',
-    hint: 'Black\'s king is trapped on the back rank by its own pawns.',
-    explanation: 'Rd8# is checkmate! The king cannot escape because its own pawns block the escape squares. Always watch for back rank weaknesses.',
-    timeLimit: 10,
-  },
-  {
-    id: 'fuse-3',
-    name: 'Queen and Bishop Battery',
-    fen: 'r2qkb1r/ppp2ppp/2n5/3pPb2/3Pn3/2N1BN2/PPP1QPPP/R3KB1R w KQkq - 0 1',
-    solution: 'Qb5',
-    pattern: 'Pin and Battery',
-    hint: 'Your queen and bishop can create a deadly battery on the long diagonal.',
-    explanation: 'Qb5! creates a powerful pin on the c6 knight and threatens the undefended e5 pawn. The queen and bishop battery is devastating.',
-    timeLimit: 15,
-  },
-  {
-    id: 'fuse-4',
-    name: 'Knight Fork',
-    fen: 'r1bqkb1r/pppp1ppp/2n2n2/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 0 1',
-    solution: 'Nxe5',
-    pattern: 'Knight Fork',
-    hint: 'After taking on e5, your knight will attack multiple pieces.',
-    explanation: 'Nxe5! and after Black recaptures, Nxc6 forks the queen and rook. Knights love to fork!',
-    timeLimit: 12,
-  },
-  {
-    id: 'fuse-5',
-    name: 'Smothered Mate',
-    fen: '5rk1/5ppp/8/8/8/8/5PPP/4R1K1 w - - 0 1',
-    solution: 'Re8+',
-    pattern: 'Smothered Mate',
-    hint: 'Drive the king into the corner where it\'ll be smothered by its own pieces.',
-    explanation: 'Re8+! forces Rxe8, then the follow-up delivers mate. The king is smothered by its own pawns - a beautiful pattern!',
-    timeLimit: 15,
-  },
-];
 
 interface TheFuseProps {
   onComplete: (puzzlesSolved: number, averageTime: number) => void;
@@ -97,6 +34,8 @@ interface TheFuseProps {
 export default function TheFuse({ onComplete, onExit }: TheFuseProps) {
   const { loadPosition, makeMove, resetGame } = useGameStore();
 
+  // Get 5 random puzzles from the library (mix of easy and medium)
+  const [puzzles] = useState<TacticalPuzzle[]>(() => getFusePuzzles(5));
   const [currentPuzzleIndex, setCurrentPuzzleIndex] = useState(0);
   const [timeRemaining, setTimeRemaining] = useState(15);
   const [isActive, setIsActive] = useState(false);
@@ -113,7 +52,7 @@ export default function TheFuse({ onComplete, onExit }: TheFuseProps) {
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const startTimeRef = useRef<number>(0);
 
-  const currentPuzzle = FUSE_PUZZLES[currentPuzzleIndex];
+  const currentPuzzle = puzzles[currentPuzzleIndex];
 
   // Load puzzle and show intro
   useEffect(() => {
@@ -129,7 +68,7 @@ export default function TheFuse({ onComplete, onExit }: TheFuseProps) {
       const introPrompt: CoachPrompt = {
         id: 'fuse-intro',
         type: 'socratic-question',
-        text: `Find the winning move! Pattern: ${currentPuzzle.pattern}. The fuse is lit - you have ${currentPuzzle.timeLimit} seconds!`,
+        text: `Find the winning move! Pattern: ${getPatternDisplayName(currentPuzzle.pattern)}. The fuse is lit - you have ${currentPuzzle.timeLimit} seconds!`,
       };
 
       setCoachPrompt(introPrompt);
@@ -266,7 +205,7 @@ export default function TheFuse({ onComplete, onExit }: TheFuseProps) {
   };
 
   const handleNextPuzzle = () => {
-    if (currentPuzzleIndex < FUSE_PUZZLES.length - 1) {
+    if (currentPuzzleIndex < puzzles.length - 1) {
       setCurrentPuzzleIndex(currentPuzzleIndex + 1);
     } else {
       // All puzzles complete
@@ -292,7 +231,7 @@ export default function TheFuse({ onComplete, onExit }: TheFuseProps) {
         <View>
           <Text style={styles.title}>The Fuse 🔥</Text>
           <Text style={styles.subtitle}>
-            Puzzle {currentPuzzleIndex + 1} of {FUSE_PUZZLES.length}
+            Puzzle {currentPuzzleIndex + 1} of {puzzles.length}
           </Text>
         </View>
         <TouchableOpacity onPress={onExit} style={styles.exitButton}>
@@ -341,7 +280,7 @@ export default function TheFuse({ onComplete, onExit }: TheFuseProps) {
       {/* Pattern Badge */}
       <View style={styles.patternBadge}>
         <Ionicons name="flash" size={16} color={Colors.textInverse} />
-        <Text style={styles.patternText}>{currentPuzzle.pattern}</Text>
+        <Text style={styles.patternText}>{getPatternDisplayName(currentPuzzle.pattern)}</Text>
       </View>
 
       {/* Chessboard */}
