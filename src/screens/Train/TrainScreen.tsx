@@ -13,6 +13,7 @@ import MoveTrainer from '../../components/organisms/MoveTrainer';
 import ConceptTrainer from '../../components/organisms/ConceptTrainer';
 import BishopsPrison from '../../components/organisms/BishopsPrison';
 import TheFuse from '../../components/organisms/TheFuse';
+import TranspositionMaze from '../../components/organisms/TranspositionMaze';
 import AchievementCelebration from '../../components/organisms/AchievementCelebration';
 import { getRandomOpeningLine } from '../../constants/openingLines';
 import { getRandomConceptCard } from '../../constants/conceptCards';
@@ -29,6 +30,7 @@ export default function TrainScreen() {
   const [reviewQueue, setReviewQueue] = useState<SRSItem[]>([]);
   const [showBishopsPrison, setShowBishopsPrison] = useState(false);
   const [showTheFuse, setShowTheFuse] = useState(false);
+  const [showTranspositionMaze, setShowTranspositionMaze] = useState(false);
   const [celebratedAchievement, setCelebratedAchievement] = useState<Achievement | null>(null);
   const [showCelebration, setShowCelebration] = useState(false);
 
@@ -156,6 +158,18 @@ export default function TrainScreen() {
     }
   };
 
+  const handleMazeComplete = async (pathsFound: number, attempts: number) => {
+    setShowTranspositionMaze(false);
+
+    // Award XP for completion
+    // Check for achievements (transposition ninja achievement)
+    const newAchievements = await checkAndUnlockAchievements();
+    if (newAchievements.length > 0) {
+      setCelebratedAchievement(newAchievements[0]);
+      setShowCelebration(true);
+    }
+  };
+
   // Overview mode
   if (mode === 'overview') {
     return (
@@ -239,20 +253,21 @@ export default function TrainScreen() {
               <Ionicons name="chevron-forward" size={24} color={Colors.textSecondary} />
             </TouchableOpacity>
 
-            <View style={styles.miniGameCard}>
+            <TouchableOpacity
+              style={styles.miniGameCard}
+              onPress={() => setShowTranspositionMaze(true)}
+            >
               <View style={styles.miniGameIcon}>
                 <Text style={styles.miniGameEmoji}>🥷</Text>
               </View>
               <View style={styles.miniGameContent}>
                 <Text style={styles.miniGameTitle}>Transposition Maze</Text>
                 <Text style={styles.miniGameDescription}>
-                  Coming soon - Navigate to target positions
+                  Navigate different move orders to reach target positions
                 </Text>
               </View>
-              <View style={styles.comingSoonBadge}>
-                <Text style={styles.comingSoonText}>SOON</Text>
-              </View>
-            </View>
+              <Ionicons name="chevron-forward" size={24} color={Colors.textSecondary} />
+            </TouchableOpacity>
           </View>
 
           {/* Progress Info */}
@@ -283,6 +298,16 @@ export default function TrainScreen() {
             <TheFuse
               onComplete={handleFuseComplete}
               onExit={() => setShowTheFuse(false)}
+            />
+          </Modal>
+        )}
+
+        {/* Transposition Maze Modal */}
+        {showTranspositionMaze && (
+          <Modal visible={showTranspositionMaze} animationType="slide">
+            <TranspositionMaze
+              onComplete={handleMazeComplete}
+              onExit={() => setShowTranspositionMaze(false)}
             />
           </Modal>
         )}

@@ -289,6 +289,60 @@ export const LONDON_LESSONS: Lesson[] = [
       },
     ],
   },
+  {
+    id: 'london-lesson-2',
+    title: 'The h3 and g4 Plan',
+    description: 'Learn the aggressive kingside expansion',
+    system: 'london-system',
+    order: 2,
+    estimatedMinutes: 12,
+    content: [
+      {
+        type: 'text',
+        heading: 'Kingside Expansion',
+        text: 'One of the London\'s key plans is the h3 and g4 pawn advance. This gains space on the kingside and prepares to support the Bf4 if Black tries to challenge it with ...Nh5.',
+      },
+      {
+        type: 'diagram',
+        heading: 'Prepared for g4',
+        text: 'After completing the basic setup, White plays h3 and g4. If Black plays ...Nh5 to challenge the bishop, White can play Bg3 and the knight has no good square.',
+        fen: 'r1bqkb1r/ppp2ppp/2n2n2/3pp3/3P1BP1/3BPN1P/PPP3P1/RN1QK2R w KQkq - 0 7',
+        highlightSquares: ['h3', 'g4', 'f4', 'g3'],
+      },
+      {
+        type: 'text',
+        heading: 'Strategic Benefits',
+        text: 'The h3-g4 plan serves multiple purposes: it gives the Bf4 a retreat square on g3, gains kingside space, and can support a later f2-f4 advance for central expansion. This makes the London much more dynamic than it appears.',
+      },
+    ],
+  },
+  {
+    id: 'london-lesson-3',
+    title: 'Flexible Piece Placement',
+    description: 'Adapt to Black\'s setup',
+    system: 'london-system',
+    order: 3,
+    estimatedMinutes: 10,
+    content: [
+      {
+        type: 'text',
+        heading: 'Adapting to Black',
+        text: 'The London\'s strength is its flexibility. The basic structure (d4, Nf3, Bf4, e3, Bd3) stays the same, but you can adjust your piece placement based on Black\'s setup.',
+      },
+      {
+        type: 'diagram',
+        heading: 'Against Different Setups',
+        text: 'Whether Black plays ...e6 and ...c5 (attacking the center) or ...g6 (King\'s Indian style), the London gives you a solid foundation. Adjust with moves like Ne5, c3, or Qe2 as needed.',
+        fen: 'rnbqk2r/ppp1ppbp/5np1/3p4/3P1B2/3BPN2/PPP2PPP/RN1QK2R w KQkq - 0 6',
+        highlightSquares: ['e5', 'c3', 'e2'],
+      },
+      {
+        type: 'text',
+        heading: 'Universal System',
+        text: 'This flexibility is why the London is called a "system" rather than an "opening." You can reach your ideal setup regardless of Black\'s move order, making it perfect for players who want a reliable weapon without memorizing endless variations.',
+      },
+    ],
+  },
 ];
 
 /**
@@ -319,6 +373,60 @@ export const TORRE_LESSONS: Lesson[] = [
         type: 'text',
         heading: 'Aggressive Intent',
         text: 'Unlike the solid Colle or London, the Torre Attack immediately creates tactical threats. The Bg5 pins Black\'s knight or bishop, and White can follow up with aggressive plans like Ne5 or the Bg5-h4-g3 maneuver.',
+      },
+    ],
+  },
+  {
+    id: 'torre-lesson-2',
+    title: 'The Bg5-h4-g3 Maneuver',
+    description: 'Master the signature Torre bishop retreat',
+    system: 'torre-attack',
+    order: 2,
+    estimatedMinutes: 12,
+    content: [
+      {
+        type: 'text',
+        heading: 'The Famous Maneuver',
+        text: 'The Bg5-h4-g3 maneuver is the Torre Attack\'s trademark. When Black plays ...h6 to challenge the bishop, White retreats to h4. If Black continues with ...g5, the bishop goes to g3 where it controls key central squares.',
+      },
+      {
+        type: 'diagram',
+        heading: 'Bishop on g3',
+        text: 'After Bg5-h4-g3, the bishop is beautifully placed. It controls e5, can support Ne5 or f2-f4, and Black\'s kingside has been weakened by ...h6 and ...g5.',
+        fen: 'rnbqkb1r/p1p1pp1p/7p/3p2p1/3P4/4PNB1/PPP2PPP/RN1QKB1R w KQkq - 0 6',
+        highlightSquares: ['g3', 'e5', 'f4'],
+      },
+      {
+        type: 'text',
+        heading: 'Strategic Gains',
+        text: 'This maneuver achieves multiple goals: the bishop reaches an excellent square, Black\'s kingside is weakened, and White can build an attack with Ne5, f4, and Qf3. Meanwhile, Black\'s pawns on h6 and g5 become long-term weaknesses.',
+      },
+    ],
+  },
+  {
+    id: 'torre-lesson-3',
+    title: 'Central Outpost on e5',
+    description: 'Occupy the key e5 square',
+    system: 'torre-attack',
+    order: 3,
+    estimatedMinutes: 10,
+    content: [
+      {
+        type: 'text',
+        heading: 'The e5 Outpost',
+        text: 'The Torre Attack often revolves around establishing a knight on e5. Combined with the Bg3, this creates tremendous pressure on Black\'s position.',
+      },
+      {
+        type: 'diagram',
+        heading: 'Knight on e5',
+        text: 'With the knight securely placed on e5 and the bishop supporting from g3, White has a powerful setup. The knight dominates the center and can\'t easily be challenged.',
+        fen: 'rnbqk2r/ppp1ppbp/5np1/3pN1B1/3P4/4P3/PPP2PPP/RN1QKB1R w KQkq - 0 6',
+        highlightSquares: ['e5', 'g3', 'd4'],
+      },
+      {
+        type: 'text',
+        heading: 'Building the Attack',
+        text: 'From e5, the knight can jump to f7 or g6 to create threats, or support a pawn storm with f4-f5. The bishop on g3 adds extra pressure. This central domination is the heart of the Torre Attack\'s aggressive nature.',
       },
     ],
   },
