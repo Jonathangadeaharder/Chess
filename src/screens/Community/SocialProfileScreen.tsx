@@ -43,7 +43,7 @@ export default function SocialProfileScreen({ route }: Props) {
       setProfile(profileData);
 
       // Check if already friends
-      const friends = await socialProfileService.getFriends(userId);
+      await socialProfileService.getFriends(userId);
       // TODO: Check if current user is in friends list
       setIsFriend(false);
     } catch (error) {

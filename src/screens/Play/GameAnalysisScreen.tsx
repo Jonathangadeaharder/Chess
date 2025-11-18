@@ -44,7 +44,7 @@ export default function GameAnalysisScreen({ route, navigation }: GameAnalysisSc
   const [isAnalyzing, setIsAnalyzing] = useState(true);
   const [evaluations, setEvaluations] = useState<MoveEvaluation[]>([]);
   const [stockfishAnalysis, setStockfishAnalysis] = useState<GameAnalysis | null>(null);
-  const [useStockfish, setUseStockfish] = useState(true);
+  const [useStockfish] = useState(true);
   const [criticalPositions, setCriticalPositions] = useState<CriticalPosition[]>([]);
   const [showCoach, setShowCoach] = useState(false);
   const [currentCoachPrompt, setCurrentCoachPrompt] = useState<CoachPrompt | null>(null);

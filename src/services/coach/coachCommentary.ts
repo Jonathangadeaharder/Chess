@@ -306,8 +306,6 @@ function detectPinOrSkewer(chess: Chess): boolean {
  */
 function detectDiscoveredAttack(chess: Chess, moves: any[]): boolean {
   for (const move of moves) {
-    const fromSquare = move.from;
-
     // Check if moving this piece reveals an attack from a piece behind it
     chess.move(move.san);
 

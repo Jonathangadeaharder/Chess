@@ -72,9 +72,6 @@ export function parsePGN(pgn: string): PGNGame | null {
       headers[match[1]] = match[2];
     }
 
-    // Extract moves
-    const moveText = pgn.replace(/\[.*?\]/g, '').trim();
-
     // Load the game
     const loaded = chess.loadPgn(pgn);
     if (!loaded) {
@@ -489,7 +486,7 @@ export function generateTrainingPlan(report: WeaknessReport): {
 
   for (const pattern of report.patterns.slice(0, 3)) {
     let exercises: string[] = [];
-    let estimatedWeeks = 4;
+    let estimatedWeeks;
 
     switch (pattern.category) {
       case 'hanging-pieces':
