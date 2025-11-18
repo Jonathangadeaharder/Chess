@@ -27,7 +27,6 @@ import { migrateToSQLite } from '../services/storage/migrationService';
 import {
   initializeProgression,
   updateProgressionAfterSession,
-  type TacticalProgressionState,
 } from '../services/tacticalProgressionService';
 import {
   initializeTacticalAnalytics,
@@ -55,17 +54,9 @@ interface UserStore extends UserState {
   getDueSRSItems: () => SRSItem[];
   addWeakness: (weakness: Weakness) => Promise<void>;
   addGameToHistory: (session: SimpleGameHistory) => Promise<void>;
-  updateTacticalProgression: (stats: DrillStats) => Promise<void>;
-  updateTacticalAnalytics: (
-    sessionStats: DrillStats,
-    drillDetails: Array<{
-      drill: TacticalDrill;
-      correct: boolean;
-      speedRating: string;
-      timeUsed: number;
-    }>
-  ) => Promise<void>;
   resetProgress: () => Promise<void>;
+  updateTacticalProgression: (stats: DrillStats) => Promise<void>;
+  updateTacticalAnalytics: (sessionStats: any, drillDetails: TacticalDrill[]) => Promise<void>;
 }
 
 // Default user profile
@@ -332,6 +323,25 @@ export const useUserStore = create<UserStore>((set, get) => ({
     }
   },
 
+  // Reset all progress
+  resetProgress: async () => {
+    const defaultProfile = createDefaultProfile();
+    set({
+      profile: defaultProfile,
+      achievements: ALL_ACHIEVEMENTS,
+      srsQueue: [],
+      weaknesses: [],
+      gameHistory: [],
+      tacticalProgression: initializeProgression(),
+      tacticalAnalytics: initializeTacticalAnalytics(),
+    });
+
+    await clearAllData();
+    await saveUserProfile(defaultProfile);
+    await saveTacticalProgression(initializeProgression());
+    await saveTacticalAnalytics(initializeTacticalAnalytics());
+  },
+
   // Update tactical progression after drill session
   updateTacticalProgression: async (stats: DrillStats) => {
     const { tacticalProgression, profile, addXP } = get();
@@ -363,29 +373,9 @@ export const useUserStore = create<UserStore>((set, get) => ({
 
     if (!tacticalAnalytics) return;
 
-    // Update analytics state
-    const updatedAnalytics = updateAnalyticsAfterSession(
-      tacticalAnalytics,
-      sessionStats,
-      drillDetails
-    );
+    const updatedAnalytics = updateAnalyticsAfterSession(tacticalAnalytics, sessionStats, drillDetails);
 
     set({ tacticalAnalytics: updatedAnalytics });
     await saveTacticalAnalytics(updatedAnalytics);
-  },
-
-  // Reset all progress
-  resetProgress: async () => {
-    const defaultProfile = createDefaultProfile();
-    set({
-      profile: defaultProfile,
-      achievements: ALL_ACHIEVEMENTS,
-      srsQueue: [],
-      weaknesses: [],
-      gameHistory: [],
-    });
-
-    await clearAllData();
-    await saveUserProfile(defaultProfile);
   },
 }));

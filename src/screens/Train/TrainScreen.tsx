@@ -14,6 +14,7 @@ import ConceptTrainer from '../../components/organisms/ConceptTrainer';
 import BishopsPrison from '../../components/organisms/BishopsPrison';
 import TheFuse from '../../components/organisms/TheFuse';
 import TranspositionMaze from '../../components/organisms/TranspositionMaze';
+import CheckmateMaster from '../../components/organisms/CheckmateMaster';
 import TacticalDrill from '../../components/organisms/TacticalDrill';
 import TacticalStatsDashboard from '../../components/organisms/TacticalStatsDashboard';
 import AchievementCelebration from '../../components/organisms/AchievementCelebration';
@@ -33,6 +34,7 @@ export default function TrainScreen() {
   const [showBishopsPrison, setShowBishopsPrison] = useState(false);
   const [showTheFuse, setShowTheFuse] = useState(false);
   const [showTranspositionMaze, setShowTranspositionMaze] = useState(false);
+  const [showCheckmateMaster, setShowCheckmateMaster] = useState(false);
   const [showTacticalDrill, setShowTacticalDrill] = useState(false);
   const [showTacticalStats, setShowTacticalStats] = useState(false);
   const [celebratedAchievement, setCelebratedAchievement] = useState<Achievement | null>(null);
@@ -174,6 +176,18 @@ export default function TrainScreen() {
     }
   };
 
+  const handleCheckmateMasterComplete = async (score: number, accuracy: number) => {
+    setShowCheckmateMaster(false);
+
+    // Award XP for completion
+    // Check for achievements (checkmate master achievement)
+    const newAchievements = await checkAndUnlockAchievements();
+    if (newAchievements.length > 0) {
+      setCelebratedAchievement(newAchievements[0]);
+      setShowCelebration(true);
+    }
+  };
+
   const handleTacticalDrillComplete = async (stats: any) => {
     setShowTacticalDrill(false);
 
@@ -289,6 +303,22 @@ export default function TrainScreen() {
 
             <TouchableOpacity
               style={styles.miniGameCard}
+              onPress={() => setShowCheckmateMaster(true)}
+            >
+              <View style={styles.miniGameIcon}>
+                <Text style={styles.miniGameEmoji}>🏆</Text>
+              </View>
+              <View style={styles.miniGameContent}>
+                <Text style={styles.miniGameTitle}>Checkmate Master</Text>
+                <Text style={styles.miniGameDescription}>
+                  Recognize and deliver classic checkmate patterns
+                </Text>
+              </View>
+              <Ionicons name="chevron-forward" size={24} color={Colors.textSecondary} />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.miniGameCard}
               onPress={() => setShowTacticalDrill(true)}
             >
               <View style={styles.miniGameIcon}>
@@ -358,6 +388,16 @@ export default function TrainScreen() {
             <TranspositionMaze
               onComplete={handleMazeComplete}
               onExit={() => setShowTranspositionMaze(false)}
+            />
+          </Modal>
+        )}
+
+        {/* Checkmate Master Modal */}
+        {showCheckmateMaster && (
+          <Modal visible={showCheckmateMaster} animationType="slide">
+            <CheckmateMaster
+              onComplete={handleCheckmateMasterComplete}
+              onExit={() => setShowCheckmateMaster(false)}
             />
           </Modal>
         )}

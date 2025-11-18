@@ -92,7 +92,7 @@ export interface ReviewResult {
  */
 export interface CoachPrompt {
   id: string;
-  type: 'socratic-question' | 'hint' | 'explanation' | 'encouragement';
+  type: 'socratic-question' | 'hint' | 'explanation' | 'encouragement' | 'feedback-positive' | 'feedback-negative';
   text: string;
   audioUrl?: string;
   expectedResponse?: any;
@@ -137,7 +137,8 @@ export type MiniGameType =
   | 'bishops-prison'
   | 'transposition-maze'
   | 'the-fuse'
-  | 'blunder-hunter';
+  | 'blunder-hunter'
+  | 'checkmate-master';
 
 export interface MiniGame {
   id: string;
