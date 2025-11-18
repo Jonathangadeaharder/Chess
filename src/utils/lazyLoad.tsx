@@ -11,7 +11,6 @@
 
 import React, { ComponentType, LazyExoticComponent, Suspense, lazy } from 'react';
 import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
-import { ErrorBoundary } from '../components/ErrorBoundary';
 
 /**
  * Default loading fallback component
@@ -39,7 +38,8 @@ export function lazyLoad<T extends ComponentType<any>>(
 }
 
 /**
- * Lazy load a screen with Suspense and ErrorBoundary
+ * Lazy load a screen with Suspense
+ * Note: Wrap with ErrorBoundary in the consuming code if needed
  */
 export function lazyLoadScreen<T extends ComponentType<any>>(
   importFunc: () => Promise<{ default: T }>,
@@ -49,11 +49,9 @@ export function lazyLoadScreen<T extends ComponentType<any>>(
   const LazyScreen = lazy(importFunc);
 
   return (props: any) => (
-    <ErrorBoundary>
-      <Suspense fallback={fallback || <DefaultLoadingFallback />}>
-        <LazyScreen {...props} />
-      </Suspense>
-    </ErrorBoundary>
+    <Suspense fallback={fallback || <DefaultLoadingFallback />}>
+      <LazyScreen {...props} />
+    </Suspense>
   );
 }
 

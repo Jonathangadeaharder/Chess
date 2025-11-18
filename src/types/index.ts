@@ -3,7 +3,12 @@
  * Type system for the Chess Learning Application
  */
 
-import type { BoardThemeName, PieceThemeName, CoachPersonalityName } from '../constants/theme';
+/**
+ * Theme-related types
+ */
+export type BoardThemeName = 'modern' | 'wood' | 'neo' | 'green' | 'blue';
+export type PieceThemeName = 'modern' | 'classic' | 'neo';
+export type CoachPersonalityName = 'friendly' | 'attacker' | 'positional' | 'tactical';
 
 /**
  * Chess-related types
@@ -325,6 +330,30 @@ export type MainTabParamList = {
   Train: undefined;
   Play: undefined;
   Profile: undefined;
+  Community: undefined;
+};
+
+export type PlayStackParamList = {
+  PlayHome: undefined;
+  GameAnalysis: {
+    game: SimpleGameHistory;
+  };
+};
+
+export type ProfileStackParamList = {
+  ProfileHome: undefined;
+  Settings: undefined;
+  Analytics: undefined;
+  Leaderboard: undefined;
+  Statistics: undefined;
+  Achievements: undefined;
+  Progress: undefined;
+};
+
+export type CommunityStackParamList = {
+  CommunityHome: undefined;
+  SocialProfile: { userId: string };
+  Friends: undefined;
 };
 
 /**
@@ -356,4 +385,39 @@ export interface UIState {
   hapticsEnabled: boolean;
   animationsEnabled: boolean;
   coachVoiceEnabled: boolean;
+}
+
+/**
+ * Tactical Training types
+ */
+export type ELORating = 800 | 1200 | 1600 | 2000 | 2400;
+
+export interface DrillStats {
+  totalAttempts: number;
+  correct: number;
+  accuracy: number;
+  flashCount: number;
+  fastCount: number;
+  goodCount: number;
+  slowCount: number;
+  failedCount: number;
+  averageTime: number;
+  currentELO: ELORating;
+  canAdvance: boolean;
+}
+
+/**
+ * Chessboard Annotation types
+ */
+export interface Arrow {
+  from: Square;
+  to: Square;
+  color?: string;
+  opacity?: number;
+}
+
+export interface Highlight {
+  square: Square;
+  color?: string;
+  opacity?: number;
 }

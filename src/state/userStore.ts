@@ -33,7 +33,7 @@ import {
   updateAnalyticsAfterSession,
   type TacticalAnalytics,
 } from '../services/tacticalAnalyticsService';
-import type { DrillStats } from '../components/organisms/TacticalDrill';
+import type { DrillStats } from '../types';
 import type { TacticalDrill } from '../constants/tacticalDrills';
 
 interface UserStore extends UserState {

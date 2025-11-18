@@ -38,27 +38,13 @@ import {
   type ELORating,
 } from '../../constants/tacticalDrills';
 import { getDueFailedPuzzles } from '../../services/tacticalAnalyticsService';
-import type { CoachPrompt, Square } from '../../types';
+import type { CoachPrompt, Square, DrillStats } from '../../types';
 
 interface TacticalDrillProps {
   initialELO?: ELORating;
   drillCount?: number;
   onComplete: (stats: DrillStats) => void;
   onExit: () => void;
-}
-
-export interface DrillStats {
-  totalAttempts: number;
-  correct: number;
-  accuracy: number;
-  flashCount: number;
-  fastCount: number;
-  goodCount: number;
-  slowCount: number;
-  failedCount: number;
-  averageTime: number;
-  currentELO: ELORating;
-  canAdvance: boolean;
 }
 
 export default function TacticalDrill({

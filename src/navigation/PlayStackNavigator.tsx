@@ -6,18 +6,14 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Colors } from '../constants/theme';
-import type { SimpleGameHistory } from '../types';
+import type { PlayStackParamList } from '../types';
+
+// Re-export for convenience
+export type { PlayStackParamList };
 
 // Import screens
 import PlayScreen from '../screens/Play/PlayScreen';
 import GameAnalysisScreen from '../screens/Play/GameAnalysisScreen';
-
-export type PlayStackParamList = {
-  PlayHome: undefined;
-  GameAnalysis: {
-    game: SimpleGameHistory;
-  };
-};
 
 const Stack = createNativeStackNavigator<PlayStackParamList>();
 

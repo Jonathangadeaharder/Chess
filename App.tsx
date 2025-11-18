@@ -17,7 +17,7 @@ import { useUserStore } from './src/state/userStore';
 import { useUIStore } from './src/state/uiStore';
 
 // Import services
-import { initializeErrorHandling } from './src/utils/errorHandler';
+import { initializeErrorHandling } from './src/services/errorHandler';
 import { performanceService } from './src/services/monitoring/performanceService';
 import { analyticsService } from './src/services/monitoring/analyticsService';
 import { errorTrackingService } from './src/services/monitoring/errorTrackingService';
