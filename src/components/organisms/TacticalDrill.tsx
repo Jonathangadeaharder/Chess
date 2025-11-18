@@ -25,6 +25,7 @@ import * as Haptics from 'expo-haptics';
 import Chessboard from './Chessboard';
 import DigitalCoachDialog from './DigitalCoachDialog';
 import { useGameStore } from '../../state/gameStore';
+import { useUserStore } from '../../state/userStore';
 import { playSound } from '../../services/audio/soundService';
 import { Colors, Typography, Spacing, BorderRadius } from '../../constants/theme';
 import {
@@ -36,6 +37,7 @@ import {
   type TacticalDrill,
   type ELORating,
 } from '../../constants/tacticalDrills';
+import { getDueFailedPuzzles } from '../../services/tacticalAnalyticsService';
 import type { CoachPrompt, Square } from '../../types';
 
 interface TacticalDrillProps {
@@ -66,13 +68,33 @@ export default function TacticalDrill({
   onExit,
 }: TacticalDrillProps) {
   const { loadPosition, makeMove, resetGame, game } = useGameStore();
+  const { tacticalAnalytics, updateTacticalAnalytics } = useUserStore();
 
-  // Current drill set
+  // Current drill set - mix in failed puzzles if available
   const [currentELO, setCurrentELO] = useState<ELORating>(initialELO);
-  const [drills] = useState<TacticalDrill[]>(() =>
-    getDrillsByELO(currentELO).slice(0, drillCount)
-  );
+  const [drills] = useState<TacticalDrill[]>(() => {
+    const dueFailedPuzzles = tacticalAnalytics ? getDueFailedPuzzles(tacticalAnalytics) : [];
+    if (dueFailedPuzzles.length >= drillCount) {
+      // Use only failed puzzles for review
+      return dueFailedPuzzles.slice(0, drillCount).map(p => p.drill);
+    } else if (dueFailedPuzzles.length > 0) {
+      // Mix failed puzzles with new drills
+      const newDrills = getDrillsByELO(currentELO).slice(0, drillCount - dueFailedPuzzles.length);
+      return [...dueFailedPuzzles.map(p => p.drill), ...newDrills];
+    } else {
+      // Use only new drills
+      return getDrillsByELO(currentELO).slice(0, drillCount);
+    }
+  });
   const [currentDrillIndex, setCurrentDrillIndex] = useState(0);
+
+  // Track drill details for analytics
+  const [drillDetails, setDrillDetails] = useState<Array<{
+    drill: TacticalDrill;
+    correct: boolean;
+    speedRating: string;
+    timeUsed: number;
+  }>>([]);
 
   // Timer state
   const [timeRemaining, setTimeRemaining] = useState(8);
@@ -117,7 +139,13 @@ export default function TacticalDrill({
   useEffect(() => {
     if (currentDrill) {
       loadPosition(currentDrill.fen);
-      setTimeRemaining(currentDrill.timeLimit);
+
+      // Apply adaptive time multiplier if analytics available
+      const adaptiveTimeLimit = tacticalAnalytics
+        ? currentDrill.timeLimit * tacticalAnalytics.adaptiveSettings.timeMultiplier
+        : currentDrill.timeLimit;
+
+      setTimeRemaining(adaptiveTimeLimit);
       setSolved(false);
       setFailed(false);
       setSpeedRating('');
@@ -129,7 +157,7 @@ export default function TacticalDrill({
       const introPrompt: CoachPrompt = {
         id: 'drill-intro',
         type: 'socratic-question',
-        text: `Find it FAST! Motif: ${getMotifDisplayName(currentDrill.motif)}. You have ${currentDrill.timeLimit} seconds!`,
+        text: `Find it FAST! Motif: ${getMotifDisplayName(currentDrill.motif)}. You have ${Math.round(adaptiveTimeLimit)} seconds!`,
       };
 
       setCoachPrompt(introPrompt);
@@ -239,6 +267,14 @@ export default function TacticalDrill({
     const rating = calculateSpeedRating(currentDrill.timeLimit, elapsed);
     setSpeedRating(rating);
 
+    // Track drill details for analytics
+    setDrillDetails(prev => [...prev, {
+      drill: currentDrill,
+      correct: true,
+      speedRating: rating,
+      timeUsed: elapsed,
+    }]);
+
     // Update stats
     setStats((prev) => {
       const newStats = {
@@ -303,6 +339,14 @@ export default function TacticalDrill({
     setFailed(true);
     setSpeedRating('too-slow');
 
+    // Track drill details for analytics
+    setDrillDetails(prev => [...prev, {
+      drill: currentDrill,
+      correct: false,
+      speedRating: 'too-slow',
+      timeUsed: currentDrill.timeLimit,
+    }]);
+
     // Update stats
     setStats((prev) => {
       const newStats = {
@@ -350,11 +394,14 @@ export default function TacticalDrill({
     }));
   };
 
-  const handleNextDrill = () => {
+  const handleNextDrill = async () => {
     if (currentDrillIndex < drills.length - 1) {
       setCurrentDrillIndex(currentDrillIndex + 1);
     } else {
-      // All drills complete
+      // All drills complete - update analytics
+      if (tacticalAnalytics && drillDetails.length > 0) {
+        await updateTacticalAnalytics(stats, drillDetails);
+      }
       onComplete(stats);
     }
   };
