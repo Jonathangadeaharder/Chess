@@ -1,31 +1,32 @@
+---
 name: Generate Repomix Output
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 
 jobs:
   generate-repomix:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-      
+
       - name: Install repomix
         run: npm install -g repomix
-      
+
       - name: Generate repomix output
         run: repomix --output repomix-output.txt
-      
+
       - name: Upload repomix output
         uses: actions/upload-artifact@v4
         with:
