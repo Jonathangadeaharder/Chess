@@ -1125,7 +1125,7 @@ export const OPENING_SYSTEMS: OpeningSystemMeta[] = [
     description: 'Aggressive kingside attacking system with flexible piece placement',
     icon: '⚔️',
     difficulty: 'intermediate',
-    lessonCount: KIA_LESSONS.length,
+    lessonCount: LESSONS_BY_SYSTEM['kings-indian-attack'].length,
   },
   {
     id: 'stonewall-attack',
@@ -1133,7 +1133,7 @@ export const OPENING_SYSTEMS: OpeningSystemMeta[] = [
     description: 'Solid pawn structure with direct attacking chances',
     icon: '🏰',
     difficulty: 'beginner',
-    lessonCount: STONEWALL_LESSONS.length,
+    lessonCount: LESSONS_BY_SYSTEM['stonewall-attack'].length,
   },
   {
     id: 'colle-system',
@@ -1141,7 +1141,7 @@ export const OPENING_SYSTEMS: OpeningSystemMeta[] = [
     description: 'Simple and solid with a powerful central break',
     icon: '📚',
     difficulty: 'beginner',
-    lessonCount: COLLE_LESSONS.length,
+    lessonCount: LESSONS_BY_SYSTEM['colle-system'].length,
   },
   {
     id: 'london-system',
@@ -1149,7 +1149,7 @@ export const OPENING_SYSTEMS: OpeningSystemMeta[] = [
     description: 'Ultra-solid setup playable against any Black response',
     icon: '🏛️',
     difficulty: 'beginner',
-    lessonCount: LONDON_LESSONS.length,
+    lessonCount: LESSONS_BY_SYSTEM['london-system'].length,
   },
   {
     id: 'torre-attack',
@@ -1157,6 +1157,6 @@ export const OPENING_SYSTEMS: OpeningSystemMeta[] = [
     description: 'Dynamic play with early piece activity and tactical themes',
     icon: '🗼',
     difficulty: 'intermediate',
-    lessonCount: TORRE_LESSONS.length,
+    lessonCount: LESSONS_BY_SYSTEM['torre-attack'].length,
   },
 ];
