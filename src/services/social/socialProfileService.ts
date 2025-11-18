@@ -103,8 +103,6 @@ export class SocialProfileService {
    */
   async getProfile(userId: string): Promise<SocialProfile | null> {
     try {
-      const backend = getBackendManager().getBackend();
-
       // TODO: Fetch from backend
       // For now, return mock data
       return {
@@ -143,7 +141,6 @@ export class SocialProfileService {
    */
   async updateProfile(updates: Partial<SocialProfile>): Promise<void> {
     try {
-      const backend = getBackendManager().getBackend();
       // TODO: Update in backend
       console.log('Updating profile:', updates);
     } catch (error) {

@@ -12,6 +12,7 @@
  * - Interaction responsiveness
  */
 
+import React from 'react';
 import { InteractionManager, PerformanceObserver } from 'react-native';
 import { analyticsService } from './analyticsService';
 

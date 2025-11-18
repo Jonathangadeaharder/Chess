@@ -5,7 +5,6 @@
  * Each screen is lazy loaded only when needed.
  */
 
-import React from 'react';
 import { lazyLoadScreen } from '../utils/lazyLoad';
 
 /**

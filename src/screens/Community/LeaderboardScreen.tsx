@@ -31,7 +31,6 @@ export default function LeaderboardScreen() {
   const [selectedTimeframe, setSelectedTimeframe] = useState<LeaderboardTimeframe>('all-time');
   const [entries, setEntries] = useState<LeaderboardEntry[]>([]);
   const [userRank, setUserRank] = useState<number | undefined>(undefined);
-  const [isLoading, setIsLoading] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const leaderboardTypes = leaderboardService.getLeaderboardTypes();
@@ -41,8 +40,6 @@ export default function LeaderboardScreen() {
   }, [selectedType, selectedScope, selectedTimeframe]);
 
   const loadLeaderboard = async () => {
-    setIsLoading(true);
-
     try {
       const result = await leaderboardService.getLeaderboard({
         type: selectedType,
@@ -55,8 +52,6 @@ export default function LeaderboardScreen() {
       setUserRank(result.userRank);
     } catch (error) {
       console.error('Error loading leaderboard:', error);
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -79,19 +74,7 @@ export default function LeaderboardScreen() {
     return Colors.textSecondary;
   };
 
-  const getScoreLabel = (type: LeaderboardType) => {
-    switch (type) {
-      case 'rating': return 'Rating';
-      case 'xp': return 'XP';
-      case 'streak': return 'Days';
-      case 'wins': return 'Wins';
-      case 'accuracy': return 'Accuracy';
-      case 'puzzles': return 'Solved';
-      case 'weekly-xp': return 'This Week';
-      case 'monthly-xp': return 'This Month';
-      default: return 'Score';
-    }
-  };
+
 
   const formatScore = (score: number, type: LeaderboardType) => {
     if (type === 'accuracy') {

@@ -10,7 +10,7 @@
  * - Game result cards
  */
 
-import { Share, Platform } from 'react-native';
+import { Share } from 'react-native';
 import * as Linking from 'expo-linking';
 
 export interface ShareContent {

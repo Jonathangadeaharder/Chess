@@ -6,7 +6,7 @@
  * a message-passing interface for the app to communicate with it.
  */
 
-import React, { useRef, useEffect, forwardRef, useImperativeHandle } from 'react';
+import React, { useRef, forwardRef, useImperativeHandle } from 'react';
 import { WebView } from 'react-native-webview';
 import { StyleSheet } from 'react-native';
 

@@ -57,7 +57,7 @@ export class LeaderboardService {
     totalEntries: number;
   }> {
     try {
-      const { type, scope, timeframe, limit = 100, offset = 0 } = query;
+      const { type, limit = 100 } = query;
 
       // TODO: Fetch from backend
       // For now, return mock data

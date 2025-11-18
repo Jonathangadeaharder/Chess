@@ -48,7 +48,7 @@ interface RepertoireEntry {
 type ViewMode = 'browse' | 'repertoire' | 'practice';
 
 export default function OpeningRepertoireBuilder({ onClose }: { onClose?: () => void }) {
-  const { loadPosition, resetGame } = useGameStore();
+  const { loadPosition } = useGameStore();
   const { addXP } = useUserStore();
 
   const [viewMode, setViewMode] = useState<ViewMode>('browse');
@@ -90,7 +90,7 @@ export default function OpeningRepertoireBuilder({ onClose }: { onClose?: () => 
     let lines = OPENING_LINES;
 
     if (selectedSystem !== 'all') {
-      lines = lines.filter(line => line.system === selectedSystem);
+      lines = lines.filter(line => typeof line.system !== 'undefined' && line.system === selectedSystem);
     }
 
     if (searchQuery) {
@@ -145,14 +145,7 @@ export default function OpeningRepertoireBuilder({ onClose }: { onClose?: () => 
     );
   };
 
-  const updateMastery = (id: string, mastery: number) => {
-    setRepertoire(prev =>
-      prev.map(entry =>
-        entry.id === id ? { ...entry, mastery, lastPracticed: new Date() } : entry
-      )
-    );
-    saveRepertoire();
-  };
+
 
   const handlePreviousMove = () => {
     if (currentMoveIndex > 0) {

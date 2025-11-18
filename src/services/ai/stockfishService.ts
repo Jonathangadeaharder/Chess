@@ -239,9 +239,6 @@ class StockfishService {
       const move = moves[i];
       const isWhite = chess.turn() === 'w';
 
-      // Get evaluation before move
-      const beforeFen = chess.fen();
-
       // Make move
       chess.move(move);
 

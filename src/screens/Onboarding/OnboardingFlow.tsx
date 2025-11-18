@@ -18,7 +18,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
-  Image,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors, Typography, Spacing, BorderRadius } from '../../constants/theme';
@@ -309,8 +308,6 @@ export default function OnboardingFlow({ onComplete }: {
       </View>
 
       {PLAYSTYLE_QUIZ.map((question, index) => {
-        const isAnswered = question.id in quizAnswers;
-
         return (
           <View key={question.id} style={styles.questionCard}>
             <Text style={styles.questionNumber}>Question {index + 1}</Text>

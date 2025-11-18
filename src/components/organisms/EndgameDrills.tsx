@@ -167,7 +167,7 @@ const ENDGAME_DRILLS: EndgameDrill[] = [
 ];
 
 export default function EndgameDrills({ onComplete }: { onComplete?: () => void }) {
-  const { loadPosition, resetGame } = useGameStore();
+  const { loadPosition } = useGameStore();
   const { addXP } = useUserStore();
 
   const [currentDrillIndex, setCurrentDrillIndex] = useState(0);
