@@ -18,8 +18,24 @@ import {
   getWeaknesses,
   saveWeakness,
   clearAllData,
+  getTacticalProgression,
+  saveTacticalProgression,
+  getTacticalAnalytics,
+  saveTacticalAnalytics,
 } from '../services/storage/sqliteService';
 import { migrateToSQLite } from '../services/storage/migrationService';
+import {
+  initializeProgression,
+  updateProgressionAfterSession,
+  type TacticalProgressionState,
+} from '../services/tacticalProgressionService';
+import {
+  initializeTacticalAnalytics,
+  updateAnalyticsAfterSession,
+  type TacticalAnalytics,
+} from '../services/tacticalAnalyticsService';
+import type { DrillStats } from '../components/organisms/TacticalDrill';
+import type { TacticalDrill } from '../constants/tacticalDrills';
 
 interface UserStore extends UserState {
   // Loading state
@@ -39,6 +55,16 @@ interface UserStore extends UserState {
   getDueSRSItems: () => SRSItem[];
   addWeakness: (weakness: Weakness) => Promise<void>;
   addGameToHistory: (session: SimpleGameHistory) => Promise<void>;
+  updateTacticalProgression: (stats: DrillStats) => Promise<void>;
+  updateTacticalAnalytics: (
+    sessionStats: DrillStats,
+    drillDetails: Array<{
+      drill: TacticalDrill;
+      correct: boolean;
+      speedRating: string;
+      timeUsed: number;
+    }>
+  ) => Promise<void>;
   resetProgress: () => Promise<void>;
 }
 
@@ -74,6 +100,8 @@ export const useUserStore = create<UserStore>((set, get) => ({
   srsQueue: [],
   weaknesses: [],
   gameHistory: [],
+  tacticalProgression: null,
+  tacticalAnalytics: null,
   isLoading: false,
   error: null,
 
@@ -86,11 +114,13 @@ export const useUserStore = create<UserStore>((set, get) => ({
       await migrateToSQLite();
 
       // Load data from SQLite
-      const [profile, srsQueue, gameHistory, weaknesses] = await Promise.all([
+      const [profile, srsQueue, gameHistory, weaknesses, tacticalProgression, tacticalAnalytics] = await Promise.all([
         getUserProfile(),
         getSRSItems(),
         getGameHistory(50),
         getWeaknesses(50),
+        getTacticalProgression(),
+        getTacticalAnalytics(),
       ]);
 
       set({
@@ -99,12 +129,20 @@ export const useUserStore = create<UserStore>((set, get) => ({
         srsQueue,
         gameHistory,
         weaknesses,
+        tacticalProgression: tacticalProgression || initializeProgression(),
+        tacticalAnalytics: tacticalAnalytics || initializeTacticalAnalytics(),
         isLoading: false,
       });
 
-      // Save default profile if none exists
+      // Save defaults if none exist
       if (!profile) {
         await saveUserProfile(createDefaultProfile());
+      }
+      if (!tacticalProgression) {
+        await saveTacticalProgression(initializeProgression());
+      }
+      if (!tacticalAnalytics) {
+        await saveTacticalAnalytics(initializeTacticalAnalytics());
       }
     } catch (error) {
       console.error('Error loading user profile:', error);
@@ -292,6 +330,48 @@ export const useUserStore = create<UserStore>((set, get) => ({
         totalGamesPlayed: profile.totalGamesPlayed + 1,
       });
     }
+  },
+
+  // Update tactical progression after drill session
+  updateTacticalProgression: async (stats: DrillStats) => {
+    const { tacticalProgression, profile, addXP } = get();
+
+    if (!tacticalProgression) return;
+
+    // Update progression state
+    const updatedProgression = updateProgressionAfterSession(tacticalProgression, stats);
+
+    set({ tacticalProgression: updatedProgression });
+    await saveTacticalProgression(updatedProgression);
+
+    // Award XP based on performance
+    const xpEarned = Math.floor(stats.correct * 5 + stats.flashCount * 3);
+    addXP(xpEarned);
+
+    // Update puzzle stats
+    if (profile) {
+      const { updateProfile } = get();
+      await updateProfile({
+        totalPuzzlesSolved: profile.totalPuzzlesSolved + stats.totalAttempts,
+      });
+    }
+  },
+
+  // Update tactical analytics after drill session
+  updateTacticalAnalytics: async (sessionStats, drillDetails) => {
+    const { tacticalAnalytics } = get();
+
+    if (!tacticalAnalytics) return;
+
+    // Update analytics state
+    const updatedAnalytics = updateAnalyticsAfterSession(
+      tacticalAnalytics,
+      sessionStats,
+      drillDetails
+    );
+
+    set({ tacticalAnalytics: updatedAnalytics });
+    await saveTacticalAnalytics(updatedAnalytics);
   },
 
   // Reset all progress
