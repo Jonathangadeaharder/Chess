@@ -13,6 +13,7 @@ import { Colors } from '../constants/theme';
 import LearnScreen from '../screens/Learn/LearnScreen';
 import TrainScreen from '../screens/Train/TrainScreen';
 import PlayStackNavigator from './PlayStackNavigator';
+import CommunityStackNavigator from './CommunityStackNavigator';
 import ProfileStackNavigator from './ProfileStackNavigator';
 
 const Tab = createBottomTabNavigator<MainTabParamList>();
@@ -33,6 +34,9 @@ export default function MainTabNavigator() {
               break;
             case 'Play':
               iconName = focused ? 'game-controller' : 'game-controller-outline';
+              break;
+            case 'Community':
+              iconName = focused ? 'people' : 'people-outline';
               break;
             case 'Profile':
               iconName = focused ? 'trophy' : 'trophy-outline';
@@ -91,6 +95,14 @@ export default function MainTabNavigator() {
         component={PlayStackNavigator}
         options={{
           title: 'Sparring Ring',
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name="Community"
+        component={CommunityStackNavigator}
+        options={{
+          title: 'Community',
           headerShown: false,
         }}
       />
