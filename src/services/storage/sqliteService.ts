@@ -86,6 +86,18 @@ export async function initDatabase(): Promise<void> {
         created_at INTEGER NOT NULL
       );
 
+      CREATE TABLE IF NOT EXISTS tactical_progression (
+        id INTEGER PRIMARY KEY,
+        progression_data TEXT NOT NULL,
+        updated_at TEXT DEFAULT CURRENT_TIMESTAMP
+      );
+
+      CREATE TABLE IF NOT EXISTS tactical_analytics (
+        id INTEGER PRIMARY KEY,
+        analytics_data TEXT NOT NULL,
+        updated_at TEXT DEFAULT CURRENT_TIMESTAMP
+      );
+
       -- Create indexes for common queries
       CREATE INDEX IF NOT EXISTS idx_srs_next_review ON srs_items(next_review_date);
       CREATE INDEX IF NOT EXISTS idx_srs_type ON srs_items(type);
@@ -487,6 +499,8 @@ export async function clearAllData(): Promise<void> {
     DELETE FROM srs_items;
     DELETE FROM game_history;
     DELETE FROM weaknesses;
+    DELETE FROM tactical_progression;
+    DELETE FROM tactical_analytics;
   `);
 }
 
@@ -495,4 +509,58 @@ export async function closeDatabase(): Promise<void> {
     await db.closeAsync();
     db = null;
   }
+}
+
+/**
+ * Tactical Progression
+ */
+export async function getTacticalProgression(): Promise<any | null> {
+  if (!db) throw new Error('Database not initialized');
+
+  const result = await db.getFirstAsync<{ progression_data: string }>(
+    'SELECT progression_data FROM tactical_progression LIMIT 1'
+  );
+
+  if (result) {
+    return JSON.parse(result.progression_data);
+  }
+
+  return null;
+}
+
+export async function saveTacticalProgression(progression: any): Promise<void> {
+  if (!db) throw new Error('Database not initialized');
+
+  await db.runAsync(
+    `INSERT OR REPLACE INTO tactical_progression (id, progression_data, updated_at)
+     VALUES (1, ?, datetime('now'))`,
+    [JSON.stringify(progression)]
+  );
+}
+
+/**
+ * Tactical Analytics
+ */
+export async function getTacticalAnalytics(): Promise<any | null> {
+  if (!db) throw new Error('Database not initialized');
+
+  const result = await db.getFirstAsync<{ analytics_data: string }>(
+    'SELECT analytics_data FROM tactical_analytics LIMIT 1'
+  );
+
+  if (result) {
+    return JSON.parse(result.analytics_data);
+  }
+
+  return null;
+}
+
+export async function saveTacticalAnalytics(analytics: any): Promise<void> {
+  if (!db) throw new Error('Database not initialized');
+
+  await db.runAsync(
+    `INSERT OR REPLACE INTO tactical_analytics (id, analytics_data, updated_at)
+     VALUES (1, ?, datetime('now'))`,
+    [JSON.stringify(analytics)]
+  );
 }

@@ -15,6 +15,8 @@ import BishopsPrison from '../../components/organisms/BishopsPrison';
 import TheFuse from '../../components/organisms/TheFuse';
 import TranspositionMaze from '../../components/organisms/TranspositionMaze';
 import CheckmateMaster from '../../components/organisms/CheckmateMaster';
+import TacticalDrill from '../../components/organisms/TacticalDrill';
+import TacticalStatsDashboard from '../../components/organisms/TacticalStatsDashboard';
 import AchievementCelebration from '../../components/organisms/AchievementCelebration';
 import { getRandomOpeningLine } from '../../constants/openingLines';
 import { getRandomConceptCard } from '../../constants/conceptCards';
@@ -24,7 +26,7 @@ import type { SRSItem, ReviewResult, Achievement } from '../../types';
 type TrainingMode = 'overview' | 'move-review' | 'concept-review' | 'minigame';
 
 export default function TrainScreen() {
-  const { getDueSRSItems, updateSRSItem, addSRSItem, incrementStreak, profile } = useUserStore();
+  const { getDueSRSItems, updateSRSItem, addSRSItem, incrementStreak, profile, tacticalProgression, updateTacticalProgression } = useUserStore();
 
   const [mode, setMode] = useState<TrainingMode>('overview');
   const [currentSRSItem, setCurrentSRSItem] = useState<SRSItem | null>(null);
@@ -33,6 +35,8 @@ export default function TrainScreen() {
   const [showTheFuse, setShowTheFuse] = useState(false);
   const [showTranspositionMaze, setShowTranspositionMaze] = useState(false);
   const [showCheckmateMaster, setShowCheckmateMaster] = useState(false);
+  const [showTacticalDrill, setShowTacticalDrill] = useState(false);
+  const [showTacticalStats, setShowTacticalStats] = useState(false);
   const [celebratedAchievement, setCelebratedAchievement] = useState<Achievement | null>(null);
   const [showCelebration, setShowCelebration] = useState(false);
 
@@ -184,6 +188,20 @@ export default function TrainScreen() {
     }
   };
 
+  const handleTacticalDrillComplete = async (stats: any) => {
+    setShowTacticalDrill(false);
+
+    // Update tactical progression
+    await updateTacticalProgression(stats);
+
+    // Check for achievements (flash master, etc.)
+    const newAchievements = await checkAndUnlockAchievements();
+    if (newAchievements.length > 0) {
+      setCelebratedAchievement(newAchievements[0]);
+      setShowCelebration(true);
+    }
+  };
+
   // Overview mode
   if (mode === 'overview') {
     return (
@@ -298,6 +316,38 @@ export default function TrainScreen() {
               </View>
               <Ionicons name="chevron-forward" size={24} color={Colors.textSecondary} />
             </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.miniGameCard}
+              onPress={() => setShowTacticalDrill(true)}
+            >
+              <View style={styles.miniGameIcon}>
+                <Text style={styles.miniGameEmoji}>⚡</Text>
+              </View>
+              <View style={styles.miniGameContent}>
+                <Text style={styles.miniGameTitle}>Tactical Drill</Text>
+                <Text style={styles.miniGameDescription}>
+                  Flash-speed pattern recognition • {tacticalProgression?.currentTier || 800} ELO
+                </Text>
+              </View>
+              <Ionicons name="chevron-forward" size={24} color={Colors.textSecondary} />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.miniGameCard}
+              onPress={() => setShowTacticalStats(true)}
+            >
+              <View style={styles.miniGameIcon}>
+                <Text style={styles.miniGameEmoji}>📊</Text>
+              </View>
+              <View style={styles.miniGameContent}>
+                <Text style={styles.miniGameTitle}>Tactical Analytics</Text>
+                <Text style={styles.miniGameDescription}>
+                  View your performance stats and pattern weaknesses
+                </Text>
+              </View>
+              <Ionicons name="chevron-forward" size={24} color={Colors.textSecondary} />
+            </TouchableOpacity>
           </View>
 
           {/* Progress Info */}
@@ -348,6 +398,31 @@ export default function TrainScreen() {
             <CheckmateMaster
               onComplete={handleCheckmateMasterComplete}
               onExit={() => setShowCheckmateMaster(false)}
+            />
+          </Modal>
+        )}
+
+        {/* Tactical Drill Modal */}
+        {showTacticalDrill && (
+          <Modal visible={showTacticalDrill} animationType="slide">
+            <TacticalDrill
+              initialELO={tacticalProgression?.currentTier || 800}
+              drillCount={10}
+              onComplete={handleTacticalDrillComplete}
+              onExit={() => setShowTacticalDrill(false)}
+            />
+          </Modal>
+        )}
+
+        {/* Tactical Stats Dashboard Modal */}
+        {showTacticalStats && (
+          <Modal visible={showTacticalStats} animationType="slide">
+            <TacticalStatsDashboard
+              onStartDrills={() => {
+                setShowTacticalStats(false);
+                setShowTacticalDrill(true);
+              }}
+              onClose={() => setShowTacticalStats(false)}
             />
           </Modal>
         )}
