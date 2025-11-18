@@ -11,8 +11,9 @@
 
 import { Chess } from 'chess.js';
 import type { Square } from '../../types';
+import { stockfishService, type StockfishDifficulty } from './stockfishService';
 
-export type AIDifficulty = 'beginner' | 'intermediate' | 'advanced' | 'expert';
+export type AIDifficulty = 'beginner' | 'intermediate' | 'advanced' | 'expert' | 'master' | 'grandmaster';
 
 export interface AIMove {
   from: Square;
@@ -330,8 +331,28 @@ export function analyzeGame(moves: string[], startFen?: string): MoveEvaluation[
 /**
  * Get AI move based on difficulty
  */
-export function getAIMove(chess: Chess, difficulty: AIDifficulty = 'intermediate'): AIMove | null {
+export async function getAIMove(chess: Chess, difficulty: AIDifficulty = 'intermediate'): Promise<AIMove | null> {
   if (chess.isGameOver()) return null;
+
+  // Use Stockfish for master and grandmaster levels
+  if (difficulty === 'master' || difficulty === 'grandmaster') {
+    try {
+      const stockfishMove = await stockfishService.getBestMove(
+        chess.fen(),
+        difficulty as StockfishDifficulty
+      );
+
+      return {
+        from: stockfishMove.from,
+        to: stockfishMove.to,
+        san: stockfishMove.san,
+        evaluation: stockfishMove.evaluation,
+      };
+    } catch (error) {
+      console.warn('Stockfish failed, falling back to minimax:', error);
+      // Fall through to minimax as fallback
+    }
+  }
 
   let depth = 1;
   let randomChance = 0;
@@ -351,6 +372,14 @@ export function getAIMove(chess: Chess, difficulty: AIDifficulty = 'intermediate
       break;
     case 'expert':
       depth = 4;
+      randomChance = 0;
+      break;
+    case 'master':
+      depth = 5;
+      randomChance = 0;
+      break;
+    case 'grandmaster':
+      depth = 6;
       randomChance = 0;
       break;
   }
@@ -401,6 +430,10 @@ export function getDifficultyDescription(difficulty: AIDifficulty): string {
       return 'Evaluates 3 moves ahead with strong positional play';
     case 'expert':
       return 'Evaluates 4 moves ahead with near-perfect play';
+    case 'master':
+      return 'Stockfish-powered engine with master-level play';
+    case 'grandmaster':
+      return 'Stockfish at full strength - grandmaster level';
     default:
       return 'Unknown difficulty';
   }
@@ -419,6 +452,10 @@ export function getEstimatedELO(difficulty: AIDifficulty): number {
       return 1800;
     case 'expert':
       return 2200;
+    case 'master':
+      return 2600;
+    case 'grandmaster':
+      return 3200;
     default:
       return 1000;
   }

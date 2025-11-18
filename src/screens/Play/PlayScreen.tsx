@@ -277,6 +277,36 @@ export default function PlayScreen() {
             <Text style={styles.difficultyDesc}>{getDifficultyDescription('expert')}</Text>
           </View>
         </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.difficultyOption, difficulty === 'master' && styles.difficultySelected]}
+          onPress={() => setDifficulty('master')}
+        >
+          <Ionicons
+            name={difficulty === 'master' ? 'radio-button-on' : 'radio-button-off'}
+            size={24}
+            color={difficulty === 'master' ? Colors.primary : Colors.textSecondary}
+          />
+          <View style={styles.difficultyInfo}>
+            <Text style={styles.difficultyName}>Master (~2600 ELO) - Stockfish</Text>
+            <Text style={styles.difficultyDesc}>{getDifficultyDescription('master')}</Text>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.difficultyOption, difficulty === 'grandmaster' && styles.difficultySelected]}
+          onPress={() => setDifficulty('grandmaster')}
+        >
+          <Ionicons
+            name={difficulty === 'grandmaster' ? 'radio-button-on' : 'radio-button-off'}
+            size={24}
+            color={difficulty === 'grandmaster' ? Colors.primary : Colors.textSecondary}
+          />
+          <View style={styles.difficultyInfo}>
+            <Text style={styles.difficultyName}>Grandmaster (~3200 ELO) - Stockfish</Text>
+            <Text style={styles.difficultyDesc}>{getDifficultyDescription('grandmaster')}</Text>
+          </View>
+        </TouchableOpacity>
       </View>
 
       {/* Color Selection */}

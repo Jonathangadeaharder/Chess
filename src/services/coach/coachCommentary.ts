@@ -216,21 +216,198 @@ function generateCheckmatePrompt(
  */
 function detectTacticalOpportunity(fen: string): boolean {
   const chess = new Chess(fen);
-
-  // Check for pieces under attack
   const moves = chess.moves({ verbose: true });
+
+  // Check for pieces under attack (non-pawn)
   for (const move of moves) {
     if (move.captured && move.captured !== 'p') {
-      return true; // Piece can be captured
+      return true;
     }
   }
 
-  // Check for forks, pins, skewers (simplified detection)
-  // A more sophisticated implementation would use pattern recognition
+  // Check for forks
+  if (detectFork(chess, moves)) return true;
+
+  // Check for pins and skewers
+  if (detectPinOrSkewer(chess)) return true;
+
+  // Check for discovered attacks
+  if (detectDiscoveredAttack(chess, moves)) return true;
+
+  // Check for double attacks
+  if (detectDoubleAttack(chess, moves)) return true;
+
+  // Forcing move with check and capture
   const hasCheck = moves.some(m => m.san.includes('+'));
   const hasCapture = moves.some(m => m.captured);
+  return hasCheck && hasCapture;
+}
 
-  return hasCheck && hasCapture; // Forcing move with check and capture
+/**
+ * Detects fork patterns (one piece attacking two or more pieces)
+ */
+function detectFork(chess: Chess, moves: any[]): boolean {
+  for (const move of moves) {
+    chess.move(move.san);
+
+    // Check if the moved piece attacks multiple valuable pieces
+    const attacks = getAttackedSquares(chess, move.to);
+    const valuablePiecesAttacked = attacks.filter(sq => {
+      const piece = chess.get(sq);
+      return piece && piece.type !== 'p' && piece.color !== chess.turn();
+    });
+
+    chess.undo();
+
+    if (valuablePiecesAttacked.length >= 2) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/**
+ * Detects pin or skewer patterns
+ */
+function detectPinOrSkewer(chess: Chess): boolean {
+  // Check for pieces aligned on ranks, files, and diagonals
+  // that could be pinned or skewered
+  const board = chess.board();
+
+  // Simplified detection: check if any rook/queen on rank/file
+  // or bishop/queen on diagonal has two enemy pieces in line
+  for (let rank = 0; rank < 8; rank++) {
+    for (let file = 0; file < 8; file++) {
+      const piece = board[rank][file];
+      if (!piece || piece.color !== chess.turn()) continue;
+
+      if (piece.type === 'r' || piece.type === 'q') {
+        // Check rank and file
+        if (hasAlignedEnemyPieces(board, rank, file, 'horizontal') ||
+            hasAlignedEnemyPieces(board, rank, file, 'vertical')) {
+          return true;
+        }
+      }
+
+      if (piece.type === 'b' || piece.type === 'q') {
+        // Check diagonals
+        if (hasAlignedEnemyPieces(board, rank, file, 'diagonal-up') ||
+            hasAlignedEnemyPieces(board, rank, file, 'diagonal-down')) {
+          return true;
+        }
+      }
+    }
+  }
+  return false;
+}
+
+/**
+ * Detects discovered attack patterns
+ */
+function detectDiscoveredAttack(chess: Chess, moves: any[]): boolean {
+  for (const move of moves) {
+    // Check if moving this piece reveals an attack from a piece behind it
+    chess.move(move.san);
+
+    // Check if any enemy pieces are now under attack from pieces
+    // that were behind the moved piece
+    const opponentKing = findKingSquare(chess, chess.turn() === 'w' ? 'b' : 'w');
+    if (opponentKing && isSquareAttacked(chess, opponentKing)) {
+      chess.undo();
+      return true;
+    }
+
+    chess.undo();
+  }
+  return false;
+}
+
+/**
+ * Detects double attack (attacking two pieces simultaneously)
+ */
+function detectDoubleAttack(chess: Chess, moves: any[]): boolean {
+  for (const move of moves) {
+    chess.move(move.san);
+
+    const attackedSquares = getAttackedSquares(chess, move.to);
+    const threatenedPieces = attackedSquares.filter(sq => {
+      const piece = chess.get(sq);
+      return piece && piece.color !== chess.turn() && piece.type !== 'p';
+    });
+
+    chess.undo();
+
+    if (threatenedPieces.length >= 2) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/**
+ * Helper: Get all squares attacked by a piece at given square
+ */
+function getAttackedSquares(chess: Chess, square: string): string[] {
+  const attacked: string[] = [];
+  const piece = chess.get(square);
+  if (!piece) return attacked;
+
+  // Get all legal moves from this square
+  const moves = chess.moves({ square, verbose: true });
+  for (const move of moves) {
+    attacked.push(move.to);
+  }
+
+  return attacked;
+}
+
+/**
+ * Helper: Check if square is under attack
+ */
+function isSquareAttacked(chess: Chess, square: string): boolean {
+  const attacks = chess.moves({ verbose: true });
+  return attacks.some(move => move.to === square);
+}
+
+/**
+ * Helper: Check if there are aligned enemy pieces in a direction
+ */
+function hasAlignedEnemyPieces(
+  board: any[][],
+  rank: number,
+  file: number,
+  direction: 'horizontal' | 'vertical' | 'diagonal-up' | 'diagonal-down'
+): boolean {
+  const piece = board[rank][file];
+  if (!piece) return false;
+
+  let enemyCount = 0;
+  const deltas = {
+    'horizontal': [[0, 1], [0, -1]],
+    'vertical': [[1, 0], [-1, 0]],
+    'diagonal-up': [[1, 1], [-1, -1]],
+    'diagonal-down': [[1, -1], [-1, 1]]
+  };
+
+  for (const [dr, df] of deltas[direction]) {
+    let r = rank + dr;
+    let f = file + df;
+
+    while (r >= 0 && r < 8 && f >= 0 && f < 8) {
+      const targetPiece = board[r][f];
+      if (targetPiece) {
+        if (targetPiece.color !== piece.color) {
+          enemyCount++;
+          if (enemyCount >= 2) return true;
+        }
+        break; // Stop at first piece in this direction
+      }
+      r += dr;
+      f += df;
+    }
+  }
+
+  return false;
 }
 
 /**

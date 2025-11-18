@@ -322,6 +322,137 @@ export async function deleteGame(id: string): Promise<void> {
 }
 
 /**
+ * Advanced Game History Search and Filtering
+ */
+export interface GameSearchFilters {
+  startDate?: Date;
+  endDate?: Date;
+  result?: 'win' | 'loss' | 'draw';
+  playerColor?: 'white' | 'black';
+  opponentType?: string;
+  minRating?: number;
+  maxRating?: number;
+  minAccuracy?: number;
+  maxAccuracy?: number;
+  openingMoves?: string[]; // Search for games starting with specific moves
+}
+
+export async function searchGames(
+  filters: GameSearchFilters,
+  limit: number = 100,
+  offset: number = 0
+): Promise<SimpleGameHistory[]> {
+  if (!db) throw new Error('Database not initialized');
+
+  let query = 'SELECT * FROM game_history WHERE 1=1';
+  const params: any[] = [];
+
+  // Date range filter
+  if (filters.startDate) {
+    query += ' AND date >= ?';
+    params.push(filters.startDate.getTime());
+  }
+  if (filters.endDate) {
+    query += ' AND date <= ?';
+    params.push(filters.endDate.getTime());
+  }
+
+  // Result filter
+  if (filters.result) {
+    query += ' AND result = ?';
+    params.push(filters.result);
+  }
+
+  // Player color filter
+  if (filters.playerColor) {
+    query += ' AND player_color = ?';
+    params.push(filters.playerColor);
+  }
+
+  // Opponent type filter
+  if (filters.opponentType) {
+    query += ' AND opponent_type = ?';
+    params.push(filters.opponentType);
+  }
+
+  // Rating range filter
+  if (filters.minRating !== undefined) {
+    query += ' AND opponent_rating >= ?';
+    params.push(filters.minRating);
+  }
+  if (filters.maxRating !== undefined) {
+    query += ' AND opponent_rating <= ?';
+    params.push(filters.maxRating);
+  }
+
+  // Accuracy range filter
+  if (filters.minAccuracy !== undefined) {
+    query += ' AND accuracy >= ?';
+    params.push(filters.minAccuracy);
+  }
+  if (filters.maxAccuracy !== undefined) {
+    query += ' AND accuracy <= ?';
+    params.push(filters.maxAccuracy);
+  }
+
+  // Opening moves filter (search in JSON array)
+  if (filters.openingMoves && filters.openingMoves.length > 0) {
+    const movesPattern = `["${filters.openingMoves.join('","')}"%`;
+    query += ' AND moves LIKE ?';
+    params.push(movesPattern);
+  }
+
+  query += ' ORDER BY date DESC LIMIT ? OFFSET ?';
+  params.push(limit, offset);
+
+  const results = await db.getAllAsync<any>(query, params);
+
+  return results.map(row => ({
+    id: row.id,
+    date: new Date(row.date),
+    playerColor: row.player_color,
+    opponentType: row.opponent_type,
+    opponentRating: row.opponent_rating,
+    result: row.result,
+    moves: JSON.parse(row.moves),
+    finalPosition: row.final_position,
+    timeSpent: row.time_spent,
+    accuracy: row.accuracy,
+  }));
+}
+
+export async function getGamesByOpening(
+  openingMoves: string[],
+  limit: number = 50
+): Promise<SimpleGameHistory[]> {
+  return searchGames({ openingMoves }, limit);
+}
+
+export async function getGamesByRatingRange(
+  minRating: number,
+  maxRating: number,
+  limit: number = 50
+): Promise<SimpleGameHistory[]> {
+  return searchGames({ minRating, maxRating }, limit);
+}
+
+export async function getGamesByDateRange(
+  startDate: Date,
+  endDate: Date,
+  limit: number = 50
+): Promise<SimpleGameHistory[]> {
+  return searchGames({ startDate, endDate }, limit);
+}
+
+export async function getWinningGames(limit: number = 50): Promise<SimpleGameHistory[]> {
+  return searchGames({ result: 'win' }, limit);
+}
+
+export async function getLosingGames(limit: number = 50): Promise<SimpleGameHistory[]> {
+  return searchGames({ result: 'loss' }, limit);
+}
+
+/**
  * Weaknesses Operations
  */
 export async function saveWeakness(weakness: Weakness): Promise<void> {
@@ -485,6 +616,232 @@ export async function getSRSStatistics(): Promise<{
     dueToday: stats?.due_today || 0,
     averageRetention: stats?.avg_retention || 0,
     masteredItems: stats?.mastered_items || 0,
+  };
+}
+
+/**
+ * Performance Trends and Advanced Analytics
+ */
+export async function getPerformanceTrend(days: number = 30): Promise<{
+  date: Date;
+  gamesPlayed: number;
+  winRate: number;
+  averageAccuracy: number;
+}[]> {
+  if (!db) throw new Error('Database not initialized');
+
+  const cutoffDate = Date.now() - days * 24 * 60 * 60 * 1000;
+
+  const results = await db.getAllAsync<any>(
+    `
+    SELECT
+      date(date / 1000, 'unixepoch') as game_date,
+      COUNT(*) as games_played,
+      SUM(CASE WHEN result = 'win' THEN 1 ELSE 0 END) as wins,
+      AVG(accuracy) as avg_accuracy
+    FROM game_history
+    WHERE date >= ?
+    GROUP BY game_date
+    ORDER BY game_date ASC
+    `,
+    [cutoffDate]
+  );
+
+  return results.map(row => ({
+    date: new Date(row.game_date),
+    gamesPlayed: row.games_played,
+    winRate: row.games_played > 0 ? (row.wins / row.games_played) * 100 : 0,
+    averageAccuracy: row.avg_accuracy || 0,
+  }));
+}
+
+export async function getOpeningStatistics(): Promise<{
+  opening: string;
+  gamesPlayed: number;
+  winRate: number;
+  averageAccuracy: number;
+}[]> {
+  if (!db) throw new Error('Database not initialized');
+
+  const games = await getGameHistory(1000);
+
+  // Group games by opening (first 3 moves)
+  const openingStats: Map<string, {
+    games: number;
+    wins: number;
+    totalAccuracy: number;
+  }> = new Map();
+
+  for (const game of games) {
+    if (game.moves.length >= 3) {
+      const opening = game.moves.slice(0, 3).join(' ');
+      const stats = openingStats.get(opening) || { games: 0, wins: 0, totalAccuracy: 0 };
+
+      stats.games++;
+      if (game.result === 'win') stats.wins++;
+      stats.totalAccuracy += game.accuracy;
+
+      openingStats.set(opening, stats);
+    }
+  }
+
+  // Convert to array and sort by games played
+  return Array.from(openingStats.entries())
+    .map(([opening, stats]) => ({
+      opening,
+      gamesPlayed: stats.games,
+      winRate: (stats.wins / stats.games) * 100,
+      averageAccuracy: stats.totalAccuracy / stats.games,
+    }))
+    .sort((a, b) => b.gamesPlayed - a.gamesPlayed)
+    .slice(0, 10);
+}
+
+export async function getColorStatistics(): Promise<{
+  white: {
+    games: number;
+    wins: number;
+    losses: number;
+    draws: number;
+    winRate: number;
+    averageAccuracy: number;
+  };
+  black: {
+    games: number;
+    wins: number;
+    losses: number;
+    draws: number;
+    winRate: number;
+    averageAccuracy: number;
+  };
+}> {
+  if (!db) throw new Error('Database not initialized');
+
+  const whiteStats = await db.getFirstAsync<any>(`
+    SELECT
+      COUNT(*) as games,
+      SUM(CASE WHEN result = 'win' THEN 1 ELSE 0 END) as wins,
+      SUM(CASE WHEN result = 'loss' THEN 1 ELSE 0 END) as losses,
+      SUM(CASE WHEN result = 'draw' THEN 1 ELSE 0 END) as draws,
+      AVG(accuracy) as avg_accuracy
+    FROM game_history
+    WHERE player_color = 'white'
+  `);
+
+  const blackStats = await db.getFirstAsync<any>(`
+    SELECT
+      COUNT(*) as games,
+      SUM(CASE WHEN result = 'win' THEN 1 ELSE 0 END) as wins,
+      SUM(CASE WHEN result = 'loss' THEN 1 ELSE 0 END) as losses,
+      SUM(CASE WHEN result = 'draw' THEN 1 ELSE 0 END) as draws,
+      AVG(accuracy) as avg_accuracy
+    FROM game_history
+    WHERE player_color = 'black'
+  `);
+
+  return {
+    white: {
+      games: whiteStats?.games || 0,
+      wins: whiteStats?.wins || 0,
+      losses: whiteStats?.losses || 0,
+      draws: whiteStats?.draws || 0,
+      winRate: whiteStats?.games > 0 ? (whiteStats.wins / whiteStats.games) * 100 : 0,
+      averageAccuracy: whiteStats?.avg_accuracy || 0,
+    },
+    black: {
+      games: blackStats?.games || 0,
+      wins: blackStats?.wins || 0,
+      losses: blackStats?.losses || 0,
+      draws: blackStats?.draws || 0,
+      winRate: blackStats?.games > 0 ? (blackStats.wins / blackStats.games) * 100 : 0,
+      averageAccuracy: blackStats?.avg_accuracy || 0,
+    },
+  };
+}
+
+export async function getRatingProgressAnalytics(): Promise<{
+  ratingRange: string;
+  gamesPlayed: number;
+  winRate: number;
+  averageAccuracy: number;
+}[]> {
+  if (!db) throw new Error('Database not initialized');
+
+  // Group by rating ranges: <1000, 1000-1399, 1400-1799, 1800-2199, 2200+
+  const ranges = [
+    { min: 0, max: 999, label: '<1000' },
+    { min: 1000, max: 1399, label: '1000-1399' },
+    { min: 1400, max: 1799, label: '1400-1799' },
+    { min: 1800, max: 2199, label: '1800-2199' },
+    { min: 2200, max: 9999, label: '2200+' },
+  ];
+
+  const results = [];
+
+  for (const range of ranges) {
+    const stats = await db.getFirstAsync<any>(
+      `
+      SELECT
+        COUNT(*) as games,
+        SUM(CASE WHEN result = 'win' THEN 1 ELSE 0 END) as wins,
+        AVG(accuracy) as avg_accuracy
+      FROM game_history
+      WHERE opponent_rating >= ? AND opponent_rating <= ?
+      `,
+      [range.min, range.max]
+    );
+
+    if (stats && stats.games > 0) {
+      results.push({
+        ratingRange: range.label,
+        gamesPlayed: stats.games,
+        winRate: (stats.wins / stats.games) * 100,
+        averageAccuracy: stats.avg_accuracy || 0,
+      });
+    }
+  }
+
+  return results;
+}
+
+export async function getWeaknessAnalytics(): Promise<{
+  topWeaknesses: { concept: string; frequency: number }[];
+  weaknessByType: { type: string; count: number }[];
+  improvementAreas: string[];
+}> {
+  if (!db) throw new Error('Database not initialized');
+
+  // Top weaknesses by frequency
+  const topWeaknesses = await db.getAllAsync<any>(
+    `SELECT concept, frequency
+     FROM weaknesses
+     ORDER BY frequency DESC
+     LIMIT 5`
+  );
+
+  // Weakness count by type
+  const weaknessByType = await db.getAllAsync<any>(
+    `SELECT type, COUNT(*) as count
+     FROM weaknesses
+     GROUP BY type
+     ORDER BY count DESC`
+  );
+
+  // Identify improvement areas (weaknesses with frequency > 3)
+  const improvementAreas = topWeaknesses
+    .filter(w => w.frequency > 3)
+    .map(w => w.concept);
+
+  return {
+    topWeaknesses: topWeaknesses.map(w => ({
+      concept: w.concept,
+      frequency: w.frequency,
+    })),
+    weaknessByType: weaknessByType.map(w => ({
+      type: w.type,
+      count: w.count,
+    })),
+    improvementAreas,
   };
 }
 
