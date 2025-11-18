@@ -18,6 +18,7 @@ import Chessboard from '../../components/organisms/Chessboard';
 import DigitalCoachDialog from '../../components/organisms/DigitalCoachDialog';
 import { Colors, Typography, Spacing, BorderRadius } from '../../constants/theme';
 import { analyzeGame, type MoveEvaluation } from '../../services/ai/enhancedAI';
+import { stockfishService, type MoveAnalysis, type GameAnalysis } from '../../services/ai/stockfishService';
 import {
   identifyCriticalPositions,
   getCoachPromptForMove,
@@ -42,6 +43,8 @@ export default function GameAnalysisScreen({ route, navigation }: GameAnalysisSc
   const [chess] = useState(() => new Chess());
   const [isAnalyzing, setIsAnalyzing] = useState(true);
   const [evaluations, setEvaluations] = useState<MoveEvaluation[]>([]);
+  const [stockfishAnalysis, setStockfishAnalysis] = useState<GameAnalysis | null>(null);
+  const [useStockfish, setUseStockfish] = useState(true);
   const [criticalPositions, setCriticalPositions] = useState<CriticalPosition[]>([]);
   const [showCoach, setShowCoach] = useState(false);
   const [currentCoachPrompt, setCurrentCoachPrompt] = useState<CoachPrompt | null>(null);
@@ -51,11 +54,33 @@ export default function GameAnalysisScreen({ route, navigation }: GameAnalysisSc
     const performAnalysis = async () => {
       setIsAnalyzing(true);
 
-      // Simulate analysis delay for realism
-      await new Promise(resolve => setTimeout(resolve, 500));
+      try {
+        if (useStockfish) {
+          // Try Stockfish analysis first
+          console.log('[Analysis] Using Stockfish for deeper analysis...');
+          const stockfishResults = await stockfishService.analyzeGame(game.moves);
+          setStockfishAnalysis(stockfishResults);
 
-      const results = analyzeGame(game.moves);
-      setEvaluations(results);
+          // Convert Stockfish analysis to MoveEvaluation format for compatibility
+          const convertedEvals: MoveEvaluation[] = stockfishResults.moves.map(move => ({
+            move: move.move,
+            evaluation: move.evaluation,
+            isBlunder: move.classification === 'blunder',
+            isMistake: move.classification === 'mistake',
+            isInaccuracy: move.classification === 'inaccuracy',
+            isBest: move.classification === 'best' || move.classification === 'brilliant',
+            comment: move.comment,
+          }));
+          setEvaluations(convertedEvals);
+        } else {
+          throw new Error('Stockfish disabled, using minimax');
+        }
+      } catch (error) {
+        console.warn('[Analysis] Stockfish analysis failed, falling back to minimax:', error);
+        // Fallback to minimax-based analysis
+        const results = analyzeGame(game.moves);
+        setEvaluations(results);
+      }
 
       // Identify critical positions for coach commentary
       const critical = identifyCriticalPositions(game.moves);
@@ -65,7 +90,7 @@ export default function GameAnalysisScreen({ route, navigation }: GameAnalysisSc
     };
 
     performAnalysis();
-  }, [game.moves]);
+  }, [game.moves, useStockfish]);
 
   // Update board position when move index changes
   useEffect(() => {
@@ -158,10 +183,35 @@ export default function GameAnalysisScreen({ route, navigation }: GameAnalysisSc
         <View style={styles.statsCard}>
           <Text style={styles.statsTitle}>Game Analysis Summary</Text>
 
+          {stockfishAnalysis && (
+            <View style={styles.accuracySection}>
+              <View style={styles.accuracyRow}>
+                <View style={styles.accuracyItem}>
+                  <Text style={styles.accuracyLabel}>White Accuracy</Text>
+                  <Text style={[styles.accuracyValue, { color: Colors.primary }]}>
+                    {stockfishAnalysis.accuracy.white.toFixed(1)}%
+                  </Text>
+                  <Text style={styles.accuracySubtext}>
+                    Avg loss: {stockfishAnalysis.averageCentipawnLoss.white.toFixed(0)}cp
+                  </Text>
+                </View>
+                <View style={[styles.accuracyItem, { borderLeftWidth: 1, borderLeftColor: Colors.border }]}>
+                  <Text style={styles.accuracyLabel}>Black Accuracy</Text>
+                  <Text style={[styles.accuracyValue, { color: Colors.primary }]}>
+                    {stockfishAnalysis.accuracy.black.toFixed(1)}%
+                  </Text>
+                  <Text style={styles.accuracySubtext}>
+                    Avg loss: {stockfishAnalysis.averageCentipawnLoss.black.toFixed(0)}cp
+                  </Text>
+                </View>
+              </View>
+            </View>
+          )}
+
           <View style={styles.statsGrid}>
             <View style={styles.statItem}>
               <Text style={styles.statValue}>{stats?.accuracy}%</Text>
-              <Text style={styles.statLabel}>Accuracy</Text>
+              <Text style={styles.statLabel}>Overall Accuracy</Text>
             </View>
             <View style={[styles.statItem, styles.statDivider]}>
               <Text style={[styles.statValue, { color: Colors.success }]}>
@@ -390,6 +440,33 @@ const styles = StyleSheet.create({
     color: Colors.text,
     marginBottom: Spacing.md,
     textAlign: 'center',
+  },
+  accuracySection: {
+    marginBottom: Spacing.md,
+  },
+  accuracyRow: {
+    flexDirection: 'row',
+    backgroundColor: Colors.background,
+    borderRadius: BorderRadius.md,
+    padding: Spacing.md,
+  },
+  accuracyItem: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  accuracyLabel: {
+    fontSize: Typography.fontSize.sm,
+    color: Colors.textSecondary,
+    marginBottom: Spacing.xs,
+  },
+  accuracyValue: {
+    fontSize: Typography.fontSize['3xl'],
+    fontWeight: Typography.fontWeight.bold,
+    marginBottom: Spacing.xs,
+  },
+  accuracySubtext: {
+    fontSize: Typography.fontSize.xs,
+    color: Colors.textSecondary,
   },
   statsGrid: {
     flexDirection: 'row',
