@@ -8,6 +8,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '../constants/theme';
+import type { CommunityStackParamList } from '../types';
+
+// Re-export for convenience
+export type { CommunityStackParamList };
 
 // Import screens (lazy loaded for better performance)
 import {
@@ -15,12 +19,6 @@ import {
   SocialProfileScreen,
   FriendsScreen,
 } from '../navigation/LazyRoutes';
-
-export type CommunityStackParamList = {
-  CommunityHome: undefined;
-  SocialProfile: { userId: string };
-  Friends: undefined;
-};
 
 const Stack = createNativeStackNavigator<CommunityStackParamList>();
 

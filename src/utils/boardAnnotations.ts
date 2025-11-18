@@ -3,8 +3,7 @@
  * Helper functions and constants for arrows and highlights on the chessboard
  */
 
-import type { Arrow, Highlight } from '../components/organisms/Chessboard';
-import type { Square } from '../types';
+import type { Arrow, Highlight, Square } from '../types';
 
 /**
  * Predefined arrow colors

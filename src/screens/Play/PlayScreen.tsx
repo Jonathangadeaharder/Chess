@@ -14,9 +14,8 @@ import DigitalCoachDialog from '../../components/organisms/DigitalCoachDialog';
 import { useGameStore } from '../../state/gameStore';
 import { useUserStore } from '../../state/userStore';
 import { Colors, Typography, Spacing, BorderRadius } from '../../constants/theme';
-import type { CoachPrompt, Square, SimpleGameHistory } from '../../types';
+import type { CoachPrompt, Square, SimpleGameHistory, PlayStackParamList } from '../../types';
 import { getAIMoveDelayed, type AIDifficulty, getDifficultyDescription, getEstimatedELO } from '../../services/ai/enhancedAI';
-import type { PlayStackParamList } from '../../navigation/PlayStackNavigator';
 import * as Haptics from 'expo-haptics';
 
 type GameState = 'setup' | 'playing' | 'finished';

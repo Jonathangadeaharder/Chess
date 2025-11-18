@@ -7,20 +7,10 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import Svg, { Path, Rect, Defs, Marker } from 'react-native-svg';
-import type { Square } from '../../types';
+import type { Square, Arrow, Highlight } from '../../types';
 
-export interface Arrow {
-  from: Square;
-  to: Square;
-  color?: string;
-  opacity?: number;
-}
-
-export interface Highlight {
-  square: Square;
-  color?: string;
-  opacity?: number;
-}
+// Re-export types for convenience
+export type { Arrow, Highlight };
 
 interface ChessboardOverlayProps {
   size: number;

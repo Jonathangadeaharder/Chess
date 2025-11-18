@@ -8,6 +8,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '../constants/theme';
+import type { ProfileStackParamList } from '../types';
+
+// Re-export for convenience
+export type { ProfileStackParamList };
 
 // Import screens (lazy loaded for better performance)
 import ProfileScreen from '../screens/Profile/ProfileScreen';
@@ -19,16 +23,6 @@ import {
   AchievementsScreen,
   ProgressScreen,
 } from '../navigation/LazyRoutes';
-
-export type ProfileStackParamList = {
-  ProfileHome: undefined;
-  Settings: undefined;
-  Analytics: undefined;
-  Leaderboard: undefined;
-  Statistics: undefined;
-  Achievements: undefined;
-  Progress: undefined;
-};
 
 const Stack = createNativeStackNavigator<ProfileStackParamList>();
 

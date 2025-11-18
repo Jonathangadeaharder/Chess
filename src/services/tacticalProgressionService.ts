@@ -10,7 +10,7 @@
  */
 
 import { type ELORating } from '../constants/tacticalDrills';
-import type { DrillStats } from '../components/organisms/TacticalDrill';
+import type { DrillStats } from '../types';
 
 export interface TierProgress {
   eloRating: ELORating;

@@ -4,7 +4,7 @@
  */
 
 import type { TacticalMotif, ELORating, TacticalDrill } from '../constants/tacticalDrills';
-import type { DrillStats } from '../components/organisms/TacticalDrill';
+import type { DrillStats } from '../types';
 
 export interface PatternStats {
   motif: TacticalMotif;
