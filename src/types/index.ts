@@ -343,7 +343,6 @@ export type PlayStackParamList = {
 export type ProfileStackParamList = {
   ProfileHome: undefined;
   Settings: undefined;
-  Analytics: undefined;
   Leaderboard: undefined;
   Statistics: undefined;
   Achievements: undefined;

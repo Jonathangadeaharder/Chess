@@ -144,6 +144,62 @@ export default function Chessboard({
     return symbols[piece] || '';
   };
 
+  // Get piece name for accessibility
+  const getPieceName = (piece: string): string => {
+    const names: { [key: string]: string } = {
+      K: 'White King',
+      Q: 'White Queen',
+      R: 'White Rook',
+      B: 'White Bishop',
+      N: 'White Knight',
+      P: 'White Pawn',
+      k: 'Black King',
+      q: 'Black Queen',
+      r: 'Black Rook',
+      b: 'Black Bishop',
+      n: 'Black Knight',
+      p: 'Black Pawn',
+    };
+    return names[piece] || '';
+  };
+
+  // Get accessibility label for square
+  const getSquareAccessibilityLabel = (square: Square, piece: string | undefined): string => {
+    if (piece) {
+      return `${getPieceName(piece)} on ${square}`;
+    }
+    return `Empty square ${square}`;
+  };
+
+  // Get accessibility hint for square
+  const getSquareAccessibilityHint = (
+    square: Square,
+    piece: string | undefined,
+    isSelected: boolean,
+    legalMovesCount: number
+  ): string => {
+    if (isSelected) {
+      if (legalMovesCount > 0) {
+        return `Selected. ${legalMovesCount} legal ${legalMovesCount === 1 ? 'move' : 'moves'} available. Double tap a destination square to move.`;
+      }
+      return 'Selected. No legal moves available. Double tap to deselect.';
+    }
+
+    if (piece) {
+      return 'Double tap to select this piece and see legal moves';
+    }
+
+    if (selectedSquare) {
+      const legalMoves = getLegalMoves(selectedSquare);
+      if (legalMoves.includes(square)) {
+        return 'Double tap to move selected piece here';
+      }
+      return 'Not a legal move for selected piece';
+    }
+
+    return 'Empty square';
+  };
+
   // Handle tap on square (tap-tap mode)
   const handleSquareTap = useCallback(
     (square: Square) => {
@@ -297,6 +353,8 @@ export default function Chessboard({
     const highlightColor = isSelected ? Colors.primary + '80' : isHighlighted ? Colors.success + '40' : null;
 
     const dragGesture = createDragGesture(square);
+    const legalMoves = selectedSquare ? getLegalMoves(selectedSquare) : [];
+    const legalMovesFromThisSquare = piece ? getLegalMoves(square) : [];
 
     const squareContent = (
       <View
@@ -364,12 +422,30 @@ export default function Chessboard({
       </Animated.View>
     );
 
+    // Accessibility props
+    const accessibilityProps = {
+      accessible: true,
+      accessibilityRole: 'button' as const,
+      accessibilityLabel: getSquareAccessibilityLabel(square, piece),
+      accessibilityHint: getSquareAccessibilityHint(
+        square,
+        piece,
+        isSelected,
+        legalMovesFromThisSquare.length
+      ),
+      accessibilityState: {
+        selected: isSelected,
+        disabled: !piece && !legalMoves.includes(square),
+      },
+    };
+
     if (dragGesture && piece) {
       return (
         <GestureDetector key={square} gesture={dragGesture}>
           <TouchableOpacity
             activeOpacity={0.7}
             onPress={() => handleSquareTap(square)}
+            {...accessibilityProps}
           >
             {squareContent}
             {draggablePieceOverlay}
@@ -382,6 +458,7 @@ export default function Chessboard({
           key={square}
           activeOpacity={0.7}
           onPress={() => handleSquareTap(square)}
+          {...accessibilityProps}
         >
           {squareContent}
         </TouchableOpacity>

@@ -112,14 +112,6 @@ export const OnboardingFlowScreen = lazyLoadScreen(
 );
 
 /**
- * Analytics Screens (lazy loaded - admin/debug)
- */
-export const AnalyticsDashboardScreen = lazyLoadScreen(
-  () => import('../screens/Analytics/AnalyticsDashboard'),
-  'AnalyticsDashboard'
-);
-
-/**
  * Preload critical screens for better UX
  */
 export function preloadCriticalScreens() {
@@ -156,7 +148,6 @@ export const ROUTE_PRIORITIES = {
   ],
   // Low priority - load on demand only
   low: [
-    'AnalyticsDashboard',
     'OnboardingFlow',
     'SettingsScreen',
   ],
@@ -175,7 +166,6 @@ export async function preloadScreensByPriority(priority: keyof typeof ROUTE_PRIO
     LearningScreen: () => import('../screens/Learning/LearningScreen'),
     GameAnalysisScreen: () => import('../screens/Game/GameAnalysisScreen'),
     LeaderboardScreen: () => import('../screens/Community/LeaderboardScreen'),
-    AnalyticsDashboard: () => import('../screens/Analytics/AnalyticsDashboard'),
     OnboardingFlow: () => import('../screens/Onboarding/OnboardingFlow'),
     SettingsScreen: () => import('../screens/Settings/SettingsScreen'),
   };

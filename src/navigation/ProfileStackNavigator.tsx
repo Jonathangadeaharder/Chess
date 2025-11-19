@@ -17,7 +17,6 @@ export type { ProfileStackParamList };
 import ProfileScreen from '../screens/Profile/ProfileScreen';
 import {
   SettingsScreen,
-  AnalyticsDashboardScreen,
   LeaderboardScreen,
   StatisticsScreen,
   AchievementsScreen,
@@ -48,20 +47,12 @@ export default function ProfileStackNavigator() {
         options={({ navigation }) => ({
           title: 'Profile',
           headerRight: () => (
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
-              <TouchableOpacity
-                onPress={() => navigation.navigate('Analytics')}
-                style={{ marginRight: 4 }}
-              >
-                <Ionicons name="analytics-outline" size={24} color={Colors.text} />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => navigation.navigate('Settings')}
-                style={{ marginRight: 4 }}
-              >
-                <Ionicons name="settings-outline" size={24} color={Colors.text} />
-              </TouchableOpacity>
-            </View>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Settings')}
+              style={{ marginRight: 4 }}
+            >
+              <Ionicons name="settings-outline" size={24} color={Colors.text} />
+            </TouchableOpacity>
           ),
         })}
       />
@@ -70,13 +61,6 @@ export default function ProfileStackNavigator() {
         component={SettingsScreen}
         options={{
           title: 'Settings',
-        }}
-      />
-      <Stack.Screen
-        name="Analytics"
-        component={AnalyticsDashboardScreen}
-        options={{
-          title: 'Analytics Dashboard',
         }}
       />
       <Stack.Screen

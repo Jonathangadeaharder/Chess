@@ -274,10 +274,9 @@ export class BackendManager {
     isSyncing: false,
   };
 
-  constructor(config: BackendConfig) {
-    // For now, always use local backend
-    // Firebase/Supabase implementations will be added later
-    this.backend = new LocalBackendService(config);
+  constructor(config: BackendConfig, backend?: BackendService) {
+    // Use provided backend or create local backend
+    this.backend = backend || new LocalBackendService(config);
     this.syncQueue = new SyncQueue();
   }
 
@@ -289,6 +288,14 @@ export class BackendManager {
 
   getBackend(): BackendService {
     return this.backend;
+  }
+
+  /**
+   * Set or replace the backend service
+   * Useful for switching between local and cloud backends
+   */
+  setBackend(backend: BackendService): void {
+    this.backend = backend;
   }
 
   async sync(): Promise<void> {
@@ -327,8 +334,8 @@ export class BackendManager {
  */
 let backendManager: BackendManager | null = null;
 
-export function initializeBackend(config: BackendConfig): Promise<void> {
-  backendManager = new BackendManager(config);
+export function initializeBackend(config: BackendConfig, backend?: BackendService): Promise<void> {
+  backendManager = new BackendManager(config, backend);
   return backendManager.initialize();
 }
 
