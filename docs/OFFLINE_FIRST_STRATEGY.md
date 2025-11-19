@@ -30,11 +30,12 @@ Grandmaster Path will be a **100% offline, completely free** chess learning appl
 - Lessons and puzzles (bundled with app)
 
 ### Backend Services Status
-✅ **Keep (Optional):** Cloud sync infrastructure built as *future enhancement*
-❌ **Remove:** All monetization gates and IAP code
+✅ **Local Only:** Simple local UID generation for SQLite
+❌ **Removed:** All cloud sync, authentication, and backend infrastructure
+❌ **Removed:** All monetization gates and IAP code
 ❌ **Remove:** Social networking stack (friends, profiles)
 ✅ **Keep:** Leaderboards (local-only, single device)
-✅ **Add:** Manual backup/restore via JSON export
+✅ **Implemented:** Manual backup/restore via JSON export
 
 ---
 
@@ -78,7 +79,7 @@ Grandmaster Path will be a **100% offline, completely free** chess learning appl
 
 | Feature | Original Plan | Offline Strategy |
 |---------|--------------|------------------|
-| **Cloud Sync** | ✅ Required | ⚪ Optional (built, not enabled) |
+| **Cloud Sync** | ✅ Required | ❌ Removed (pure offline) |
 | **Monetization** | ✅ Freemium | ❌ Removed (100% free) |
 | **Opening Systems** | 1 free, 4 premium | ✅ All 5 free |
 | **Tactical Drills** | Basic free, Flash premium | ✅ All modes free |
@@ -501,19 +502,6 @@ While V1.0 is 100% free, future sustainability options:
 
 ---
 
-## Migration Path (If Cloud Sync Needed Later)
-
-The infrastructure is already built! To enable:
-
-1. Uncomment Firebase initialization in `App.tsx`
-2. Add "Enable Cloud Backup" toggle in Settings
-3. Prompt user to create account
-4. Run `await getSyncService().syncUpload()`
-
-No architectural changes needed.
-
----
-
 ## Success Metrics (Offline App)
 
 | Metric | Target | How to Measure |
@@ -530,12 +518,18 @@ No architectural changes needed.
 
 ## Next Steps
 
+### Completed
+1. ✅ Removed Developer Analytics Dashboard
+2. ✅ Added comprehensive Chessboard accessibility
+3. ✅ Implemented manual backup/restore service
+4. ✅ Simplified backend to local-only
+5. ✅ Removed all cloud sync infrastructure
+
 ### This Week
-1. ✅ Complete accessibility implementation
-2. ✅ Add backup/restore functionality
-3. ✅ Implement local notifications
-4. ✅ Simplify leaderboards
-5. ✅ Remove social stack
+1. Implement local notifications for SRS reminders
+2. Remove social networking stack
+3. Simplify leaderboards to local-only
+4. Start content expansion (200+ puzzles)
 
 ### Next Week
 1. Expand content library (200+ puzzles)

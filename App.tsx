@@ -40,9 +40,9 @@ function AppContent() {
         initializeErrorHandling();
         console.log('[App] Error handling initialized');
 
-        // 2. Initialize backend
-        await initializeBackend({ provider: 'none' });
-        console.log('[App] Backend initialized');
+        // 2. Initialize local storage backend
+        await initializeBackend();
+        console.log('[App] Local backend initialized');
 
         // 3. Initialize monitoring services
         await Promise.all([

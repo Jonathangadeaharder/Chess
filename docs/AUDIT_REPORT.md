@@ -27,10 +27,10 @@ This document presents the comprehensive architectural audit of the Chess Learni
 **Stack:** React Native 0.81.5 + Expo 54.0.23
 **State Management:** Zustand 5.0.8
 **Database:** expo-sqlite 16.0.9
-**Backend Integration:** Supabase 2.81.1 + Firebase 12.6.0 (configured but not actively used)
+**Backend:** Local-only (no cloud services)
 
 **Assessment:** ✅ **VALIDATED**
-Modern, production-grade stack. The use of Zustand over Redux reduces boilerplate and improves performance. SQLite provides robust local persistence.
+Modern, production-grade offline-first stack. The use of Zustand over Redux reduces boilerplate and improves performance. SQLite provides robust local persistence without requiring internet connectivity.
 
 ### 1.2 Bundle Optimization Infrastructure
 
@@ -91,11 +91,12 @@ Clean architecture. The `userStore` correctly integrates with SQLite for persist
 | `performanceService.tsx` | Performance metrics | ✅ Complete |
 | `simpleAI.ts` / `enhancedAI.ts` | AI opponents | ✅ Complete |
 | `stockfishService.ts` | Engine integration | ✅ Complete |
+| `backupService.ts` | Manual backup/restore | ✅ Complete |
 
-**Critical Gap:** `backendService.ts` currently only implements `LocalBackendService`. Firebase/Supabase implementations are stubbed but not functional.
+**Backend Strategy:** Pure offline architecture using `LocalBackendService` for local UID generation only.
 
-**Assessment:** ⚠️ **NEEDS IMPLEMENTATION**
-See Phase 1 [P0] - Cloud Synchronization (Section 5.1).
+**Assessment:** ✅ **PRODUCTION-READY**
+All data persistence handled via SQLite. Manual backup/restore via JSON export/import provides data portability.
 
 ---
 
@@ -287,51 +288,42 @@ Refactor logic into `MoveTrainer.tsx` as an "Advanced Mode" for specific opening
 
 ---
 
-## 6. Missing V1.0 Infrastructure
+## 6. Offline-First Infrastructure
 
-### 6.1 Cloud Synchronization [P0 - CRITICAL]
+### 6.1 Manual Backup/Restore [✅ IMPLEMENTED]
 
-**Current State:** `backendService.ts` only implements `LocalBackendService`
-
-**Requirement:**
-Users expect progress to persist across devices and survive app reinstallation.
-
-**Implementation Plan:**
-1. Complete Firebase or Supabase backend integration
-2. Implement `SyncService` that mediates between SQLite and cloud
-3. Handle conflict resolution for SRS timestamps (Last Write Wins strategy)
-4. Automatic sync on app launch + background sync every 15 minutes
-
-**Critical Data to Sync:**
-- User profile (XP, level, streak)
-- SRS queue (nextReview timestamps are timing-sensitive)
-- Opening repertoire customizations
-- Game history
-
-### 6.2 Monetization Infrastructure [P0 - CRITICAL]
-
-**Current State:** No IAP or entitlement checks
-
-**Requirement:**
-Support ongoing server costs for cloud sync and content delivery.
-
-**Recommended Gates:**
-
-| Feature | Free Tier | Premium Tier |
-|---------|-----------|--------------|
-| Opening Systems | 1 system (Colle) | All 5 systems |
-| Tactical Drills | Beginner ELO only | All ELO tiers + Flash mode |
-| Stockfish Analysis | Basic (Depth 10) | Deep Analysis (Depth 20) |
-| Cloud Sync | ❌ | ✅ |
-| Offline Mode | ❌ | ✅ |
+**Current State:** Complete JSON export/import system
 
 **Implementation:**
-1. Integrate RevenueCat or native store APIs
-2. Add `SubscriptionService.ts`
-3. Implement entitlement checks in:
-   - `OpeningRepertoireBuilder.tsx`
-   - `TacticalDrill.tsx`
-   - `GameAnalysisScreen.tsx`
+1. `exportAndShare()` - Creates JSON backup and shares via system sheet
+2. `importFromFile()` - Imports backup from document picker
+3. `validateBackupFile()` - Validates backup before restore
+4. Version compatibility checks prevent data corruption
+
+**Data Backed Up:**
+- User profile (XP, level, streak, preferences)
+- SRS queue (all scheduling data preserved)
+- Opening repertoire customizations
+- Game history (up to 1000 games)
+- Tactical progression and analytics
+- Weaknesses tracking
+
+### 6.2 100% Free, No Monetization
+
+**Strategic Decision:** Fully offline app with zero payment gates
+
+**All Features Unlocked:**
+- All 5 opening systems available immediately
+- All tactical difficulty levels (Beginner, Intermediate, Advanced, Flash)
+- Full Stockfish analysis (unlimited depth)
+- All mini-games and achievements
+- Complete SRS training system
+
+**No Costs:**
+- Zero server infrastructure (pure offline)
+- Zero payment processing
+- Zero IAP complexity
+- Users get everything for free
 
 ### 6.3 Notification Scheduler [P1 - HIGH]
 
