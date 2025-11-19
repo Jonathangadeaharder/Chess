@@ -93,16 +93,6 @@ export const LeaderboardScreen = lazyLoadScreen(
   'LeaderboardScreen'
 );
 
-export const SocialProfileScreen = lazyLoadScreen(
-  () => import('../screens/Community/SocialProfileScreen'),
-  'SocialProfileScreen'
-);
-
-export const FriendsScreen = lazyLoadScreen(
-  () => import('../screens/Community/FriendsScreen'),
-  'FriendsScreen'
-);
-
 /**
  * Onboarding Screens (lazy loaded)
  */

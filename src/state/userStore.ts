@@ -33,6 +33,10 @@ import {
   updateAnalyticsAfterSession,
   type TacticalAnalytics,
 } from '../services/tacticalAnalyticsService';
+import {
+  scheduleNextReviewReminder,
+  scheduleStreakReminder,
+} from '../services/notifications/notificationService';
 import type { DrillStats } from '../types';
 import type { TacticalDrill } from '../constants/tacticalDrills';
 
@@ -135,6 +139,29 @@ export const useUserStore = create<UserStore>((set, get) => ({
       if (!tacticalAnalytics) {
         await saveTacticalAnalytics(initializeTacticalAnalytics());
       }
+
+      // Schedule notifications on app startup
+      const currentProfile = profile || createDefaultProfile();
+
+      // Schedule streak reminder if user has an active streak
+      if (currentProfile.currentStreak > 0) {
+        await scheduleStreakReminder(currentProfile.currentStreak);
+      }
+
+      // Schedule SRS review reminder if there are upcoming reviews
+      if (srsQueue.length > 0) {
+        const now = new Date();
+        const upcomingItems = srsQueue.filter(
+          (item) => new Date(item.nextReviewDate) > now
+        );
+
+        if (upcomingItems.length > 0) {
+          const nextReviewDate = new Date(
+            Math.min(...upcomingItems.map((i) => new Date(i.nextReviewDate).getTime()))
+          );
+          await scheduleNextReviewReminder(nextReviewDate, upcomingItems.length);
+        }
+      }
     } catch (error) {
       console.error('Error loading user profile:', error);
       set({ error: 'Failed to load user profile', isLoading: false });
@@ -186,12 +213,18 @@ export const useUserStore = create<UserStore>((set, get) => ({
           longestStreak: Math.max(newStreak, profile.longestStreak),
           lastPracticeDate: new Date(),
         });
+
+        // Schedule streak reminder notification
+        await scheduleStreakReminder(newStreak);
       } else {
         // Streak broken
         await updateProfile({
           currentStreak: 1,
           lastPracticeDate: new Date(),
         });
+
+        // Schedule streak reminder for new streak
+        await scheduleStreakReminder(1);
       }
     } else {
       // First practice
@@ -199,6 +232,9 @@ export const useUserStore = create<UserStore>((set, get) => ({
         currentStreak: 1,
         lastPracticeDate: new Date(),
       });
+
+      // Schedule first streak reminder
+      await scheduleStreakReminder(1);
     }
   },
 
@@ -278,6 +314,23 @@ export const useUserStore = create<UserStore>((set, get) => ({
 
     set({ srsQueue: updatedQueue });
     await saveSRSItem(updatedItem);
+
+    // Schedule notification for next review if there are due items
+    const now = new Date();
+    const dueItems = updatedQueue.filter(
+      (item) => new Date(item.nextReviewDate) <= now
+    );
+    const upcomingItems = updatedQueue.filter(
+      (item) => new Date(item.nextReviewDate) > now
+    );
+
+    if (dueItems.length === 0 && upcomingItems.length > 0) {
+      // No items due now, schedule for next upcoming review
+      const nextReviewDate = new Date(
+        Math.min(...upcomingItems.map((i) => new Date(i.nextReviewDate).getTime()))
+      );
+      await scheduleNextReviewReminder(nextReviewDate, upcomingItems.length);
+    }
   },
 
   removeSRSItem: async (itemId: string) => {

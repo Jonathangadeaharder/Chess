@@ -26,6 +26,7 @@ import { initializeImageOptimization } from './src/utils/imageOptimization';
 import { preloadCriticalScreens } from './src/navigation/LazyRoutes';
 import { initializeBackend } from './src/services/backend/backendService';
 import { ErrorBoundary } from './src/components/ErrorBoundary';
+import { initializeNotifications } from './src/services/notifications/notificationService';
 
 function AppContent() {
   const { loadUserProfile, profile } = useUserStore();
@@ -44,40 +45,44 @@ function AppContent() {
         await initializeBackend();
         console.log('[App] Local backend initialized');
 
-        // 3. Initialize monitoring services
+        // 3. Initialize local notifications
+        await initializeNotifications();
+        console.log('[App] Notifications initialized');
+
+        // 4. Initialize monitoring services
         await Promise.all([
           performanceService.initialize(),
           errorTrackingService.initialize(),
         ]);
         console.log('[App] Monitoring services initialized');
 
-        // 4. Load user profile and settings
+        // 5. Load user profile and settings (this will schedule notifications)
         await Promise.all([
           loadUserProfile(),
           loadSettings(),
         ]);
         console.log('[App] User data loaded');
 
-        // 5. Initialize analytics with user ID
+        // 6. Initialize analytics with user ID
         const userId = profile?.id || 'anonymous';
         await analyticsService.initialize(userId);
         console.log('[App] Analytics initialized');
 
-        // 6. Initialize A/B testing
+        // 7. Initialize A/B testing
         await abTestingService.initialize(userId);
         console.log('[App] A/B testing initialized');
 
-        // 7. Initialize image optimization
+        // 8. Initialize image optimization
         await initializeImageOptimization();
         console.log('[App] Image optimization initialized');
 
-        // 8. Preload critical screens in background
+        // 9. Preload critical screens in background
         setTimeout(() => {
           preloadCriticalScreens();
           console.log('[App] Critical screens preloading started');
         }, 1000);
 
-        // 9. Track app launch
+        // 10. Track app launch
         await analyticsService.trackAppLaunch(false); // TODO: Detect first launch
         console.log('[App] App launch tracked');
 

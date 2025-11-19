@@ -330,7 +330,6 @@ export type MainTabParamList = {
   Train: undefined;
   Play: undefined;
   Profile: undefined;
-  Community: undefined;
 };
 
 export type PlayStackParamList = {
@@ -347,12 +346,6 @@ export type ProfileStackParamList = {
   Statistics: undefined;
   Achievements: undefined;
   Progress: undefined;
-};
-
-export type CommunityStackParamList = {
-  CommunityHome: undefined;
-  SocialProfile: { userId: string };
-  Friends: undefined;
 };
 
 /**
