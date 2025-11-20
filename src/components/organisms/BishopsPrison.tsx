@@ -67,23 +67,6 @@ export default function BishopsPrison({ onComplete, onExit }: BishopsPrisonProps
     };
   }, []);
 
-  // Check game status after each move
-  useEffect(() => {
-    const chess = new Chess(position.fen);
-
-    if (chess.isCheckmate()) {
-      if (position.turn === 'b') {
-        // White won
-        handleWin();
-      } else {
-        // Black won (unlikely but possible)
-        handleLoss();
-      }
-    } else if (chess.isDraw() || chess.isStalemate() || chess.isThreefoldRepetition()) {
-      handleDraw();
-    }
-  }, [position]);
-
   const handleWin = () => {
     setGameStatus('won');
     playSound('checkmate');
@@ -142,20 +125,22 @@ export default function BishopsPrison({ onComplete, onExit }: BishopsPrisonProps
     }, 2000);
   };
 
-  const handleMoveAttempt = useCallback(
-    (from: Square, to: Square) => {
-      // Only allow user moves (White)
-      if (position.turn !== 'w') return;
+  // Check game status after each move
+  useEffect(() => {
+    const chess = new Chess(position.fen);
 
-      setMoveCount(moveCount + 1);
-
-      // After user move, make simple AI move for Black
-      setTimeout(() => {
-        makeAIMove();
-      }, 500);
-    },
-    [position, moveCount]
-  );
+    if (chess.isCheckmate()) {
+      if (position.turn === 'b') {
+        // White won
+        handleWin();
+      } else {
+        // Black won (unlikely but possible)
+        handleLoss();
+      }
+    } else if (chess.isDraw() || chess.isStalemate() || chess.isThreefoldRepetition()) {
+      handleDraw();
+    }
+  }, [position, handleWin, handleLoss, handleDraw]);
 
   const makeAIMove = () => {
     const chess = new Chess(position.fen);
@@ -170,6 +155,21 @@ export default function BishopsPrison({ onComplete, onExit }: BishopsPrisonProps
     // The game store will handle the actual move via the board
     // For now, this is a placeholder for AI integration
   };
+
+  const handleMoveAttempt = useCallback(
+    (from: Square, to: Square) => {
+      // Only allow user moves (White)
+      if (position.turn !== 'w') return;
+
+      setMoveCount(moveCount + 1);
+
+      // After user move, make simple AI move for Black
+      setTimeout(() => {
+        makeAIMove();
+      }, 500);
+    },
+    [position, moveCount, makeAIMove]
+  );
 
   const handleReset = () => {
     loadPosition(BISHOPS_PRISON_FEN);
@@ -200,7 +200,7 @@ export default function BishopsPrison({ onComplete, onExit }: BishopsPrisonProps
       {/* Header */}
       <View style={styles.header}>
         <View>
-          <Text style={styles.title}>Bishop's Prison</Text>
+          <Text style={styles.title}>Bishop&apos;s Prison</Text>
           <Text style={styles.subtitle}>Good vs. Bad Bishop</Text>
         </View>
         <TouchableOpacity onPress={onExit} style={styles.exitButton}>
@@ -247,8 +247,8 @@ export default function BishopsPrison({ onComplete, onExit }: BishopsPrisonProps
           <Text style={styles.conceptTitle}>Key Concept</Text>
         </View>
         <Text style={styles.conceptText}>
-          A "bad" bishop is blocked by its own pawns on the same color. A "good" bishop has pawns on
-          opposite colors, giving it mobility and control.
+          A &quot;bad&quot; bishop is blocked by its own pawns on the same color. A &quot;good&quot;
+          bishop has pawns on opposite colors, giving it mobility and control.
         </Text>
       </View>
 

@@ -220,7 +220,7 @@ export default function TrainScreen() {
 
           {/* Daily Review Stats */}
           <View style={styles.reviewCard}>
-            <Text style={styles.cardTitle}>Today's Reviews</Text>
+            <Text style={styles.cardTitle}>Today&apos;s Reviews</Text>
             <View style={styles.statsRow}>
               <View style={styles.statItem}>
                 <Text style={styles.statNumber}>{movesToReview}</Text>
@@ -267,7 +267,7 @@ export default function TrainScreen() {
                 <Text style={styles.miniGameEmoji}>♗</Text>
               </View>
               <View style={styles.miniGameContent}>
-                <Text style={styles.miniGameTitle}>Bishop's Prison</Text>
+                <Text style={styles.miniGameTitle}>Bishop&apos;s Prison</Text>
                 <Text style={styles.miniGameDescription}>
                   Master the good vs. bad bishop endgame
                 </Text>
@@ -359,8 +359,8 @@ export default function TrainScreen() {
               <Ionicons name="checkmark-circle" size={48} color={Colors.success} />
               <Text style={styles.completedTitle}>All Done!</Text>
               <Text style={styles.completedText}>
-                Great work! You've completed all reviews for today. Come back tomorrow to keep your
-                streak alive!
+                Great work! You&apos;ve completed all reviews for today. Come back tomorrow to keep
+                your streak alive!
               </Text>
             </View>
           )}

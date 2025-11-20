@@ -269,7 +269,7 @@ export default function OnboardingFlow({
     <ScrollView contentContainerStyle={styles.stepContainer}>
       <View style={styles.welcomeSection}>
         <Text style={styles.welcomeTitle}>Welcome to Chess Learning!</Text>
-        <Text style={styles.welcomeSubtitle}>Let's personalize your chess journey</Text>
+        <Text style={styles.welcomeSubtitle}>Let&apos;s personalize your chess journey</Text>
 
         <View style={styles.featureList}>
           <View style={styles.featureItem}>
@@ -370,7 +370,7 @@ export default function OnboardingFlow({
 
   const renderSkillAssessment = () => (
     <ScrollView contentContainerStyle={styles.stepContainer}>
-      <Text style={styles.stepTitle}>What's Your Current Level?</Text>
+      <Text style={styles.stepTitle}>What&apos;s Your Current Level?</Text>
       <Text style={styles.stepSubtitle}>This helps us personalize your training intensity</Text>
 
       <View style={styles.levelsContainer}>

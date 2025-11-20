@@ -65,7 +65,7 @@ export default function TacticalStatsDashboard({
       <View style={styles.card}>
         <View style={styles.cardHeader}>
           <Ionicons name="today-outline" size={24} color={Colors.primary} />
-          <Text style={styles.cardTitle}>Today's Goal</Text>
+          <Text style={styles.cardTitle}>Today&apos;s Goal</Text>
         </View>
         <View style={styles.progressContainer}>
           <Text style={styles.progressText}>
