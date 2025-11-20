@@ -95,13 +95,13 @@ export default function OpeningRepertoireBuilder({ onClose }: { onClose?: () => 
 
     if (selectedSystem !== 'all') {
       lines = lines.filter(
-        line => typeof line.system !== 'undefined' && line.system === selectedSystem
+        (line: OpeningLine) => typeof line.system !== 'undefined' && line.system === selectedSystem
       );
     }
 
     if (searchQuery) {
       lines = lines.filter(
-        line =>
+        (line: OpeningLine) =>
           line.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
           line.moves.join(' ').toLowerCase().includes(searchQuery.toLowerCase())
       );
@@ -218,7 +218,7 @@ export default function OpeningRepertoireBuilder({ onClose }: { onClose?: () => 
 
         {/* Opening Lines List */}
         <ScrollView style={styles.linesList}>
-          {filteredLines.map(line => {
+          {filteredLines.map((line: OpeningLine) => {
             const inRepertoire = repertoire.some(entry => entry.openingLineId === line.id);
 
             return (
@@ -236,7 +236,7 @@ export default function OpeningRepertoireBuilder({ onClose }: { onClose?: () => 
                     <Text style={styles.lineSystem}>
                       {line.system
                         .split('-')
-                        .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+                        .map((w: string) => w.charAt(0).toUpperCase() + w.slice(1))
                         .join(' ')}
                     </Text>
                   </View>
