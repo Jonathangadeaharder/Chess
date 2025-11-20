@@ -15,7 +15,7 @@ import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { Chess } from 'chess.js';
 
-import Chessboard from './Chessboard';
+import Chessboard from './chessboard';
 import DigitalCoachDialog from './DigitalCoachDialog';
 import { useGameStore } from '../../state/gameStore';
 import { playSound, playSoundSequence } from '../../services/audio/soundService';

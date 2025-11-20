@@ -10,7 +10,7 @@ import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { Chess } from 'chess.js';
 
-import Chessboard from './Chessboard';
+import Chessboard from './chessboard';
 import { useUserStore } from '../../state/userStore';
 import { useUIStore } from '../../state/uiStore';
 import { useGameStore } from '../../state/gameStore';

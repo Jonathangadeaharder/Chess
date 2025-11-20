@@ -9,7 +9,7 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Dimensions } from
 import { Ionicons } from '@expo/vector-icons';
 import { Chess } from 'chess.js';
 import { Colors, Typography, Spacing, BorderRadius } from '../../constants/theme';
-import Chessboard from './Chessboard';
+import Chessboard from './chessboard';
 import DigitalCoachDialog from './DigitalCoachDialog';
 import { playSound } from '../../services/audio/soundService';
 import type { CoachPrompt, OpeningSystem } from '../../types';

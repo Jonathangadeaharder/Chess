@@ -15,7 +15,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Animated, ScrollView } from '
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 
-import Chessboard from './Chessboard';
+import Chessboard from './chessboard';
 import DigitalCoachDialog from './DigitalCoachDialog';
 import { useGameStore } from '../../state/gameStore';
 import { useUserStore } from '../../state/userStore';

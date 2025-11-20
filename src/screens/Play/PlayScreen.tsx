@@ -9,7 +9,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Chess } from 'chess.js';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import Chessboard from '../../components/organisms/Chessboard';
+import Chessboard from '../../components/organisms/chessboard';
 import DigitalCoachDialog from '../../components/organisms/DigitalCoachDialog';
 import { useGameStore } from '../../state/gameStore';
 import { useUserStore } from '../../state/userStore';

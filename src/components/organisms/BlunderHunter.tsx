@@ -11,7 +11,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Modal } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 
-import Chessboard, { type Arrow, type Highlight } from './Chessboard';
+import Chessboard, { type Arrow, type Highlight } from './chessboard';
 import DigitalCoachDialog from './DigitalCoachDialog';
 import { useGameStore } from '../../state/gameStore';
 import { playSound } from '../../services/audio/soundService';

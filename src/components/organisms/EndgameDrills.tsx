@@ -9,7 +9,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Chess } from 'chess.js';
-import Chessboard from './Chessboard';
+import Chessboard from './chessboard';
 import { Colors, Typography, Spacing, BorderRadius } from '../../constants/theme';
 import { useGameStore } from '../../state/gameStore';
 import { useUserStore } from '../../state/userStore';

@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors, Typography, Spacing, BorderRadius } from '../../constants/theme';
-import Chessboard from './Chessboard';
+import Chessboard from './chessboard';
 import type { Lesson, LessonContent } from '../../constants/lessons';
 
 interface LessonViewerProps {

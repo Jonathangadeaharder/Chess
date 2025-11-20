@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Chess } from 'chess.js';
-import Chessboard from '../../components/organisms/Chessboard';
+import Chessboard from '../../components/organisms/chessboard';
 import DigitalCoachDialog from '../../components/organisms/DigitalCoachDialog';
 import { Colors, Typography, Spacing, BorderRadius } from '../../constants/theme';
 import { analyzeGame, type MoveEvaluation } from '../../services/ai/enhancedAI';
