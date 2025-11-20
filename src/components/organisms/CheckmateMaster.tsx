@@ -311,12 +311,12 @@ export default function CheckmateMaster({ onComplete, onExit }: CheckmateMasterP
     };
   }, [currentPuzzleIndex]);
 
-  const handleMoveAttempt = (move: { from: Square; to: Square }) => {
-    const moveNotation = `${move.from}${move.to}`;
+  const handleMoveAttempt = (from: Square, to: Square) => {
+    const moveNotation = `${from}${to}`;
     const expectedMove = currentPuzzle.solution[movesMade.length];
 
     // Try to make the move in the game
-    const success = makeMove(move.from, move.to);
+    const success = makeMove(from, to);
 
     if (!success) {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
@@ -435,7 +435,7 @@ export default function CheckmateMaster({ onComplete, onExit }: CheckmateMasterP
 
       {/* Chessboard */}
       <View style={styles.boardContainer}>
-        <Chessboard onMoveAttempt={handleMoveAttempt} disabled={solved || failed || !isActive} />
+        <Chessboard onMove={handleMoveAttempt} draggable={!solved && !failed && isActive} />
 
         {/* Success Crown Animation */}
         {solved && (

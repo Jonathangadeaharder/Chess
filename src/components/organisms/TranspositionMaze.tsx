@@ -298,7 +298,7 @@ export default function TranspositionMaze({ onComplete, onExit }: TranspositionM
           <Text style={styles.targetLabel}>TARGET POSITION</Text>
           <Text style={styles.targetDescription}>{currentPuzzle.targetDescription}</Text>
           <View style={styles.boardContainer}>
-            <Chessboard size={BOARD_SIZE} position={currentPuzzle.targetFen} interactive={false} />
+            <Chessboard size={BOARD_SIZE} position={currentPuzzle.targetFen} draggable={false} />
           </View>
         </View>
 

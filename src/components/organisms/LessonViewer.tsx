@@ -55,7 +55,7 @@ export default function LessonViewer({ lesson, onComplete, onExit }: LessonViewe
             {content.heading && <Text style={styles.contentHeading}>{content.heading}</Text>}
             {content.fen && (
               <View style={styles.boardContainer}>
-                <Chessboard size={BOARD_SIZE} position={content.fen} interactive={false} />
+                <Chessboard size={BOARD_SIZE} position={content.fen} draggable={false} />
               </View>
             )}
             {content.text && <Text style={styles.contentText}>{content.text}</Text>}
@@ -69,7 +69,7 @@ export default function LessonViewer({ lesson, onComplete, onExit }: LessonViewe
             {content.text && <Text style={styles.contentText}>{content.text}</Text>}
             {content.fen && (
               <View style={styles.boardContainer}>
-                <Chessboard size={BOARD_SIZE} position={content.fen} interactive={true} />
+                <Chessboard size={BOARD_SIZE} position={content.fen} draggable={true} />
               </View>
             )}
             <View style={styles.interactiveHint}>
