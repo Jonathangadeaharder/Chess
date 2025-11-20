@@ -24,14 +24,16 @@ export default function ProfileScreen() {
     // SRS Statistics
     const totalReviews = profile.srsQueue.reduce((sum, item) => sum + item.reviewCount, 0);
     const masteredItems = profile.srsQueue.filter(item => item.stability > 100).length;
-    const dueToday = profile.srsQueue.filter(item => new Date(item.nextReview) <= new Date()).length;
+    const dueToday = profile.srsQueue.filter(
+      item => new Date(item.nextReview) <= new Date()
+    ).length;
 
     // Learning Progress
     const completedLessons = profile.completedLessons.length;
     const lessonsBySystem: Record<string, number> = {};
     OPENING_SYSTEMS.forEach(system => {
-      lessonsBySystem[system.id] = profile.completedLessons.filter(
-        lessonId => lessonId.startsWith(system.id.split('-')[0])
+      lessonsBySystem[system.id] = profile.completedLessons.filter(lessonId =>
+        lessonId.startsWith(system.id.split('-')[0])
       ).length;
     });
 
@@ -44,9 +46,8 @@ export default function ProfileScreen() {
     const wins = profile.gameHistory.filter(game => game.result === 'win').length;
     const losses = profile.gameHistory.filter(game => game.result === 'loss').length;
     const draws = profile.gameHistory.filter(game => game.result === 'draw').length;
-    const winRate = profile.totalGamesPlayed > 0
-      ? Math.round((wins / profile.totalGamesPlayed) * 100)
-      : 0;
+    const winRate =
+      profile.totalGamesPlayed > 0 ? Math.round((wins / profile.totalGamesPlayed) * 100) : 0;
 
     return {
       totalReviews,
@@ -72,7 +73,8 @@ export default function ProfileScreen() {
     );
   }
 
-  const isStreakActive = profile.lastPracticeDate &&
+  const isStreakActive =
+    profile.lastPracticeDate &&
     new Date().toDateString() === new Date(profile.lastPracticeDate).toDateString();
 
   return (
@@ -89,12 +91,7 @@ export default function ProfileScreen() {
           {/* Level Progress Bar */}
           <View style={styles.levelProgressContainer}>
             <View style={styles.levelProgressBar}>
-              <View
-                style={[
-                  styles.levelProgressFill,
-                  { width: `${stats.levelProgress}%` }
-                ]}
-              />
+              <View style={[styles.levelProgressFill, { width: `${stats.levelProgress}%` }]} />
             </View>
             <Text style={styles.levelProgressText}>
               {stats.xpInCurrentLevel} / {stats.xpForNextLevel} XP
@@ -113,12 +110,8 @@ export default function ProfileScreen() {
             <Text style={styles.streakTitle}>Daily Streak</Text>
           </View>
           <Text style={styles.streakNumber}>{profile.currentStreak}</Text>
-          <Text style={styles.streakLabel}>
-            {profile.currentStreak === 1 ? 'day' : 'days'}
-          </Text>
-          <Text style={styles.streakSubtext}>
-            Longest streak: {profile.longestStreak} days
-          </Text>
+          <Text style={styles.streakLabel}>{profile.currentStreak === 1 ? 'day' : 'days'}</Text>
+          <Text style={styles.streakSubtext}>Longest streak: {profile.longestStreak} days</Text>
         </View>
 
         {/* Stats Grid */}
@@ -193,7 +186,7 @@ export default function ProfileScreen() {
                 <View
                   style={[
                     styles.accuracyFill,
-                    { width: `${profile.averageReviewAccuracy * 100}%` }
+                    { width: `${profile.averageReviewAccuracy * 100}%` },
                   ]}
                 />
               </View>
@@ -236,9 +229,7 @@ export default function ProfileScreen() {
               </View>
               <View style={styles.recordContainer}>
                 <View style={styles.recordItem}>
-                  <Text style={[styles.recordNumber, { color: Colors.success }]}>
-                    {stats.wins}
-                  </Text>
+                  <Text style={[styles.recordNumber, { color: Colors.success }]}>{stats.wins}</Text>
                   <Text style={styles.recordLabel}>Wins</Text>
                 </View>
                 <View style={styles.recordDivider} />
@@ -250,9 +241,7 @@ export default function ProfileScreen() {
                 </View>
                 <View style={styles.recordDivider} />
                 <View style={styles.recordItem}>
-                  <Text style={[styles.recordNumber, { color: Colors.error }]}>
-                    {stats.losses}
-                  </Text>
+                  <Text style={[styles.recordNumber, { color: Colors.error }]}>{stats.losses}</Text>
                   <Text style={styles.recordLabel}>Losses</Text>
                 </View>
               </View>
@@ -274,9 +263,7 @@ export default function ProfileScreen() {
             </View>
             <View style={styles.achievementStatDivider} />
             <View style={styles.achievementStatItem}>
-              <Text style={styles.achievementStatNumber}>
-                {achievements.length}
-              </Text>
+              <Text style={styles.achievementStatNumber}>{achievements.length}</Text>
               <Text style={styles.achievementStatLabel}>Total</Text>
             </View>
           </View>

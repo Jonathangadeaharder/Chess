@@ -50,17 +50,11 @@ function AppContent() {
         console.log('[App] Notifications initialized');
 
         // 4. Initialize monitoring services
-        await Promise.all([
-          performanceService.initialize(),
-          errorTrackingService.initialize(),
-        ]);
+        await Promise.all([performanceService.initialize(), errorTrackingService.initialize()]);
         console.log('[App] Monitoring services initialized');
 
         // 5. Load user profile and settings (this will schedule notifications)
-        await Promise.all([
-          loadUserProfile(),
-          loadSettings(),
-        ]);
+        await Promise.all([loadUserProfile(), loadSettings()]);
         console.log('[App] User data loaded');
 
         // 6. Initialize analytics with user ID

@@ -30,12 +30,14 @@ npx react-native-bundle-visualizer
 ### Recommended Actions
 
 1. **Remove unused dependencies**:
+
    ```bash
    npm install -g depcheck
    depcheck
    ```
 
 2. **Use selective imports**:
+
    ```typescript
    // ❌ Bad: Imports entire library
    import _ from 'lodash';
@@ -74,10 +76,7 @@ preloadCriticalScreens();
 
 ```typescript
 // In LazyRoutes.tsx
-export const NewScreen = lazyLoadScreen(
-  () => import('../screens/NewScreen'),
-  'NewScreen'
-);
+export const NewScreen = lazyLoadScreen(() => import('../screens/NewScreen'), 'NewScreen');
 ```
 
 ## Lazy Loading
@@ -149,10 +148,7 @@ const optimizedUri = await optimizeImage(originalUri, {
 });
 
 // Preload images
-await preloadImages([
-  'https://example.com/image1.jpg',
-  'https://example.com/image2.jpg',
-]);
+await preloadImages(['https://example.com/image1.jpg', 'https://example.com/image2.jpg']);
 ```
 
 ### Responsive Images
@@ -334,6 +330,7 @@ Compare results:
 **Problem**: Bundle size exceeds 50MB
 
 **Solutions**:
+
 - Remove unused dependencies
 - Implement more aggressive code splitting
 - Use dynamic imports for rarely used features
@@ -344,6 +341,7 @@ Compare results:
 **Problem**: Screen transitions take >500ms
 
 **Solutions**:
+
 - Lazy load heavy components
 - Use React.memo to prevent unnecessary re-renders
 - Simplify initial render
@@ -354,6 +352,7 @@ Compare results:
 **Problem**: App uses >200MB RAM
 
 **Solutions**:
+
 - Clear image cache periodically
 - Remove event listeners in useEffect cleanup
 - Avoid storing large objects in state

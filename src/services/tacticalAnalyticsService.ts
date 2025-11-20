@@ -85,14 +85,31 @@ export function initializeTacticalAnalytics(): TacticalAnalytics {
 
   // Initialize pattern stats for all motifs
   const motifs: TacticalMotif[] = [
-    'fork', 'hanging-piece', 'pin', 'discovered-attack', 'skewer',
-    'back-rank-mate', 'double-attack', 'deflection', 'x-ray', 'trapped-piece',
-    'removing-defender', 'greek-gift', 'zwischenzug', 'desperado',
-    'smothered-mate', 'attraction', 'clearance', 'interference',
+    'fork',
+    'hanging-piece',
+    'pin',
+    'discovered-attack',
+    'skewer',
+    'back-rank-mate',
+    'double-attack',
+    'deflection',
+    'x-ray',
+    'trapped-piece',
+    'removing-defender',
+    'greek-gift',
+    'zwischenzug',
+    'desperado',
+    'smothered-mate',
+    'attraction',
+    'clearance',
+    'interference',
   ];
 
-  const patternStats: Record<TacticalMotif, PatternStats> = {} as Record<TacticalMotif, PatternStats>;
-  motifs.forEach((motif) => {
+  const patternStats: Record<TacticalMotif, PatternStats> = {} as Record<
+    TacticalMotif,
+    PatternStats
+  >;
+  motifs.forEach(motif => {
     patternStats[motif] = {
       motif,
       totalAttempts: 0,
@@ -158,16 +175,16 @@ export function updateAnalyticsAfterSession(
   updated.totalFlashSolves += sessionStats.flashCount;
   updated.totalFastSolves += sessionStats.fastCount;
   updated.overallAccuracy =
-    ((analytics.overallAccuracy * analytics.totalDrills) +
-      (sessionStats.accuracy * sessionStats.totalAttempts)) /
+    (analytics.overallAccuracy * analytics.totalDrills +
+      sessionStats.accuracy * sessionStats.totalAttempts) /
     updated.totalDrills;
   updated.averageTime =
-    ((analytics.averageTime * analytics.totalDrills) +
-      (sessionStats.averageTime * sessionStats.totalAttempts)) /
+    (analytics.averageTime * analytics.totalDrills +
+      sessionStats.averageTime * sessionStats.totalAttempts) /
     updated.totalDrills;
 
   // Update pattern stats
-  drillDetails.forEach((detail) => {
+  drillDetails.forEach(detail => {
     const motif = detail.drill.motif;
     const stats = updated.patternStats[motif];
 
@@ -179,15 +196,15 @@ export function updateAnalyticsAfterSession(
     if (detail.speedRating === 'fast') stats.fastCount++;
 
     stats.averageTime =
-      ((stats.averageTime * (stats.totalAttempts - 1)) + detail.timeUsed) /
-      stats.totalAttempts;
+      (stats.averageTime * (stats.totalAttempts - 1) + detail.timeUsed) / stats.totalAttempts;
 
     if (detail.timeUsed < stats.bestTime && detail.correct) {
       stats.bestTime = detail.timeUsed;
     }
 
     stats.lastPracticed = new Date();
-    stats.needsWork = stats.accuracy < 70 || ((stats.flashCount + stats.fastCount) / stats.totalAttempts) < 0.5;
+    stats.needsWork =
+      stats.accuracy < 70 || (stats.flashCount + stats.fastCount) / stats.totalAttempts < 0.5;
 
     // Add to failed puzzle queue if incorrect or too slow
     if (!detail.correct || detail.speedRating === 'too-slow') {
@@ -257,8 +274,8 @@ function updateDailyGoal(analytics: TacticalAnalytics, sessionStats: DrillStats)
   goal.completedDrills += sessionStats.totalAttempts;
   goal.flashCount += sessionStats.flashCount;
   goal.accuracy =
-    ((goal.accuracy * (goal.completedDrills - sessionStats.totalAttempts)) +
-      (sessionStats.accuracy * sessionStats.totalAttempts)) /
+    (goal.accuracy * (goal.completedDrills - sessionStats.totalAttempts) +
+      sessionStats.accuracy * sessionStats.totalAttempts) /
     goal.completedDrills;
   goal.completed = goal.completedDrills >= goal.targetDrills;
 }
@@ -272,7 +289,7 @@ function addFailedPuzzle(
   timeUsed: number
 ): void {
   // Check if puzzle already in queue
-  const existingIndex = analytics.failedPuzzles.findIndex((p) => p.drill.id === drill.id);
+  const existingIndex = analytics.failedPuzzles.findIndex(p => p.drill.id === drill.id);
 
   if (existingIndex >= 0) {
     // Update existing entry
@@ -310,7 +327,7 @@ function addFailedPuzzle(
  */
 export function getDueFailedPuzzles(analytics: TacticalAnalytics): FailedPuzzle[] {
   const now = new Date();
-  return analytics.failedPuzzles.filter((p) => p.nextReview <= now);
+  return analytics.failedPuzzles.filter(p => p.nextReview <= now);
 }
 
 /**
@@ -322,17 +339,14 @@ export function markPuzzleMastered(
 ): TacticalAnalytics {
   return {
     ...analytics,
-    failedPuzzles: analytics.failedPuzzles.filter((p) => p.drill.id !== drillId),
+    failedPuzzles: analytics.failedPuzzles.filter(p => p.drill.id !== drillId),
   };
 }
 
 /**
  * Update adaptive difficulty settings
  */
-function updateAdaptiveSettings(
-  analytics: TacticalAnalytics,
-  sessionStats: DrillStats
-): void {
+function updateAdaptiveSettings(analytics: TacticalAnalytics, sessionStats: DrillStats): void {
   const settings = analytics.adaptiveSettings;
 
   // Adjust time multiplier based on performance
@@ -356,10 +370,10 @@ function updateAdaptiveSettings(
 
   // Update recommended patterns
   const weakPatterns = Object.values(analytics.patternStats)
-    .filter((p) => p.needsWork && p.totalAttempts >= 5)
+    .filter(p => p.needsWork && p.totalAttempts >= 5)
     .sort((a, b) => a.accuracy - b.accuracy)
     .slice(0, 4)
-    .map((p) => p.motif);
+    .map(p => p.motif);
 
   if (weakPatterns.length > 0) {
     settings.recommendedPatterns = weakPatterns;
@@ -376,12 +390,14 @@ export function getPatternWeaknessReport(analytics: TacticalAnalytics): {
   needsWork: PatternStats[];
   proficient: PatternStats[];
 } {
-  const patterns = Object.values(analytics.patternStats).filter((p) => p.totalAttempts >= 3);
+  const patterns = Object.values(analytics.patternStats).filter(p => p.totalAttempts >= 3);
 
   return {
-    critical: patterns.filter((p) => p.accuracy < 50).sort((a, b) => a.accuracy - b.accuracy),
-    needsWork: patterns.filter((p) => p.accuracy >= 50 && p.accuracy < 80).sort((a, b) => a.accuracy - b.accuracy),
-    proficient: patterns.filter((p) => p.accuracy >= 80).sort((a, b) => b.accuracy - a.accuracy),
+    critical: patterns.filter(p => p.accuracy < 50).sort((a, b) => a.accuracy - b.accuracy),
+    needsWork: patterns
+      .filter(p => p.accuracy >= 50 && p.accuracy < 80)
+      .sort((a, b) => a.accuracy - b.accuracy),
+    proficient: patterns.filter(p => p.accuracy >= 80).sort((a, b) => b.accuracy - a.accuracy),
   };
 }
 
@@ -423,7 +439,7 @@ export function getRecommendedTraining(analytics: TacticalAnalytics): {
 
   // Check for patterns not practiced recently
   const unpracticed = Object.values(analytics.patternStats)
-    .filter((p) => p.totalAttempts === 0)
+    .filter(p => p.totalAttempts === 0)
     .slice(0, 1);
 
   if (unpracticed.length > 0) {
@@ -444,9 +460,7 @@ export function getRecommendedTraining(analytics: TacticalAnalytics): {
 /**
  * Generate achievement stats for checking unlocks
  */
-export function generateAchievementStats(
-  analytics: TacticalAnalytics
-): {
+export function generateAchievementStats(analytics: TacticalAnalytics): {
   totalTacticalDrills: number;
   tacticalFlashCount: number;
   tacticalAccuracyHigh: number;

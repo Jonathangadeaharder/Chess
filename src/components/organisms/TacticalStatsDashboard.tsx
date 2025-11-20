@@ -28,7 +28,10 @@ interface TacticalStatsDashboardProps {
   onClose?: () => void;
 }
 
-export default function TacticalStatsDashboard({ onStartDrills, onClose }: TacticalStatsDashboardProps) {
+export default function TacticalStatsDashboard({
+  onStartDrills,
+  onClose,
+}: TacticalStatsDashboardProps) {
   const { tacticalAnalytics } = useUserStore();
 
   if (!tacticalAnalytics) {
@@ -66,7 +69,8 @@ export default function TacticalStatsDashboard({ onStartDrills, onClose }: Tacti
         </View>
         <View style={styles.progressContainer}>
           <Text style={styles.progressText}>
-            {tacticalAnalytics.currentDailyGoal.completedDrills} / {tacticalAnalytics.currentDailyGoal.targetDrills}
+            {tacticalAnalytics.currentDailyGoal.completedDrills} /{' '}
+            {tacticalAnalytics.currentDailyGoal.targetDrills}
           </Text>
           <View style={styles.progressBar}>
             <View
@@ -79,22 +83,24 @@ export default function TacticalStatsDashboard({ onStartDrills, onClose }: Tacti
               ]}
             />
           </View>
-          {dailyProgress >= 100 && (
-            <Text style={styles.completedText}>✅ Goal Complete!</Text>
-          )}
+          {dailyProgress >= 100 && <Text style={styles.completedText}>✅ Goal Complete!</Text>}
         </View>
         {tacticalAnalytics.dailyGoalStreak > 0 && (
-          <Text style={styles.streakText}>
-            🔥 {tacticalAnalytics.dailyGoalStreak} day streak
-          </Text>
+          <Text style={styles.streakText}>🔥 {tacticalAnalytics.dailyGoalStreak} day streak</Text>
         )}
       </View>
 
       {/* Recommendation Card */}
       {recommendation.focusPattern && (
-        <View style={[styles.card, styles.recommendationCard, {
-          borderColor: recommendation.priority === 'high' ? Colors.error : Colors.warning,
-        }]}>
+        <View
+          style={[
+            styles.card,
+            styles.recommendationCard,
+            {
+              borderColor: recommendation.priority === 'high' ? Colors.error : Colors.warning,
+            },
+          ]}
+        >
           <Ionicons
             name="bulb-outline"
             size={32}
@@ -137,15 +143,11 @@ export default function TacticalStatsDashboard({ onStartDrills, onClose }: Tacti
             <Ionicons name="alert-circle-outline" size={24} color={Colors.error} />
             <Text style={styles.cardTitle}>Critical Weaknesses</Text>
           </View>
-          {weaknesses.critical.slice(0, 5).map((pattern) => (
+          {weaknesses.critical.slice(0, 5).map(pattern => (
             <View key={pattern.motif} style={styles.patternRow}>
-              <Text style={styles.patternName}>
-                {getMotifDisplayName(pattern.motif)}
-              </Text>
+              <Text style={styles.patternName}>{getMotifDisplayName(pattern.motif)}</Text>
               <View style={styles.patternStats}>
-                <Text style={styles.patternAccuracy}>
-                  {Math.round(pattern.accuracy)}%
-                </Text>
+                <Text style={styles.patternAccuracy}>{Math.round(pattern.accuracy)}%</Text>
                 <Text style={styles.patternAttempts}>
                   ({pattern.correct}/{pattern.totalAttempts})
                 </Text>
@@ -162,11 +164,9 @@ export default function TacticalStatsDashboard({ onStartDrills, onClose }: Tacti
             <Ionicons name="construct-outline" size={24} color={Colors.warning} />
             <Text style={styles.cardTitle}>Needs Work</Text>
           </View>
-          {weaknesses.needsWork.slice(0, 5).map((pattern) => (
+          {weaknesses.needsWork.slice(0, 5).map(pattern => (
             <View key={pattern.motif} style={styles.patternRow}>
-              <Text style={styles.patternName}>
-                {getMotifDisplayName(pattern.motif)}
-              </Text>
+              <Text style={styles.patternName}>{getMotifDisplayName(pattern.motif)}</Text>
               <View style={styles.patternStats}>
                 <Text style={[styles.patternAccuracy, { color: Colors.warning }]}>
                   {Math.round(pattern.accuracy)}%
@@ -187,11 +187,9 @@ export default function TacticalStatsDashboard({ onStartDrills, onClose }: Tacti
             <Ionicons name="checkmark-circle-outline" size={24} color={Colors.success} />
             <Text style={styles.cardTitle}>Proficient Patterns</Text>
           </View>
-          {weaknesses.proficient.slice(0, 5).map((pattern) => (
+          {weaknesses.proficient.slice(0, 5).map(pattern => (
             <View key={pattern.motif} style={styles.patternRow}>
-              <Text style={styles.patternName}>
-                {getMotifDisplayName(pattern.motif)}
-              </Text>
+              <Text style={styles.patternName}>{getMotifDisplayName(pattern.motif)}</Text>
               <View style={styles.patternStats}>
                 <Text style={[styles.patternAccuracy, { color: Colors.success }]}>
                   {Math.round(pattern.accuracy)}%
@@ -217,7 +215,12 @@ export default function TacticalStatsDashboard({ onStartDrills, onClose }: Tacti
             <Text style={styles.statLabel}>Total Drills</Text>
           </View>
           <View style={styles.statItem}>
-            <Text style={[styles.statValue, { color: getAccuracyColor(tacticalAnalytics.overallAccuracy) }]}>
+            <Text
+              style={[
+                styles.statValue,
+                { color: getAccuracyColor(tacticalAnalytics.overallAccuracy) },
+              ]}
+            >
               {Math.round(tacticalAnalytics.overallAccuracy)}%
             </Text>
             <Text style={styles.statLabel}>Accuracy</Text>
@@ -229,9 +232,7 @@ export default function TacticalStatsDashboard({ onStartDrills, onClose }: Tacti
             <Text style={styles.statLabel}>Flash Solves</Text>
           </View>
           <View style={styles.statItem}>
-            <Text style={styles.statValue}>
-              {tacticalAnalytics.averageTime.toFixed(1)}s
-            </Text>
+            <Text style={styles.statValue}>{tacticalAnalytics.averageTime.toFixed(1)}s</Text>
             <Text style={styles.statLabel}>Avg Time</Text>
           </View>
         </View>
@@ -245,13 +246,13 @@ export default function TacticalStatsDashboard({ onStartDrills, onClose }: Tacti
             <Text style={styles.cardTitle}>Adaptive Difficulty</Text>
           </View>
           <Text style={styles.adaptiveText}>
-            Time limits: {Math.round((tacticalAnalytics.adaptiveSettings.timeMultiplier - 1) * 100)}%{' '}
-            {tacticalAnalytics.adaptiveSettings.timeMultiplier > 1 ? 'longer' : 'shorter'}
+            Time limits: {Math.round((tacticalAnalytics.adaptiveSettings.timeMultiplier - 1) * 100)}
+            % {tacticalAnalytics.adaptiveSettings.timeMultiplier > 1 ? 'longer' : 'shorter'}
           </Text>
           <Text style={styles.adaptiveSubtext}>
             {tacticalAnalytics.adaptiveSettings.shouldIncreaseTime
               ? '⏱️ More time given due to recent performance'
-              : '⚡ Less time - you\'re crushing it!'}
+              : "⚡ Less time - you're crushing it!"}
           </Text>
         </View>
       )}

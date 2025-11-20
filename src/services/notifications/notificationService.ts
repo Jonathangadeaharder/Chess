@@ -90,7 +90,7 @@ export async function scheduleNextReviewReminder(
     // Schedule notification
     await Notifications.scheduleNotificationAsync({
       content: {
-        title: "Time to train! ♟️",
+        title: 'Time to train! ♟️',
         body: `You have ${itemCount} opening ${itemCount === 1 ? 'line' : 'lines'} ready for review`,
         sound: true,
         priority: Notifications.AndroidNotificationPriority.HIGH,
@@ -211,8 +211,8 @@ export async function sendTestNotification(): Promise<void> {
   try {
     await Notifications.scheduleNotificationAsync({
       content: {
-        title: "Test Notification",
-        body: "Notifications are working! 🎉",
+        title: 'Test Notification',
+        body: 'Notifications are working! 🎉',
         sound: true,
       },
       trigger: null, // Send immediately

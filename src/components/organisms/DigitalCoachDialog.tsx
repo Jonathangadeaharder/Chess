@@ -132,12 +132,7 @@ export default function DigitalCoachDialog({
   const currentPrompt = prompt.followUpPrompts?.[currentPromptIndex] || prompt;
 
   return (
-    <Modal
-      visible={visible}
-      transparent
-      animationType="none"
-      onRequestClose={handleDismiss}
-    >
+    <Modal visible={visible} transparent animationType="none" onRequestClose={handleDismiss}>
       <Animated.View
         style={[
           styles.overlay,
@@ -182,10 +177,10 @@ export default function DigitalCoachDialog({
                       currentPrompt.type === 'socratic-question'
                         ? 'help-circle'
                         : currentPrompt.type === 'hint'
-                        ? 'bulb'
-                        : currentPrompt.type === 'encouragement'
-                        ? 'thumbs-up'
-                        : 'information-circle'
+                          ? 'bulb'
+                          : currentPrompt.type === 'encouragement'
+                            ? 'thumbs-up'
+                            : 'information-circle'
                     }
                     size={16}
                     color={Colors.textInverse}
@@ -215,10 +210,7 @@ export default function DigitalCoachDialog({
                   {[prompt, ...prompt.followUpPrompts].map((_, index) => (
                     <View
                       key={index}
-                      style={[
-                        styles.dot,
-                        index === currentPromptIndex && styles.activeDot,
-                      ]}
+                      style={[styles.dot, index === currentPromptIndex && styles.activeDot]}
                     />
                   ))}
                 </View>
@@ -236,9 +228,7 @@ export default function DigitalCoachDialog({
                     if (onResponse) onResponse(null);
                   }}
                 >
-                  <Text style={styles.primaryButtonText}>
-                    Show Me
-                  </Text>
+                  <Text style={styles.primaryButtonText}>Show Me</Text>
                 </TouchableOpacity>
               ) : null}
 

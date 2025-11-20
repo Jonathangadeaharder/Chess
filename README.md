@@ -10,18 +10,18 @@ This application implements the complete blueprint for a modern chess learning p
 
 ### Technology Stack
 
-| Component | Technology | Purpose |
-|-----------|-----------|---------|
-| Framework | React Native + Expo | Cross-platform mobile development |
-| State Management | Zustand | Lightweight, performant global state |
-| Navigation | React Navigation (Bottom Tabs) | Four main sections: Learn, Train, Play, Profile |
-| Chess Logic | chess.js | Move validation, FEN/PGN parsing, game state |
-| Animations | react-native-reanimated | 60fps animations on UI thread |
-| Gestures | react-native-gesture-handler | Drag-and-drop and tap interactions |
-| Haptics | expo-haptics | Tactile feedback for moves and events |
-| Audio | expo-av | Sound effects for immersive experience |
-| Storage | AsyncStorage | Local persistence of user data |
-| Database | expo-sqlite | SRS queue storage |
+| Component        | Technology                     | Purpose                                         |
+| ---------------- | ------------------------------ | ----------------------------------------------- |
+| Framework        | React Native + Expo            | Cross-platform mobile development               |
+| State Management | Zustand                        | Lightweight, performant global state            |
+| Navigation       | React Navigation (Bottom Tabs) | Four main sections: Learn, Train, Play, Profile |
+| Chess Logic      | chess.js                       | Move validation, FEN/PGN parsing, game state    |
+| Animations       | react-native-reanimated        | 60fps animations on UI thread                   |
+| Gestures         | react-native-gesture-handler   | Drag-and-drop and tap interactions              |
+| Haptics          | expo-haptics                   | Tactile feedback for moves and events           |
+| Audio            | expo-av                        | Sound effects for immersive experience          |
+| Storage          | AsyncStorage                   | Local persistence of user data                  |
+| Database         | expo-sqlite                    | SRS queue storage                               |
 
 ### Folder Structure (Atomic Design)
 
@@ -58,6 +58,7 @@ src/
 ### 1. Navigation System ✅
 
 Four-tab bottom navigation:
+
 - **Learn (The Academy)**: Structured curriculum and lessons
 - **Train (The Gym)**: Daily SRS reviews and mini-games
 - **Play (The Sparring Ring)**: Full games against AI
@@ -68,6 +69,7 @@ Four-tab bottom navigation:
 Three Zustand stores:
 
 **GameStore** (`src/state/gameStore.ts`):
+
 - Chess game state (position, moves, turn)
 - Move validation and execution
 - Legal move generation
@@ -75,6 +77,7 @@ Three Zustand stores:
 - FEN position loading
 
 **UserStore** (`src/state/userStore.ts`):
+
 - User profile management
 - Daily streak tracking
 - XP and leveling system
@@ -84,6 +87,7 @@ Three Zustand stores:
 - Game history
 
 **UIStore** (`src/state/uiStore.ts`):
+
 - Board and piece theme selection
 - Sound/haptics/animation toggles
 - Coach voice preferences
@@ -93,6 +97,7 @@ Three Zustand stores:
 `src/components/organisms/Chessboard.tsx`
 
 Features:
+
 - **Tap-tap interaction**: Select piece → tap destination
 - **Legal move highlighting**: Visual feedback on valid moves
 - **Multiple board themes**: Modern, Wood, Neo, Classic Green, Ocean Blue
@@ -117,6 +122,7 @@ Implementation of the state-of-the-art FSRS algorithm:
   - Monitor average difficulty/stability
 
 Key functions:
+
 - `scheduleNextReview()`: Main scheduling function
 - `createSRSItem()`: Initialize new items
 - `getDueItems()`: Query items due for review
@@ -127,6 +133,7 @@ Key functions:
 `src/constants/theme.ts`
 
 **Modern, Friendly Theme**:
+
 - Primary color: Spicy Red (#B15653)
 - Clean, light backgrounds
 - DM Sans typography (fallback to System)
@@ -142,6 +149,7 @@ Key functions:
 `src/types/index.ts`
 
 Comprehensive TypeScript definitions for:
+
 - Chess types (Square, Move, Position)
 - Opening systems and variations
 - SRS items and parameters
@@ -220,6 +228,7 @@ Sample repertoire for 5 universal opening systems:
 ### 1. Pedagogical First
 
 The app rejects the "engine-first" approach. Instead of raw evaluations (-3.1), it uses a **Digital Coach** that provides:
+
 - Socratic questions ("What square is critical for your opponent?")
 - Contextual hints
 - Visual highlighting
@@ -228,12 +237,14 @@ The app rejects the "engine-first" approach. Instead of raw evaluations (-3.1), 
 ### 2. Bifurcated SRS System
 
 Solves the "Chessable Problem":
+
 - **MoveTrainer**: Drills procedural memory (move sequences)
 - **ConceptTrainer**: Drills declarative memory (strategic understanding)
 
 ### 3. Game-Based Learning
 
 Beyond simple gamification:
+
 - Mini-games use **asymmetric mechanics** to teach concepts
 - Examples: Bishop's Prison, Transposition Maze, The Fuse
 - Intrinsically fun while teaching strategy
@@ -241,6 +252,7 @@ Beyond simple gamification:
 ### 4. Human-Like AI
 
 Uses **Maia neural network**:
+
 - Trained on millions of human games
 - Makes realistic human mistakes (not random blunders)
 - Different ELO levels (1100, 1300, 1500, 1900)
@@ -274,6 +286,7 @@ npm run web      # Web browser
 ### Project Setup
 
 The app initializes on launch:
+
 1. Loads user profile from AsyncStorage
 2. Loads UI settings
 3. Initializes SRS queue
@@ -284,6 +297,7 @@ The app initializes on launch:
 ### ✅ Completed (Phases 1-6)
 
 **Core Architecture:**
+
 - [x] Project setup with TypeScript and Expo
 - [x] Atomic Design folder structure
 - [x] Bottom tab navigation (4 screens)
@@ -293,6 +307,7 @@ The app initializes on launch:
 - [x] User profile with lesson tracking and streak management
 
 **Interactive Components:**
+
 - [x] Interactive chessboard component with chess.js
 - [x] **Dual interaction modes**: tap-tap and drag-and-drop
 - [x] Smooth drag-and-drop with spring animations
@@ -304,6 +319,7 @@ The app initializes on launch:
 - [x] FSRS algorithm implementation
 
 **Pedagogical Features:**
+
 - [x] Digital Coach dialog component with Socratic prompts
 - [x] MoveTrainer component for SRS move drills (procedural memory)
 - [x] ConceptTrainer component for strategic flashcards (declarative memory)
@@ -313,12 +329,14 @@ The app initializes on launch:
 - [x] **15 tactical puzzles** library (easy, medium, hard)
 
 **Mini-Games (4 Complete):**
+
 - [x] **Bishop's Prison** - Good vs. Bad Bishop endgame drill
 - [x] **The Fuse** - Timed pattern recognition (15 sec challenges)
 - [x] **Transposition Maze** - Navigate different move orders to target positions
 - [x] **Blunder Hunter** - Spot and exploit opponent blunders (5 tactical puzzles)
 
 **Learn Screen (The Academy):**
+
 - [x] **15 structured lessons** across 5 opening systems
 - [x] Interactive lesson viewer with multiple content types
 - [x] Progress tracking per system
@@ -327,6 +345,7 @@ The app initializes on launch:
 - [x] Completion statistics
 
 **Train Screen (The Gym):**
+
 - [x] Fully integrated SRS review queue
 - [x] Demo content generation (3 moves + 3 concepts)
 - [x] "All Done!" completion state
@@ -334,6 +353,7 @@ The app initializes on launch:
 - [x] All 3 mini-games integrated
 
 **Profile Screen (The Trophy Room):**
+
 - [x] Achievement system (17 achievements)
 - [x] Achievement celebration with confetti animation
 - [x] **Comprehensive statistics dashboard**:
@@ -343,6 +363,7 @@ The app initializes on launch:
   - Game performance metrics (win rate, W/D/L record)
 
 **Content Library:**
+
 - [x] **Opening Lines**: 13 lines (160% increase from original 5)
 - [x] **Concept Cards**: 20 strategic flashcards (150% increase from 8)
 - [x] **Tactical Puzzles**: 15 puzzles covering 14 tactical patterns
@@ -350,12 +371,14 @@ The app initializes on launch:
 ### ✅ Phase 7 Complete
 
 **Content Expansion:**
+
 - [x] Expanded concept cards from 8 to 20 (all systems covered)
 - [x] Expanded opening lines from 5 to 13 (all systems)
 - [x] Created tactical patterns library with 15 puzzles
 - [x] Organized puzzles by difficulty and pattern type
 
 **Profile Enhancements:**
+
 - [x] Level progress visualization
 - [x] SRS performance metrics
 - [x] Learning progress breakdown
@@ -364,6 +387,7 @@ The app initializes on launch:
 ### ✅ Phase 8 Complete (UX Enhancements)
 
 **Drag-and-Drop Interaction:**
+
 - [x] Full drag-and-drop support for chessboard
 - [x] Smooth spring animations (scale + opacity)
 - [x] Differentiated haptic feedback (Light → Medium → Heavy)
@@ -375,6 +399,7 @@ The app initializes on launch:
 ### ✅ Phase 9 Complete (Analysis & Visualization)
 
 **SVG Drawing Layer:**
+
 - [x] ChessboardOverlay component with react-native-svg
 - [x] Arrow annotations with customizable colors and opacity
 - [x] Square highlights with customizable colors and opacity
@@ -383,24 +408,26 @@ The app initializes on launch:
 - [x] Automatic arrowhead generation
 - [x] Board flip support (arrows/highlights rotate with board)
 - [x] Utility functions for common patterns:
-  * Best move arrows
-  * Alternative move arrows
-  * Blunder arrows
-  * Threat visualization
-  * Legal move highlighting
-  * Move comparison
+  - Best move arrows
+  - Alternative move arrows
+  - Blunder arrows
+  - Threat visualization
+  - Legal move highlighting
+  - Move comparison
 - [x] Zero performance impact when not in use (conditional rendering)
 - [x] Easy integration with any component using Chessboard
 
 ### ✅ Phase 10 Complete (Polish & Settings)
 
 **Mini-Games:**
+
 - [x] Blunder Hunter mini-game with 5 tactical puzzles
 - [x] Theme-based training (Hanging Piece, Back Rank, Fork, etc.)
 - [x] Progressive difficulty with hints and explanations
 - [x] Performance tracking and accuracy metrics
 
 **Settings Screen:**
+
 - [x] Board theme selection with visual previews (5 themes)
 - [x] Interaction mode toggle (drag-drop, tap-tap, both)
 - [x] Audio & feedback preferences (haptics, sound effects)
@@ -410,6 +437,7 @@ The app initializes on launch:
 ### ✅ Phase 11 Complete (Data Persistence & Full Play Experience)
 
 **Data Persistence:**
+
 - [x] AsyncStorage service wrapper for all app data
 - [x] User profile persistence (XP, level, streaks, completed lessons)
 - [x] UI settings persistence (themes, sound, haptics)
@@ -419,11 +447,12 @@ The app initializes on launch:
 - [x] Export/import functionality for backup/restore
 
 **Full Play Screen:**
+
 - [x] Complete game session management
 - [x] AI opponent with 3 difficulty levels:
-  * Beginner (~800 ELO) - Random moves with occasional tactics
-  * Intermediate (~1200 ELO) - Tactical play with captures/checks
-  * Advanced (~1600 ELO) - Strategic evaluation with 1-ply lookahead
+  - Beginner (~800 ELO) - Random moves with occasional tactics
+  - Intermediate (~1200 ELO) - Tactical play with captures/checks
+  - Advanced (~1600 ELO) - Strategic evaluation with 1-ply lookahead
 - [x] Player color selection (white/black)
 - [x] Real-time AI move calculation with thinking delay
 - [x] Move history display with SAN notation
@@ -435,6 +464,7 @@ The app initializes on launch:
 - [x] Dual interaction mode support (drag-drop + tap-tap)
 
 **Navigation Enhancements:**
+
 - [x] Profile stack navigator for Settings access
 - [x] Settings button in Profile screen header
 - [x] Proper navigation flow throughout app
@@ -442,6 +472,7 @@ The app initializes on launch:
 ### 📋 Planned (Future Phases)
 
 **Integration & Backend:**
+
 - [ ] SQLite database setup for SRS persistence
 - [ ] Firebase/Supabase backend setup
 - [ ] Daily streak validation (server-side)
@@ -450,6 +481,7 @@ The app initializes on launch:
 - [ ] External account linking (Lichess, Chess.com)
 
 **Additional Features:**
+
 - [ ] Game analysis screen with move-by-move review
 - [ ] Onboarding flow (Playstyle Sorter quiz)
 - [ ] Advanced analytics and progress tracking
@@ -535,6 +567,7 @@ The app initializes on launch:
 Format: `[Component] Brief description`
 
 Examples:
+
 - `[Chessboard] Add drag-and-drop support`
 - `[FSRS] Fix stability calculation`
 - `[Coach] Implement Socratic prompts for opening errors`
@@ -569,11 +602,13 @@ Built following the comprehensive blueprint for an adaptive chess learning appli
 ## Recent Updates (Phases 4-7)
 
 ### Phase 4: Interactive Mini-Games
+
 - Created **The Fuse** - Timed tactical pattern recognition
 - 5 puzzles with 15-second countdown and explosion animation
 - Fully integrated into Train screen
 
 ### Phase 5: Complete Lesson System
+
 - Built **15 structured lessons** across all 5 opening systems
 - Created **LessonViewer** component with multiple content types
 - Added **lesson completion tracking** to user profile
@@ -581,6 +616,7 @@ Built following the comprehensive blueprint for an adaptive chess learning appli
 - Sequential unlocking system (must complete previous lesson)
 
 ### Phase 6: Transposition Training
+
 - Created **Transposition Maze** mini-game
 - 3 progressive puzzles teaching move order flexibility
 - Multiple valid solution paths per puzzle
@@ -588,6 +624,7 @@ Built following the comprehensive blueprint for an adaptive chess learning appli
 - Expanded London System and Torre Attack lesson content (2 lessons each)
 
 ### Phase 7: Content Expansion & Enhanced Analytics
+
 - **Concept Card Library**: Expanded from 8 to 20 cards (150% increase)
   - Added 3 London System concepts
   - Added 3 Torre Attack concepts
@@ -607,25 +644,27 @@ Built following the comprehensive blueprint for an adaptive chess learning appli
   - Game performance metrics (win rate, W/D/L record)
 
 ### Phase 8: Drag-and-Drop Interaction
+
 - **Chessboard Drag-and-Drop**: Complete implementation with smooth animations
   - Full gesture handling using react-native-gesture-handler
   - Spring animations for natural feel (scale: 1.0 → 1.2, opacity: 1.0 → 0.8)
   - Piece enlarges on drag start, springs back on invalid move
   - Three interaction modes:
-    * 'drag-drop' - Drag-only mode
-    * 'tap-tap' - Classic two-tap mode
-    * 'both' - Supports both methods (default)
+    - 'drag-drop' - Drag-only mode
+    - 'tap-tap' - Classic two-tap mode
+    - 'both' - Supports both methods (default)
   - Differentiated haptic feedback:
-    * Light: Tap to select
-    * Medium: Drag start
-    * Heavy: Successful drop
-    * Error notification: Invalid drop
+    - Light: Tap to select
+    - Medium: Drag start
+    - Heavy: Successful drop
+    - Error notification: Invalid drop
   - Automatic legal move detection on drop location
   - Maintains legal move highlighting during drag
   - Sound effects integrated (move/capture)
   - Backward compatible with all existing components
 
 ### Phase 9: SVG Drawing Layer
+
 - **ChessboardOverlay Component**: Professional annotation system
   - Built with react-native-svg for crisp vector graphics
   - Arrow annotations with automatic arrowhead generation
@@ -655,6 +694,7 @@ Built following the comprehensive blueprint for an adaptive chess learning appli
   - Works with all interaction modes
 
 ### Phase 10: Polish & Settings Screen
+
 - **Blunder Hunter Mini-Game**: Fourth mini-game complete
   - 5 tactical puzzles teaching exploitation of blunders
   - Themes: Hanging Piece, Back Rank Mate, Discovered Attack, Fork
@@ -667,21 +707,22 @@ Built following the comprehensive blueprint for an adaptive chess learning appli
   - Board theme selection with 5 visual preview cards
   - Interaction mode toggle (drag-drop, tap-tap, both)
   - Audio & Feedback section:
-    * Haptic feedback toggle
-    * Sound effects toggle
+    - Haptic feedback toggle
+    - Sound effects toggle
   - App information display (version, build, platform)
   - Content library statistics:
-    * 15 lessons across 5 opening systems
-    * 20 concept cards for strategic learning
-    * 15 tactical puzzles (3 difficulty levels)
-    * 4 mini-games for skill training
-    * 17 achievements to unlock
+    - 15 lessons across 5 opening systems
+    - 20 concept cards for strategic learning
+    - 15 tactical puzzles (3 difficulty levels)
+    - 4 mini-games for skill training
+    - 17 achievements to unlock
 - **Type System Updates**:
   - Added InteractionMode type definition
   - Added BoardTheme type definition
   - Full type safety across settings
 
 ### Phase 11: Data Persistence & Full Play Experience
+
 - **AsyncStorage Service**: Complete data persistence layer
   - Generic save/load functions with type safety
   - Export/import for backup and restore
@@ -696,9 +737,9 @@ Built following the comprehensive blueprint for an adaptive chess learning appli
 - **Complete Play Screen**: Full game experience vs AI
   - Game setup screen with difficulty and color selection
   - Three AI difficulty levels with realistic play:
-    * Beginner (800 ELO): 80% random, 20% tactical
-    * Intermediate (1200 ELO): 60% tactical, 40% strategic
-    * Advanced (1600 ELO): 90% strategic with minimax evaluation
+    - Beginner (800 ELO): 80% random, 20% tactical
+    - Intermediate (1200 ELO): 60% tactical, 40% strategic
+    - Advanced (1600 ELO): 90% strategic with minimax evaluation
   - Real-time AI move calculation with human-like delays (0.5-2s)
   - Board auto-flips based on player color
   - Move history scrolling display
@@ -723,16 +764,17 @@ Built following the comprehensive blueprint for an adaptive chess learning appli
   - Type-safe AI difficulty levels
 
 ### Phase 12 Part 1: Enhanced AI Engine
+
 - **Significantly Stronger AI**: Complete rewrite with advanced chess engine
   - Multi-ply minimax algorithm with alpha-beta pruning
   - Piece-square tables for positional evaluation
   - Move ordering for pruning efficiency
   - Material + position + mobility evaluation
   - 4 difficulty levels:
-    * Beginner (800 ELO): 1-ply with 50% random moves
-    * Intermediate (1400 ELO): 2-ply with 20% random moves
-    * Advanced (1800 ELO): 3-ply with 5% random moves
-    * Expert (2200 ELO): 4-ply with perfect play
+    - Beginner (800 ELO): 1-ply with 50% random moves
+    - Intermediate (1400 ELO): 2-ply with 20% random moves
+    - Advanced (1800 ELO): 3-ply with 5% random moves
+    - Expert (2200 ELO): 4-ply with perfect play
 - **Move Evaluation System**: Complete analysis framework
   - evaluateMove() function for individual move analysis
   - analyzeGame() function for full game review
@@ -746,6 +788,7 @@ Built following the comprehensive blueprint for an adaptive chess learning appli
   - Best move identification
 
 ### Phase 12 Part 2: Game Analysis Screen
+
 - **Post-Game Analysis Interface**: Comprehensive move-by-move review screen
   - Interactive game replay with move navigation
   - Statistics summary card (accuracy, blunders, mistakes, inaccuracies, best moves)
@@ -767,6 +810,7 @@ Built following the comprehensive blueprint for an adaptive chess learning appli
   - Statistics grid with visual dividers
 
 ### Phase 12 Part 3: Coach Commentary System
+
 - **Intelligent Critical Position Detection**: Automatic identification of learning moments
   - Blunder detection (>300 centipawn loss) with high/medium severity classification
   - Missed tactic identification (150-300 centipawn loss)
@@ -794,6 +838,7 @@ Built following the comprehensive blueprint for an adaptive chess learning appli
   - King safety evaluation
 
 ### Phase 12 Part 4: SQLite Database Migration
+
 - **High-Performance Storage**: Migrated from AsyncStorage to SQLite
   - expo-sqlite integration for production-grade data management
   - Relational database schema with proper indexing

@@ -56,21 +56,24 @@ export class ShareService {
     let message = '';
 
     if (game.result === 'win') {
-      message = `🎉 I just won a chess game!\n` +
+      message =
+        `🎉 I just won a chess game!\n` +
         `Played as ${game.playerColor}\n` +
         `Opponent: ${game.opponentRating} ELO\n` +
         `Moves: ${game.moves}\n` +
         `Accuracy: ${game.accuracy}%\n\n` +
         `Improve your chess with Chess Learning!`;
     } else if (game.result === 'loss') {
-      message = `Lost a tough game but learned a lot!\n` +
+      message =
+        `Lost a tough game but learned a lot!\n` +
         `Played as ${game.playerColor}\n` +
         `Opponent: ${game.opponentRating} ELO\n` +
         `Moves: ${game.moves}\n` +
         `Accuracy: ${game.accuracy}%\n\n` +
         `Every game is a learning opportunity!`;
     } else {
-      message = `Drew a close game!\n` +
+      message =
+        `Drew a close game!\n` +
         `Played as ${game.playerColor}\n` +
         `Opponent: ${game.opponentRating} ELO\n` +
         `Moves: ${game.moves}\n\n` +
@@ -92,7 +95,8 @@ export class ShareService {
   async shareStreak(streak: number): Promise<void> {
     const content: ShareContent = {
       title: `${streak}-Day Streak! 🔥`,
-      message: `I've been training chess for ${streak} days in a row!\n\n` +
+      message:
+        `I've been training chess for ${streak} days in a row!\n\n` +
         `Consistency is key to improvement. Join me on Chess Learning!`,
       url: 'https://chess-learning.app',
     };
@@ -106,7 +110,8 @@ export class ShareService {
   async shareLevelUp(level: number, xp: number): Promise<void> {
     const content: ShareContent = {
       title: `Level ${level} Reached! ⭐`,
-      message: `Just reached level ${level} with ${xp.toLocaleString()} XP!\n\n` +
+      message:
+        `Just reached level ${level} with ${xp.toLocaleString()} XP!\n\n` +
         `Leveling up my chess skills one game at a time. 📈`,
       url: 'https://chess-learning.app',
     };
@@ -121,7 +126,8 @@ export class ShareService {
     const emoji = change > 0 ? '📈' : '📉';
     const content: ShareContent = {
       title: `Chess Rating: ${rating} ${emoji}`,
-      message: `My chess rating: ${rating} (${change > 0 ? '+' : ''}${change})\n\n` +
+      message:
+        `My chess rating: ${rating} (${change > 0 ? '+' : ''}${change})\n\n` +
         `Training hard and seeing results! 🎯`,
       url: 'https://chess-learning.app',
     };
@@ -135,7 +141,8 @@ export class ShareService {
   async sharePuzzleMilestone(count: number, accuracy: number): Promise<void> {
     const content: ShareContent = {
       title: `${count} Tactical Puzzles Solved! 🧩`,
-      message: `Solved ${count} tactical puzzles with ${accuracy}% accuracy!\n\n` +
+      message:
+        `Solved ${count} tactical puzzles with ${accuracy}% accuracy!\n\n` +
         `Sharpening my tactical vision with Chess Learning.`,
       url: 'https://chess-learning.app',
     };

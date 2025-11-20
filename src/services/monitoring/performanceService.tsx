@@ -95,11 +95,7 @@ export class PerformanceService {
         category: 'startup',
       });
 
-      analyticsService.trackPerformance(
-        'app_startup_time',
-        this.appReadyTime,
-        'ms'
-      );
+      analyticsService.trackPerformance('app_startup_time', this.appReadyTime, 'ms');
     });
 
     // TODO: Set up performance observer for native events
@@ -191,12 +187,10 @@ export class PerformanceService {
       console.warn('[Performance] Issue detected:', fullMetric);
 
       // Track in analytics
-      analyticsService.trackPerformance(
-        fullMetric.name,
-        fullMetric.value,
-        fullMetric.unit,
-        { category: fullMetric.category, ...fullMetric.metadata }
-      );
+      analyticsService.trackPerformance(fullMetric.name, fullMetric.value, fullMetric.unit, {
+        category: fullMetric.category,
+        ...fullMetric.metadata,
+      });
     }
   }
 
@@ -446,9 +440,7 @@ export class PerformanceService {
       recommendations.push('Network requests are slow - consider caching or optimizing API calls');
     }
 
-    const slowScreens = this.renderMetrics
-      .filter(r => r.renderTime > 1000)
-      .map(r => r.screenName);
+    const slowScreens = this.renderMetrics.filter(r => r.renderTime > 1000).map(r => r.screenName);
 
     if (slowScreens.length > 0) {
       recommendations.push(`Slow screens detected: ${slowScreens.join(', ')}`);

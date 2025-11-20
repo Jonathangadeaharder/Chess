@@ -38,9 +38,7 @@ export function initializeErrorHandling(): void {
   const originalHandler = global.onunhandledrejection;
 
   global.onunhandledrejection = (event: any) => {
-    const error = event.reason instanceof Error
-      ? event.reason
-      : new Error(String(event.reason));
+    const error = event.reason instanceof Error ? event.reason : new Error(String(event.reason));
 
     errorTrackingService.captureError(error, {
       severity: 'error',
@@ -66,10 +64,7 @@ export function initializeErrorHandling(): void {
 /**
  * Try-catch wrapper for async functions with automatic error reporting
  */
-export function tryCatch<T extends (...args: any[]) => Promise<any>>(
-  fn: T,
-  context?: string
-): T {
+export function tryCatch<T extends (...args: any[]) => Promise<any>>(fn: T, context?: string): T {
   return (async (...args: Parameters<T>) => {
     try {
       return await fn(...args);
@@ -192,11 +187,7 @@ export async function safeChessOperation<T>(
 /**
  * Report a handled error (non-throwing)
  */
-export function reportError(
-  error: Error,
-  context?: string,
-  metadata?: Record<string, any>
-): void {
+export function reportError(error: Error, context?: string, metadata?: Record<string, any>): void {
   errorTrackingService.captureError(error, {
     handled: true,
     context: {

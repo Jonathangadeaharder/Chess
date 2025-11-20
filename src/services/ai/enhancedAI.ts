@@ -13,7 +13,13 @@ import { Chess } from 'chess.js';
 import type { Square } from '../../types';
 import { stockfishService, type StockfishDifficulty } from './stockfishService';
 
-export type AIDifficulty = 'beginner' | 'intermediate' | 'advanced' | 'expert' | 'master' | 'grandmaster';
+export type AIDifficulty =
+  | 'beginner'
+  | 'intermediate'
+  | 'advanced'
+  | 'expert'
+  | 'master'
+  | 'grandmaster';
 
 export interface AIMove {
   from: Square;
@@ -34,66 +40,43 @@ export interface MoveEvaluation {
 
 // Piece-square tables for positional evaluation
 const PIECE_SQUARE_TABLES = {
-  p: [ // Pawns
-    0,  0,  0,  0,  0,  0,  0,  0,
-    50, 50, 50, 50, 50, 50, 50, 50,
-    10, 10, 20, 30, 30, 20, 10, 10,
-    5,  5, 10, 25, 25, 10,  5,  5,
-    0,  0,  0, 20, 20,  0,  0,  0,
-    5, -5,-10,  0,  0,-10, -5,  5,
-    5, 10, 10,-20,-20, 10, 10,  5,
-    0,  0,  0,  0,  0,  0,  0,  0
+  p: [
+    // Pawns
+    0, 0, 0, 0, 0, 0, 0, 0, 50, 50, 50, 50, 50, 50, 50, 50, 10, 10, 20, 30, 30, 20, 10, 10, 5, 5,
+    10, 25, 25, 10, 5, 5, 0, 0, 0, 20, 20, 0, 0, 0, 5, -5, -10, 0, 0, -10, -5, 5, 5, 10, 10, -20,
+    -20, 10, 10, 5, 0, 0, 0, 0, 0, 0, 0, 0,
   ],
-  n: [ // Knights
-    -50,-40,-30,-30,-30,-30,-40,-50,
-    -40,-20,  0,  0,  0,  0,-20,-40,
-    -30,  0, 10, 15, 15, 10,  0,-30,
-    -30,  5, 15, 20, 20, 15,  5,-30,
-    -30,  0, 15, 20, 20, 15,  0,-30,
-    -30,  5, 10, 15, 15, 10,  5,-30,
-    -40,-20,  0,  5,  5,  0,-20,-40,
-    -50,-40,-30,-30,-30,-30,-40,-50,
+  n: [
+    // Knights
+    -50, -40, -30, -30, -30, -30, -40, -50, -40, -20, 0, 0, 0, 0, -20, -40, -30, 0, 10, 15, 15, 10,
+    0, -30, -30, 5, 15, 20, 20, 15, 5, -30, -30, 0, 15, 20, 20, 15, 0, -30, -30, 5, 10, 15, 15, 10,
+    5, -30, -40, -20, 0, 5, 5, 0, -20, -40, -50, -40, -30, -30, -30, -30, -40, -50,
   ],
-  b: [ // Bishops
-    -20,-10,-10,-10,-10,-10,-10,-20,
-    -10,  0,  0,  0,  0,  0,  0,-10,
-    -10,  0,  5, 10, 10,  5,  0,-10,
-    -10,  5,  5, 10, 10,  5,  5,-10,
-    -10,  0, 10, 10, 10, 10,  0,-10,
-    -10, 10, 10, 10, 10, 10, 10,-10,
-    -10,  5,  0,  0,  0,  0,  5,-10,
-    -20,-10,-10,-10,-10,-10,-10,-20,
+  b: [
+    // Bishops
+    -20, -10, -10, -10, -10, -10, -10, -20, -10, 0, 0, 0, 0, 0, 0, -10, -10, 0, 5, 10, 10, 5, 0,
+    -10, -10, 5, 5, 10, 10, 5, 5, -10, -10, 0, 10, 10, 10, 10, 0, -10, -10, 10, 10, 10, 10, 10, 10,
+    -10, -10, 5, 0, 0, 0, 0, 5, -10, -20, -10, -10, -10, -10, -10, -10, -20,
   ],
-  r: [ // Rooks
-    0,  0,  0,  0,  0,  0,  0,  0,
-    5, 10, 10, 10, 10, 10, 10,  5,
-    -5,  0,  0,  0,  0,  0,  0, -5,
-    -5,  0,  0,  0,  0,  0,  0, -5,
-    -5,  0,  0,  0,  0,  0,  0, -5,
-    -5,  0,  0,  0,  0,  0,  0, -5,
-    -5,  0,  0,  0,  0,  0,  0, -5,
-    0,  0,  0,  5,  5,  0,  0,  0
+  r: [
+    // Rooks
+    0, 0, 0, 0, 0, 0, 0, 0, 5, 10, 10, 10, 10, 10, 10, 5, -5, 0, 0, 0, 0, 0, 0, -5, -5, 0, 0, 0, 0,
+    0, 0, -5, -5, 0, 0, 0, 0, 0, 0, -5, -5, 0, 0, 0, 0, 0, 0, -5, -5, 0, 0, 0, 0, 0, 0, -5, 0, 0, 0,
+    5, 5, 0, 0, 0,
   ],
-  q: [ // Queen
-    -20,-10,-10, -5, -5,-10,-10,-20,
-    -10,  0,  0,  0,  0,  0,  0,-10,
-    -10,  0,  5,  5,  5,  5,  0,-10,
-    -5,  0,  5,  5,  5,  5,  0, -5,
-    0,  0,  5,  5,  5,  5,  0, -5,
-    -10,  5,  5,  5,  5,  5,  0,-10,
-    -10,  0,  5,  0,  0,  0,  0,-10,
-    -20,-10,-10, -5, -5,-10,-10,-20
+  q: [
+    // Queen
+    -20, -10, -10, -5, -5, -10, -10, -20, -10, 0, 0, 0, 0, 0, 0, -10, -10, 0, 5, 5, 5, 5, 0, -10,
+    -5, 0, 5, 5, 5, 5, 0, -5, 0, 0, 5, 5, 5, 5, 0, -5, -10, 5, 5, 5, 5, 5, 0, -10, -10, 0, 5, 0, 0,
+    0, 0, -10, -20, -10, -10, -5, -5, -10, -10, -20,
   ],
-  k: [ // King (middlegame)
-    -30,-40,-40,-50,-50,-40,-40,-30,
-    -30,-40,-40,-50,-50,-40,-40,-30,
-    -30,-40,-40,-50,-50,-40,-40,-30,
-    -30,-40,-40,-50,-50,-40,-40,-30,
-    -20,-30,-30,-40,-40,-30,-30,-20,
-    -10,-20,-20,-20,-20,-20,-20,-10,
-    20, 20,  0,  0,  0,  0, 20, 20,
-    20, 30, 10,  0,  0, 10, 30, 20
-  ]
+  k: [
+    // King (middlegame)
+    -30, -40, -40, -50, -50, -40, -40, -30, -30, -40, -40, -50, -50, -40, -40, -30, -30, -40, -40,
+    -50, -50, -40, -40, -30, -30, -40, -40, -50, -50, -40, -40, -30, -20, -30, -30, -40, -40, -30,
+    -30, -20, -10, -20, -20, -20, -20, -20, -20, -10, 20, 20, 0, 0, 0, 0, 20, 20, 20, 30, 10, 0, 0,
+    10, 30, 20,
+  ],
 };
 
 const PIECE_VALUES = {
@@ -102,7 +85,7 @@ const PIECE_VALUES = {
   b: 330,
   r: 500,
   q: 900,
-  k: 20000
+  k: 20000,
 };
 
 /**
@@ -147,7 +130,8 @@ export function evaluatePosition(chess: Chess): number {
 
   // King safety (penalize king exposure in middlegame)
   const moveCount = chess.history().length;
-  if (moveCount < 40) { // Middlegame
+  if (moveCount < 40) {
+    // Middlegame
     // Additional evaluation for king safety could go here
   }
 
@@ -248,13 +232,7 @@ export function getBestMove(chess: Chess, depth: number = 3): AIMove | null {
 
   for (const move of orderedMoves) {
     chess.move(move.san);
-    const evaluation = minimax(
-      chess,
-      depth - 1,
-      -Infinity,
-      Infinity,
-      !isMaximizing
-    );
+    const evaluation = minimax(chess, depth - 1, -Infinity, Infinity, !isMaximizing);
     chess.undo();
 
     const finalEval = isMaximizing ? evaluation : -evaluation;
@@ -331,7 +309,10 @@ export function analyzeGame(moves: string[], startFen?: string): MoveEvaluation[
 /**
  * Get AI move based on difficulty
  */
-export async function getAIMove(chess: Chess, difficulty: AIDifficulty = 'intermediate'): Promise<AIMove | null> {
+export async function getAIMove(
+  chess: Chess,
+  difficulty: AIDifficulty = 'intermediate'
+): Promise<AIMove | null> {
   if (chess.isGameOver()) return null;
 
   // Use Stockfish for master and grandmaster levels
@@ -410,7 +391,7 @@ export async function getAIMoveDelayed(
 ): Promise<AIMove | null> {
   const delay = Math.random() * (maxDelay - minDelay) + minDelay;
 
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     setTimeout(() => {
       resolve(getAIMove(chess, difficulty));
     }, delay);

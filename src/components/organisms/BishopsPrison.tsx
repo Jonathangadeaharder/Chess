@@ -10,14 +10,7 @@
  */
 
 import React, { useState, useEffect, useCallback } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Modal,
-  Animated,
-} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Modal, Animated } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { Chess } from 'chess.js';
@@ -61,7 +54,7 @@ export default function BishopsPrison({ onComplete, onExit }: BishopsPrisonProps
         {
           id: 'bishops-prison-goal',
           type: 'socratic-question',
-          text: "Your goal: Use your king and good bishop to infiltrate and win. What advantage does your bishop have?",
+          text: 'Your goal: Use your king and good bishop to infiltrate and win. What advantage does your bishop have?',
         },
       ],
     };
@@ -225,9 +218,7 @@ export default function BishopsPrison({ onComplete, onExit }: BishopsPrisonProps
 
         <View style={styles.statItem}>
           <Ionicons name="time" size={20} color={Colors.info} />
-          <Text style={styles.statValue}>
-            {Math.floor((Date.now() - startTime) / 1000)}s
-          </Text>
+          <Text style={styles.statValue}>{Math.floor((Date.now() - startTime) / 1000)}s</Text>
           <Text style={styles.statLabel}>Time</Text>
         </View>
 
@@ -246,11 +237,7 @@ export default function BishopsPrison({ onComplete, onExit }: BishopsPrisonProps
 
       {/* Chessboard */}
       <View style={styles.boardContainer}>
-        <Chessboard
-          showCoordinates={true}
-          interactionMode="tap-tap"
-          onMove={handleMoveAttempt}
-        />
+        <Chessboard showCoordinates={true} interactionMode="tap-tap" onMove={handleMoveAttempt} />
       </View>
 
       {/* Concept Explanation */}
@@ -260,24 +247,19 @@ export default function BishopsPrison({ onComplete, onExit }: BishopsPrisonProps
           <Text style={styles.conceptTitle}>Key Concept</Text>
         </View>
         <Text style={styles.conceptText}>
-          A "bad" bishop is blocked by its own pawns on the same color. A "good" bishop has pawns on opposite colors, giving it mobility and control.
+          A "bad" bishop is blocked by its own pawns on the same color. A "good" bishop has pawns on
+          opposite colors, giving it mobility and control.
         </Text>
       </View>
 
       {/* Actions */}
       <View style={styles.actions}>
-        <TouchableOpacity
-          style={[styles.actionButton, styles.hintButton]}
-          onPress={handleHint}
-        >
+        <TouchableOpacity style={[styles.actionButton, styles.hintButton]} onPress={handleHint}>
           <Ionicons name="bulb-outline" size={20} color={Colors.info} />
           <Text style={styles.hintButtonText}>Hint</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={[styles.actionButton, styles.resetButton]}
-          onPress={handleReset}
-        >
+        <TouchableOpacity style={[styles.actionButton, styles.resetButton]} onPress={handleReset}>
           <Ionicons name="refresh-outline" size={20} color={Colors.textSecondary} />
           <Text style={styles.resetButtonText}>Reset</Text>
         </TouchableOpacity>

@@ -9,27 +9,30 @@ import { useUIStore } from '../../state/uiStore';
 
 // Sound types
 export type SoundType =
-  | 'move'           // Standard piece move
-  | 'capture'        // Piece capture
-  | 'castling'       // Castling move
-  | 'check'          // Check announcement
-  | 'checkmate'      // Checkmate
-  | 'draw'           // Draw/stalemate
-  | 'success'        // Puzzle/drill success
-  | 'error'          // Incorrect move/blunder
-  | 'click'          // UI button click
-  | 'whoosh'         // Menu navigation
-  | 'streak'         // Streak achievement
-  | 'levelUp'        // Level up
-  | 'unlock'         // Achievement unlock
-  | 'notification';  // General notification
+  | 'move' // Standard piece move
+  | 'capture' // Piece capture
+  | 'castling' // Castling move
+  | 'check' // Check announcement
+  | 'checkmate' // Checkmate
+  | 'draw' // Draw/stalemate
+  | 'success' // Puzzle/drill success
+  | 'error' // Incorrect move/blunder
+  | 'click' // UI button click
+  | 'whoosh' // Menu navigation
+  | 'streak' // Streak achievement
+  | 'levelUp' // Level up
+  | 'unlock' // Achievement unlock
+  | 'notification'; // General notification
 
 // Sound cache
 const soundCache: Map<SoundType, Audio.Sound> = new Map();
 
 // Sound file mappings (using web audio APIs or embedded base64 for now)
 // In production, these would be actual audio files in assets/sounds/
-const SOUND_FREQUENCIES: Record<SoundType, { frequency: number; duration: number; volume?: number }> = {
+const SOUND_FREQUENCIES: Record<
+  SoundType,
+  { frequency: number; duration: number; volume?: number }
+> = {
   move: { frequency: 440, duration: 100, volume: 0.3 },
   capture: { frequency: 330, duration: 150, volume: 0.4 },
   castling: { frequency: 523, duration: 120, volume: 0.35 },
@@ -150,14 +153,7 @@ export async function playSoundSequence(types: SoundType[], delayMs: number = 10
  * Call this on app startup to reduce latency
  */
 export async function preloadSounds(): Promise<void> {
-  const commonSounds: SoundType[] = [
-    'move',
-    'capture',
-    'check',
-    'success',
-    'error',
-    'click',
-  ];
+  const commonSounds: SoundType[] = ['move', 'capture', 'check', 'success', 'error', 'click'];
 
   await Promise.all(commonSounds.map(type => loadSound(type)));
 }
@@ -181,15 +177,13 @@ export async function unloadAllSounds(): Promise<void> {
  * Play sound based on chess move context
  * Intelligently selects the right sound
  */
-export async function playMoveSound(
-  moveData: {
-    isCapture?: boolean;
-    isCastling?: boolean;
-    isCheck?: boolean;
-    isCheckmate?: boolean;
-    isDraw?: boolean;
-  }
-): Promise<void> {
+export async function playMoveSound(moveData: {
+  isCapture?: boolean;
+  isCastling?: boolean;
+  isCheck?: boolean;
+  isCheckmate?: boolean;
+  isDraw?: boolean;
+}): Promise<void> {
   if (moveData.isCheckmate) {
     await playSound('checkmate');
   } else if (moveData.isDraw) {
@@ -229,7 +223,7 @@ export function setGlobalVolume(volume: number): void {
   const clampedVolume = Math.max(0, Math.min(1, volume));
 
   // Update all cached sounds
-  soundCache.forEach(async (sound) => {
+  soundCache.forEach(async sound => {
     try {
       await sound.setVolumeAsync(clampedVolume);
     } catch (error) {

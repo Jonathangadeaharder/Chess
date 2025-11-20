@@ -11,14 +11,7 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Animated,
-  ScrollView,
-} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Animated, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 
@@ -75,12 +68,14 @@ export default function TacticalDrill({
   const [currentDrillIndex, setCurrentDrillIndex] = useState(0);
 
   // Track drill details for analytics
-  const [drillDetails, setDrillDetails] = useState<Array<{
-    drill: TacticalDrill;
-    correct: boolean;
-    speedRating: string;
-    timeUsed: number;
-  }>>([]);
+  const [drillDetails, setDrillDetails] = useState<
+    Array<{
+      drill: TacticalDrill;
+      correct: boolean;
+      speedRating: string;
+      timeUsed: number;
+    }>
+  >([]);
 
   // Timer state
   const [timeRemaining, setTimeRemaining] = useState(8);
@@ -203,7 +198,7 @@ export default function TacticalDrill({
     }).start();
 
     timerRef.current = setInterval(() => {
-      setTimeRemaining((prev) => {
+      setTimeRemaining(prev => {
         if (prev <= 0.1) {
           handleTimeout();
           return 0;
@@ -254,15 +249,18 @@ export default function TacticalDrill({
     setSpeedRating(rating);
 
     // Track drill details for analytics
-    setDrillDetails(prev => [...prev, {
-      drill: currentDrill,
-      correct: true,
-      speedRating: rating,
-      timeUsed: elapsed,
-    }]);
+    setDrillDetails(prev => [
+      ...prev,
+      {
+        drill: currentDrill,
+        correct: true,
+        speedRating: rating,
+        timeUsed: elapsed,
+      },
+    ]);
 
     // Update stats
-    setStats((prev) => {
+    setStats(prev => {
       const newStats = {
         ...prev,
         totalAttempts: prev.totalAttempts + 1,
@@ -275,7 +273,7 @@ export default function TacticalDrill({
 
       newStats.accuracy = (newStats.correct / newStats.totalAttempts) * 100;
       newStats.averageTime =
-        ((prev.averageTime * prev.totalAttempts) + elapsed) / newStats.totalAttempts;
+        (prev.averageTime * prev.totalAttempts + elapsed) / newStats.totalAttempts;
       newStats.canAdvance = canAdvanceToNextTier(
         newStats.accuracy,
         newStats.flashCount,
@@ -326,15 +324,18 @@ export default function TacticalDrill({
     setSpeedRating('too-slow');
 
     // Track drill details for analytics
-    setDrillDetails(prev => [...prev, {
-      drill: currentDrill,
-      correct: false,
-      speedRating: 'too-slow',
-      timeUsed: currentDrill.timeLimit,
-    }]);
+    setDrillDetails(prev => [
+      ...prev,
+      {
+        drill: currentDrill,
+        correct: false,
+        speedRating: 'too-slow',
+        timeUsed: currentDrill.timeLimit,
+      },
+    ]);
 
     // Update stats
-    setStats((prev) => {
+    setStats(prev => {
       const newStats = {
         ...prev,
         totalAttempts: prev.totalAttempts + 1,
@@ -373,7 +374,7 @@ export default function TacticalDrill({
     setShowCoach(true);
 
     // Mark as failed if hint used
-    setStats((prev) => ({
+    setStats(prev => ({
       ...prev,
       totalAttempts: prev.totalAttempts + 1,
       failedCount: prev.failedCount + 1,
@@ -488,19 +489,19 @@ export default function TacticalDrill({
         <Ionicons name="flash" size={16} color={Colors.textInverse} />
         <Text style={styles.motifText}>{getMotifDisplayName(currentDrill.motif)}</Text>
         <Text style={styles.frequencyBadge}>
-          {currentDrill.frequency === 'very-high' ? '★★★★' :
-           currentDrill.frequency === 'high' ? '★★★' :
-           currentDrill.frequency === 'medium' ? '★★' : '★'}
+          {currentDrill.frequency === 'very-high'
+            ? '★★★★'
+            : currentDrill.frequency === 'high'
+              ? '★★★'
+              : currentDrill.frequency === 'medium'
+                ? '★★'
+                : '★'}
         </Text>
       </View>
 
       {/* Chessboard */}
       <View style={styles.boardContainer}>
-        <Chessboard
-          showCoordinates={true}
-          interactionMode="both"
-          onMove={handleMoveAttempt}
-        />
+        <Chessboard showCoordinates={true} interactionMode="both" onMove={handleMoveAttempt} />
       </View>
 
       {/* Live Stats */}
@@ -529,9 +530,7 @@ export default function TacticalDrill({
           </Text>
           <View style={styles.progressBars}>
             <View style={styles.progressBarContainer}>
-              <Text style={styles.progressLabel}>
-                Accuracy: {stats.accuracy.toFixed(0)}% / 80%
-              </Text>
+              <Text style={styles.progressLabel}>Accuracy: {stats.accuracy.toFixed(0)}% / 80%</Text>
               <View style={styles.progressTrack}>
                 <View
                   style={[
@@ -546,7 +545,9 @@ export default function TacticalDrill({
             </View>
             <View style={styles.progressBarContainer}>
               <Text style={styles.progressLabel}>
-                Speed: {(((stats.flashCount + stats.fastCount) / stats.totalAttempts) * 100).toFixed(0)}% / 70%
+                Speed:{' '}
+                {(((stats.flashCount + stats.fastCount) / stats.totalAttempts) * 100).toFixed(0)}% /
+                70%
               </Text>
               <View style={styles.progressTrack}>
                 <View

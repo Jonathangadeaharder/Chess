@@ -8,14 +8,7 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Animated,
-  ScrollView,
-} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Animated, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 
@@ -100,7 +93,7 @@ const CHECKMATE_PUZZLES: CheckmatePuzzle[] = [
   },
   {
     id: 'mate-5',
-    name: 'Anastasia\'s Mate',
+    name: "Anastasia's Mate",
     fen: '5rk1/5Npp/8/8/8/8/8/6RK w - - 0 1',
     solution: ['Rg8+', 'Rxg8', 'Nxg8'],
     patternType: 'anastasias-mate',
@@ -116,8 +109,8 @@ const CHECKMATE_PUZZLES: CheckmatePuzzle[] = [
     solution: ['Qe8#'],
     patternType: 'epaulette-mate',
     difficulty: 'medium',
-    description: 'The king\'s own rooks block escape - like epaulettes on a uniform.',
-    hint: 'The rooks are blocking the king\'s escape!',
+    description: "The king's own rooks block escape - like epaulettes on a uniform.",
+    hint: "The rooks are blocking the king's escape!",
     timeLimit: 15,
   },
   {
@@ -196,7 +189,7 @@ function getPatternName(pattern: CheckmatePattern): string {
     'back-rank-mate': 'Back Rank Mate',
     'smothered-mate': 'Smothered Mate',
     'arabian-mate': 'Arabian Mate',
-    'anastasias-mate': 'Anastasia\'s Mate',
+    'anastasias-mate': "Anastasia's Mate",
     'epaulette-mate': 'Epaulette Mate',
     'opera-mate': 'Opera Mate',
     'double-bishop-mate': 'Double Bishop Mate',
@@ -272,7 +265,7 @@ export default function CheckmateMaster({ onComplete, onExit }: CheckmateMasterP
     setIsActive(true);
 
     timerRef.current = setInterval(() => {
-      setTimeRemaining((prev) => {
+      setTimeRemaining(prev => {
         if (prev <= 1) {
           handleTimeOut();
           return 0;
@@ -398,7 +391,8 @@ export default function CheckmateMaster({ onComplete, onExit }: CheckmateMasterP
     outputRange: [0, 1],
   });
 
-  const timerColor = timeRemaining <= 5 ? Colors.error : timeRemaining <= 10 ? Colors.warning : Colors.primary;
+  const timerColor =
+    timeRemaining <= 5 ? Colors.error : timeRemaining <= 10 ? Colors.warning : Colors.primary;
 
   return (
     <View style={styles.container}>
@@ -413,9 +407,7 @@ export default function CheckmateMaster({ onComplete, onExit }: CheckmateMasterP
             <Ionicons name="trophy" size={24} color={Colors.gold} />
             <Text style={styles.title}>Checkmate Master</Text>
           </View>
-          <Text style={styles.subtitle}>
-            {getPatternName(currentPuzzle.patternType)}
-          </Text>
+          <Text style={styles.subtitle}>{getPatternName(currentPuzzle.patternType)}</Text>
         </View>
 
         <TouchableOpacity onPress={handleHint} style={styles.hintButton}>
@@ -436,17 +428,12 @@ export default function CheckmateMaster({ onComplete, onExit }: CheckmateMasterP
       {/* Timer */}
       <View style={styles.timerContainer}>
         <Ionicons name="time-outline" size={20} color={timerColor} />
-        <Text style={[styles.timerText, { color: timerColor }]}>
-          {timeRemaining}s
-        </Text>
+        <Text style={[styles.timerText, { color: timerColor }]}>{timeRemaining}s</Text>
       </View>
 
       {/* Chessboard */}
       <View style={styles.boardContainer}>
-        <Chessboard
-          onMoveAttempt={handleMoveAttempt}
-          disabled={solved || failed || !isActive}
-        />
+        <Chessboard onMoveAttempt={handleMoveAttempt} disabled={solved || failed || !isActive} />
 
         {/* Success Crown Animation */}
         {solved && (
@@ -485,10 +472,7 @@ export default function CheckmateMaster({ onComplete, onExit }: CheckmateMasterP
 
       {/* Digital Coach Dialog */}
       {showCoach && coachPrompt && (
-        <DigitalCoachDialog
-          prompt={coachPrompt}
-          onDismiss={() => setShowCoach(false)}
-        />
+        <DigitalCoachDialog prompt={coachPrompt} onDismiss={() => setShowCoach(false)} />
       )}
     </View>
   );

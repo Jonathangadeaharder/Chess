@@ -71,7 +71,7 @@ function getTacticalMove(chess: Chess): AIMove | null {
   if (moves.length === 0) return null;
 
   // Prioritize captures
-  const captures = moves.filter((m) => m.captured);
+  const captures = moves.filter(m => m.captured);
   if (captures.length > 0 && Math.random() > 0.3) {
     const move = captures[Math.floor(Math.random() * captures.length)];
     return {
@@ -82,7 +82,7 @@ function getTacticalMove(chess: Chess): AIMove | null {
   }
 
   // Prioritize checks
-  const checks = moves.filter((m) => {
+  const checks = moves.filter(m => {
     const testChess = new Chess(chess.fen());
     testChess.move(m.san);
     return testChess.inCheck();
@@ -172,7 +172,7 @@ export async function getAIMoveDelayed(
 ): Promise<AIMove | null> {
   const delay = Math.random() * (maxDelay - minDelay) + minDelay;
 
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     setTimeout(() => {
       resolve(getAIMove(chess, difficulty));
     }, delay);

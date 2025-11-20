@@ -7,13 +7,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Modal,
-} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Modal } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 
@@ -45,7 +39,8 @@ const BLUNDER_PUZZLES: BlunderPuzzle[] = [
     solution: 'Nxe4',
     theme: 'Hanging Piece',
     hint: 'White just played Bc4 and left something undefended. What can you capture?',
-    explanation: 'White played Bc4 and forgot to defend the e4 pawn! Nxe4 wins a clean pawn with no compensation.',
+    explanation:
+      'White played Bc4 and forgot to defend the e4 pawn! Nxe4 wins a clean pawn with no compensation.',
   },
   {
     id: 'blunder-2',
@@ -54,8 +49,9 @@ const BLUNDER_PUZZLES: BlunderPuzzle[] = [
     blunderMove: 'Ra1',
     solution: 'Ra1#',
     theme: 'Back Rank Mate',
-    hint: 'White\'s king is trapped on the back rank. Look for checkmate!',
-    explanation: 'White played Ra1 but their own king is trapped! Ra1# is immediate checkmate because the king cannot escape.',
+    hint: "White's king is trapped on the back rank. Look for checkmate!",
+    explanation:
+      'White played Ra1 but their own king is trapped! Ra1# is immediate checkmate because the king cannot escape.',
   },
   {
     id: 'blunder-3',
@@ -65,7 +61,8 @@ const BLUNDER_PUZZLES: BlunderPuzzle[] = [
     solution: 'Nxe5',
     theme: 'Hanging Piece',
     hint: 'Black just pushed the e-pawn. Did they defend it?',
-    explanation: 'Black played ...e5 without defending it! Nxe5 wins the pawn, and if Black recaptures with the knight, White can simply take it back.',
+    explanation:
+      'Black played ...e5 without defending it! Nxe5 wins the pawn, and if Black recaptures with the knight, White can simply take it back.',
   },
   {
     id: 'blunder-4',
@@ -74,8 +71,9 @@ const BLUNDER_PUZZLES: BlunderPuzzle[] = [
     blunderMove: 'Bc5',
     solution: 'Nxe5',
     theme: 'Discovered Attack',
-    hint: 'Black\'s bishop just moved. What piece is now undefended?',
-    explanation: 'Black played ...Bc5, but the knight on c6 was defending e5! Nxe5 wins the pawn, and the knight can\'t be recaptured without losing the bishop.',
+    hint: "Black's bishop just moved. What piece is now undefended?",
+    explanation:
+      "Black played ...Bc5, but the knight on c6 was defending e5! Nxe5 wins the pawn, and the knight can't be recaptured without losing the bishop.",
   },
   {
     id: 'blunder-5',
@@ -84,8 +82,9 @@ const BLUNDER_PUZZLES: BlunderPuzzle[] = [
     blunderMove: 'Bc4',
     solution: 'Qd4',
     theme: 'Fork',
-    hint: 'White\'s bishop and e4 pawn are on the same diagonal. Your queen can attack both!',
-    explanation: 'After Bc4, the queen can land on d4 forking the bishop and the e4 pawn. White must lose material.',
+    hint: "White's bishop and e4 pawn are on the same diagonal. Your queen can attack both!",
+    explanation:
+      'After Bc4, the queen can land on d4 forking the bishop and the e4 pawn. White must lose material.',
   },
 ];
 
@@ -138,8 +137,9 @@ export default function BlunderHunter({ onComplete, onExit }: BlunderHunterProps
     if (!moveMade) return;
 
     const moveNotation = `${from}${to}`;
-    const isCorrect = currentPuzzle.solution.toLowerCase().includes(from) &&
-                      currentPuzzle.solution.toLowerCase().includes(to);
+    const isCorrect =
+      currentPuzzle.solution.toLowerCase().includes(from) &&
+      currentPuzzle.solution.toLowerCase().includes(to);
 
     setAttempts(prev => prev + 1);
     setTotalAttempts(prev => prev + 1);
@@ -168,7 +168,10 @@ export default function BlunderHunter({ onComplete, onExit }: BlunderHunterProps
       const failPrompt: CoachPrompt = {
         id: 'blunder-fail',
         type: 'hint',
-        text: attempts >= 1 ? `Not quite. ${currentPuzzle.hint}` : 'That\'s not the best move. Try again!',
+        text:
+          attempts >= 1
+            ? `Not quite. ${currentPuzzle.hint}`
+            : "That's not the best move. Try again!",
       };
 
       setCoachPrompt(failPrompt);
@@ -248,30 +251,20 @@ export default function BlunderHunter({ onComplete, onExit }: BlunderHunterProps
 
       {/* Chessboard */}
       <View style={styles.boardContainer}>
-        <Chessboard
-          interactionMode="both"
-          onMove={handleMove}
-          arrows={arrows}
-        />
+        <Chessboard interactionMode="both" onMove={handleMove} arrows={arrows} />
       </View>
 
       {/* Action Buttons */}
       <View style={styles.actions}>
         {!solved && (
-          <TouchableOpacity
-            style={[styles.button, styles.hintButton]}
-            onPress={handleHint}
-          >
+          <TouchableOpacity style={[styles.button, styles.hintButton]} onPress={handleHint}>
             <Ionicons name="help-circle" size={20} color={Colors.textInverse} />
             <Text style={styles.buttonText}>Hint</Text>
           </TouchableOpacity>
         )}
 
         {solved && (
-          <TouchableOpacity
-            style={[styles.button, styles.nextButton]}
-            onPress={handleNextPuzzle}
-          >
+          <TouchableOpacity style={[styles.button, styles.nextButton]} onPress={handleNextPuzzle}>
             <Text style={styles.buttonText}>
               {currentPuzzleIndex < BLUNDER_PUZZLES.length - 1 ? 'Next Puzzle' : 'Finish'}
             </Text>
@@ -283,10 +276,7 @@ export default function BlunderHunter({ onComplete, onExit }: BlunderHunterProps
       {/* Digital Coach */}
       {showCoach && coachPrompt && (
         <Modal visible={showCoach} transparent animationType="fade">
-          <DigitalCoachDialog
-            prompt={coachPrompt}
-            onDismiss={() => setShowCoach(false)}
-          />
+          <DigitalCoachDialog prompt={coachPrompt} onDismiss={() => setShowCoach(false)} />
         </Modal>
       )}
     </View>

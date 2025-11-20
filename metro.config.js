@@ -63,12 +63,9 @@ config.serializer = {
   // Generate source maps for production debugging
   createModuleIdFactory: () => {
     const projectRootPath = __dirname;
-    return (path) => {
+    return path => {
       // Use shorter, more predictable module IDs
-      const relativePath = path
-        .replace(projectRootPath, '')
-        .replace(/\\/g, '/')
-        .replace(/^\//, '');
+      const relativePath = path.replace(projectRootPath, '').replace(/\\/g, '/').replace(/^\//, '');
       return relativePath;
     };
   },
@@ -78,16 +75,9 @@ config.serializer = {
 config.resolver = {
   ...config.resolver,
   // Support for WebP images
-  assetExts: [
-    ...config.resolver.assetExts,
-    'webp',
-  ],
+  assetExts: [...config.resolver.assetExts, 'webp'],
   // Source extensions
-  sourceExts: [
-    ...config.resolver.sourceExts,
-    'ts',
-    'tsx',
-  ],
+  sourceExts: [...config.resolver.sourceExts, 'ts', 'tsx'],
 };
 
 // Cache configuration for faster builds

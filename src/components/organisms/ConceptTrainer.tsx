@@ -97,11 +97,12 @@ export default function ConceptTrainer({ srsItem, onComplete, onSkip }: ConceptT
     }
 
     if (hapticsEnabled) {
-      const intensity = rating === 4
-        ? Haptics.NotificationFeedbackType.Success
-        : rating === 1
-        ? Haptics.NotificationFeedbackType.Warning
-        : Haptics.NotificationFeedbackType.Success;
+      const intensity =
+        rating === 4
+          ? Haptics.NotificationFeedbackType.Success
+          : rating === 1
+            ? Haptics.NotificationFeedbackType.Warning
+            : Haptics.NotificationFeedbackType.Success;
 
       Haptics.notificationAsync(intensity);
     }
@@ -146,10 +147,7 @@ export default function ConceptTrainer({ srsItem, onComplete, onSkip }: ConceptT
 
       {/* Position */}
       <View style={styles.boardContainer}>
-        <Chessboard
-          showCoordinates={true}
-          interactionMode="tap-tap"
-        />
+        <Chessboard showCoordinates={true} interactionMode="tap-tap" />
       </View>
 
       {/* Card - Question/Answer */}

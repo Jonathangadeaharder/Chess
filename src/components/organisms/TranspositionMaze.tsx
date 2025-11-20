@@ -5,14 +5,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  Dimensions,
-} from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Chess } from 'chess.js';
 import { Colors, Typography, Spacing, BorderRadius } from '../../constants/theme';
@@ -95,7 +88,7 @@ const TRANSPOSITION_PUZZLES: TranspositionPuzzle[] = [
       {
         move: 'e2e3',
         san: 'e3',
-        description: 'Playing e3 before Bf4 blocks the bishop - that\'s the Colle, not London!',
+        description: "Playing e3 before Bf4 blocks the bishop - that's the Colle, not London!",
         isCorrect: false,
       },
     ],
@@ -305,11 +298,7 @@ export default function TranspositionMaze({ onComplete, onExit }: TranspositionM
           <Text style={styles.targetLabel}>TARGET POSITION</Text>
           <Text style={styles.targetDescription}>{currentPuzzle.targetDescription}</Text>
           <View style={styles.boardContainer}>
-            <Chessboard
-              size={BOARD_SIZE}
-              position={currentPuzzle.targetFen}
-              interactive={false}
-            />
+            <Chessboard size={BOARD_SIZE} position={currentPuzzle.targetFen} interactive={false} />
           </View>
         </View>
 
@@ -324,13 +313,15 @@ export default function TranspositionMaze({ onComplete, onExit }: TranspositionM
               <Text style={styles.pathEmpty}>Start by selecting a move below</Text>
             ) : (
               <Text style={styles.pathText}>
-                {currentPath.map((move, index) => {
-                  const chessTest = new Chess(currentPuzzle.startFen);
-                  for (let i = 0; i <= index; i++) {
-                    chessTest.move(currentPath[i]);
-                  }
-                  return chessTest.history().slice(-1)[0];
-                }).join(' → ')}
+                {currentPath
+                  .map((move, index) => {
+                    const chessTest = new Chess(currentPuzzle.startFen);
+                    for (let i = 0; i <= index; i++) {
+                      chessTest.move(currentPath[i]);
+                    }
+                    return chessTest.history().slice(-1)[0];
+                  })
+                  .join(' → ')}
               </Text>
             )}
           </View>
@@ -341,7 +332,9 @@ export default function TranspositionMaze({ onComplete, onExit }: TranspositionM
             </View>
             <View style={styles.statDivider} />
             <View style={styles.statItem}>
-              <Text style={styles.statNumber}>{currentPuzzleIndex + 1}/{TRANSPOSITION_PUZZLES.length}</Text>
+              <Text style={styles.statNumber}>
+                {currentPuzzleIndex + 1}/{TRANSPOSITION_PUZZLES.length}
+              </Text>
               <Text style={styles.statLabel}>Puzzle</Text>
             </View>
           </View>
@@ -376,9 +369,7 @@ export default function TranspositionMaze({ onComplete, onExit }: TranspositionM
           <View style={styles.resultCard}>
             <Ionicons name="checkmark-circle" size={48} color={Colors.success} />
             <Text style={styles.resultTitle}>Path Complete!</Text>
-            <Text style={styles.resultText}>
-              You successfully navigated to the target position
-            </Text>
+            <Text style={styles.resultText}>You successfully navigated to the target position</Text>
           </View>
         )}
 
@@ -386,9 +377,7 @@ export default function TranspositionMaze({ onComplete, onExit }: TranspositionM
           <View style={[styles.resultCard, styles.resultCardError]}>
             <Ionicons name="close-circle" size={48} color={Colors.error} />
             <Text style={[styles.resultTitle, styles.resultTitleError]}>Wrong Path</Text>
-            <Text style={styles.resultText}>
-              That move doesn't lead to the target. Try again!
-            </Text>
+            <Text style={styles.resultText}>That move doesn't lead to the target. Try again!</Text>
           </View>
         )}
 
@@ -412,10 +401,7 @@ export default function TranspositionMaze({ onComplete, onExit }: TranspositionM
 
       {/* Digital Coach Dialog */}
       {coachPrompt && (
-        <DigitalCoachDialog
-          prompt={coachPrompt}
-          onDismiss={() => setCoachPrompt(null)}
-        />
+        <DigitalCoachDialog prompt={coachPrompt} onDismiss={() => setCoachPrompt(null)} />
       )}
     </View>
   );

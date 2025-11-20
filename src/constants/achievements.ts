@@ -28,7 +28,7 @@ export const CURRICULUM_ACHIEVEMENTS: Achievement[] = [
   {
     id: 'achievement-indian-warrior',
     name: 'The Indian Warrior',
-    description: 'Master the King\'s Indian Attack opening system',
+    description: "Master the King's Indian Attack opening system",
     category: 'curriculum',
     unlocked: false,
     unlockedAt: null,
@@ -277,9 +277,10 @@ export function getTotalPossibleXP(): number {
  * Calculate earned XP
  */
 export function getEarnedXP(unlockedIds: string[]): number {
-  return ALL_ACHIEVEMENTS
-    .filter(a => unlockedIds.includes(a.id))
-    .reduce((sum, a) => sum + a.xpReward, 0);
+  return ALL_ACHIEVEMENTS.filter(a => unlockedIds.includes(a.id)).reduce(
+    (sum, a) => sum + a.xpReward,
+    0
+  );
 }
 
 /**

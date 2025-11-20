@@ -11,6 +11,7 @@
 This document presents the comprehensive architectural audit of the Chess Learning Application ("Grandmaster Path"), validating its current state against V1.0 production requirements. The audit confirms a mature, pedagogically sound foundation requiring strategic refinements for commercial viability.
 
 **Key Findings:**
+
 - ✅ Content integrity verified: 51 puzzles, 33 lessons across 5 opening systems
 - ✅ Sophisticated optimization infrastructure (Metro + LazyRoutes)
 - ✅ Clean bifurcated SRS architecture (Procedural + Declarative memory)
@@ -24,6 +25,7 @@ This document presents the comprehensive architectural audit of the Chess Learni
 ## 1. Technology Stack Validation
 
 ### 1.1 Core Framework
+
 **Stack:** React Native 0.81.5 + Expo 54.0.23
 **State Management:** Zustand 5.0.8
 **Database:** expo-sqlite 16.0.9
@@ -35,9 +37,11 @@ Modern, production-grade offline-first stack. The use of Zustand over Redux redu
 ### 1.2 Bundle Optimization Infrastructure
 
 #### Metro Configuration Analysis
+
 **File:** `metro.config.js`
 
 Verified optimizations:
+
 - ✅ Tree shaking enabled
 - ✅ Terser minification with aggressive settings
 - ✅ Console.log removal in production (`drop_console: true`)
@@ -48,9 +52,11 @@ Verified optimizations:
 **Impact:** Estimated 25-30% bundle size reduction compared to default configuration.
 
 #### LazyRoutes Implementation
+
 **File:** `src/navigation/LazyRoutes.tsx`
 
 Verified priority tiers:
+
 - **High Priority (preloaded):** PlayScreen, PuzzleScreen, ProfileScreen
 - **Medium Priority:** LearningScreen, GameAnalysisScreen, LeaderboardScreen
 - **Low Priority (on-demand):** AnalyticsDashboard, SettingsScreen, OnboardingFlow
@@ -65,9 +71,11 @@ Correct prioritization. Critical screens loaded immediately while admin/debug sc
 ## 2. State Management & Service Architecture
 
 ### 2.1 Store Architecture
+
 **Files:** `src/state/*.ts`
 
 **Verified Stores:**
+
 1. **userStore.ts** - User profile, achievements, SRS queue, tactical analytics
 2. **gameStore.ts** - Active game state, board position
 3. **uiStore.ts** - UI preferences, modal states
@@ -81,17 +89,17 @@ Clean architecture. The `userStore` correctly integrates with SQLite for persist
 
 **Verified Services:**
 
-| Service | Purpose | Status |
-|---------|---------|--------|
-| `fsrs.ts` | FSRS spaced repetition algorithm | ✅ Complete |
-| `sqliteService.ts` | Local database operations | ✅ Complete |
-| `backendService.ts` | Cloud sync abstraction | ⚠️ Skeleton only |
-| `soundService.ts` | Audio feedback | ✅ Complete |
-| `analyticsService.ts` | Event tracking | ✅ Complete |
-| `performanceService.tsx` | Performance metrics | ✅ Complete |
-| `simpleAI.ts` / `enhancedAI.ts` | AI opponents | ✅ Complete |
-| `stockfishService.ts` | Engine integration | ✅ Complete |
-| `backupService.ts` | Manual backup/restore | ✅ Complete |
+| Service                         | Purpose                          | Status           |
+| ------------------------------- | -------------------------------- | ---------------- |
+| `fsrs.ts`                       | FSRS spaced repetition algorithm | ✅ Complete      |
+| `sqliteService.ts`              | Local database operations        | ✅ Complete      |
+| `backendService.ts`             | Cloud sync abstraction           | ⚠️ Skeleton only |
+| `soundService.ts`               | Audio feedback                   | ✅ Complete      |
+| `analyticsService.ts`           | Event tracking                   | ✅ Complete      |
+| `performanceService.tsx`        | Performance metrics              | ✅ Complete      |
+| `simpleAI.ts` / `enhancedAI.ts` | AI opponents                     | ✅ Complete      |
+| `stockfishService.ts`           | Engine integration               | ✅ Complete      |
+| `backupService.ts`              | Manual backup/restore            | ✅ Complete      |
 
 **Backend Strategy:** Pure offline architecture using `LocalBackendService` for local UID generation only.
 
@@ -107,11 +115,13 @@ All data persistence handled via SQLite. Manual backup/restore via JSON export/i
 This is the **unique selling proposition** of Grandmaster Path. The system correctly distinguishes:
 
 #### Procedural Memory (Move Sequences)
+
 **Component:** `MoveTrainer.tsx`
 **Purpose:** Drill exact move sequences for opening lines
 **Method:** Interactive chessboard requiring precise move execution
 
 **Validation:**
+
 ```typescript
 // Line 68-94: Move validation logic
 const handleMoveAttempt = (from: Square, to: Square) => {
@@ -124,11 +134,13 @@ const handleMoveAttempt = (from: Square, to: Square) => {
 Correctly reinforces "muscle memory" for opening repertoire.
 
 #### Declarative Memory (Strategic Concepts)
+
 **Component:** `ConceptTrainer.tsx`
 **Purpose:** Teach strategic reasoning behind moves
 **Method:** Socratic flashcards with self-assessment (Again, Hard, Good, Easy)
 
 **Validation:**
+
 ```typescript
 // Line 87-98: Self-rating system
 const handleRating = (rating: 1 | 2 | 3 | 4) => {
@@ -144,6 +156,7 @@ Flip-card mechanic with hints encourages understanding over rote memorization.
 **File:** `src/services/srs/fsrs.ts`
 
 **Key Features:**
+
 - Difficulty vs. Stability separation (modern alternative to SM-2)
 - Retrievability calculation based on forgetting curve
 - Configurable retention target (default: 90%)
@@ -158,13 +171,14 @@ export function scheduleNextReview(
   item: SRSItem,
   result: ReviewResult,
   params: FSRSParams = DEFAULT_FSRS_PARAMS
-): SRSItem
+): SRSItem;
 ```
 
 **⚠️ REFINEMENT NEEDED:**
 Procedural memory (exact move sequences) and declarative memory (concepts) decay at different rates. The algorithm should accept a `learningMode` parameter to apply different forgetting curves.
 
 **Recommendation:**
+
 ```typescript
 export interface FSRSParams {
   requestRetention: number;
@@ -205,6 +219,7 @@ Apply steeper initial forgetting curve for procedural items, gentler curve for c
 
 **Current Architecture:**
 Content is hardcoded in TypeScript constants:
+
 - `src/constants/lessons.ts` (33 lessons)
 - `src/constants/tacticalPatterns.ts` (51 puzzles)
 
@@ -223,6 +238,7 @@ See Phase 3 [P2] - Dynamic Content Delivery System (Section 5.8).
 **File:** `src/screens/Analytics/AnalyticsDashboard.tsx` (683 lines)
 
 **Exposed Metrics:**
+
 - Session duration, screen views
 - Average render time, network latency
 - Error counts, performance scores
@@ -234,6 +250,7 @@ See Phase 3 [P2] - Dynamic Content Delivery System (Section 5.8).
 This is **debugging tooling** exposed as a user-facing feature. End-users derive zero value from knowing "Avg Render Time: 47ms". It adds 683 lines to the production bundle and confuses the UI.
 
 **Action:**
+
 1. Remove from `LazyRoutes.tsx`
 2. Remove from navigation stack
 3. Keep `analyticsService.ts` and `performanceService.tsx` for silent telemetry to Sentry/Firebase
@@ -243,12 +260,14 @@ This is **debugging tooling** exposed as a user-facing feature. End-users derive
 ### 5.2 Social Networking Stack
 
 **Files:**
+
 - `src/screens/Community/FriendsScreen.tsx`
 - `src/screens/Community/SocialProfileScreen.tsx`
 - `src/services/social/socialProfileService.ts`
 - `src/navigation/CommunityStackNavigator.tsx`
 
 **Features:**
+
 - Friend requests
 - User search
 - Social profiles (bios, avatars)
@@ -258,11 +277,13 @@ This is **debugging tooling** exposed as a user-facing feature. End-users derive
 
 **Rationale:**
 Building a functional social network requires critical mass. An empty "Friends List" is a **negative user experience**. Additionally:
+
 - Backend infrastructure for friend graphs is complex
 - Requires content moderation (user-generated bios)
 - High maintenance burden for low initial value
 
 **Action:**
+
 1. Remove friend request system
 2. Retain `LeaderboardScreen` but pivot to "Global" and "Cohort" views only
 3. Replace "Add Friend" with `shareService.ts` for deep link sharing
@@ -295,12 +316,14 @@ Refactor logic into `MoveTrainer.tsx` as an "Advanced Mode" for specific opening
 **Current State:** Complete JSON export/import system
 
 **Implementation:**
+
 1. `exportAndShare()` - Creates JSON backup and shares via system sheet
 2. `importFromFile()` - Imports backup from document picker
 3. `validateBackupFile()` - Validates backup before restore
 4. Version compatibility checks prevent data corruption
 
 **Data Backed Up:**
+
 - User profile (XP, level, streak, preferences)
 - SRS queue (all scheduling data preserved)
 - Opening repertoire customizations
@@ -313,6 +336,7 @@ Refactor logic into `MoveTrainer.tsx` as an "Advanced Mode" for specific opening
 **Strategic Decision:** Fully offline app with zero payment gates
 
 **All Features Unlocked:**
+
 - All 5 opening systems available immediately
 - All tactical difficulty levels (Beginner, Intermediate, Advanced, Flash)
 - Full Stockfish analysis (unlimited depth)
@@ -320,6 +344,7 @@ Refactor logic into `MoveTrainer.tsx` as an "Advanced Mode" for specific opening
 - Complete SRS training system
 
 **No Costs:**
+
 - Zero server infrastructure (pure offline)
 - Zero payment processing
 - Zero IAP complexity
@@ -333,6 +358,7 @@ Refactor logic into `MoveTrainer.tsx` as an "Advanced Mode" for specific opening
 SRS algorithms are **timing-sensitive**. Missing the optimal review window degrades efficiency.
 
 **Implementation:**
+
 1. Integrate `expo-notifications`
 2. Create `NotificationScheduler` service linked to `fsrs.ts`
 3. Schedule notifications for:
@@ -340,14 +366,15 @@ SRS algorithms are **timing-sensitive**. Missing the optimal review window degra
    - "Streak Saver" at 8:00 PM if no activity detected
 
 **Logic Flow:**
+
 ```typescript
 // Calculate next due item
 const nextDue = Math.min(...srsQueue.map(item => item.nextReviewDate));
 
 // Schedule notification
 await Notifications.scheduleNotificationAsync({
-  content: { title: "Your opening lines need review!" },
-  trigger: { date: nextDue }
+  content: { title: 'Your opening lines need review!' },
+  trigger: { date: nextDue },
 });
 ```
 
@@ -359,12 +386,14 @@ await Notifications.scheduleNotificationAsync({
 Core functionality is unusable for visually impaired users. This violates app store guidelines and excludes a significant user segment.
 
 **Implementation:**
+
 1. Add `accessibilityLabel` and `accessibilityRole` to all board squares
 2. Integrate `soundService.ts` for audio coordinate feedback ("Knight to f3")
 3. Ensure `DigitalCoachDialog` text is screen-reader compatible
 4. Add "Accessible Board" mode toggle in settings
 
 **Example:**
+
 ```typescript
 <TouchableOpacity
   accessibilityLabel={`${piece} on ${square}`}
@@ -381,6 +410,7 @@ Core functionality is unusable for visually impaired users. This violates app st
 Fixing a typo in `lessons.ts` requires full app store submission (7-14 day review).
 
 **Implementation:**
+
 1. Create `ContentUpdateService.ts`
 2. On app launch, check remote JSON endpoint for content version hash
 3. If mismatch, download compressed content bundle
@@ -388,6 +418,7 @@ Fixing a typo in `lessons.ts` requires full app store submission (7-14 day revie
 5. Local constants serve as fallback/initial seed
 
 **Benefits:**
+
 - Instant content updates
 - A/B test lessons
 - Seasonal content (e.g., "World Championship Special" puzzles)
@@ -405,6 +436,7 @@ Uses `setInterval` for countdown logic.
 `setInterval` can drift when JS thread is busy or app is backgrounded, creating disconnect between visual fuse (native driver) and game logic.
 
 **Recommended Fix:**
+
 ```typescript
 const endTime = Date.now() + puzzle.timeLimit * 1000;
 const updateTimer = () => {
@@ -446,31 +478,31 @@ Self-correcting learning loop that dynamically targets specific weaknesses.
 
 ### Phase 1: Core Stability & Compliance (Weeks 1-2)
 
-| Priority | Task | Estimated Effort |
-|----------|------|------------------|
-| P0 | Remove Developer Analytics Dashboard | 2 hours |
-| P0 | Implement Cloud Sync (Firebase/Supabase) | 3 days |
-| P1 | Add Accessibility to Chessboard | 1 day |
-| P1 | Fix The Fuse timer precision | 2 hours |
+| Priority | Task                                     | Estimated Effort |
+| -------- | ---------------------------------------- | ---------------- |
+| P0       | Remove Developer Analytics Dashboard     | 2 hours          |
+| P0       | Implement Cloud Sync (Firebase/Supabase) | 3 days           |
+| P1       | Add Accessibility to Chessboard          | 1 day            |
+| P1       | Fix The Fuse timer precision             | 2 hours          |
 
 ### Phase 2: Commercial Infrastructure (Weeks 3-4)
 
-| Priority | Task | Estimated Effort |
-|----------|------|------------------|
-| P0 | Implement IAP Monetization | 3 days |
-| P0 | Add entitlement gates (Repertoire, Drills, Analysis) | 1 day |
-| P1 | Implement Notification Scheduler | 1 day |
-| P1 | Optimize Achievement Animations | 4 hours |
+| Priority | Task                                                 | Estimated Effort |
+| -------- | ---------------------------------------------------- | ---------------- |
+| P0       | Implement IAP Monetization                           | 3 days           |
+| P0       | Add entitlement gates (Repertoire, Drills, Analysis) | 1 day            |
+| P1       | Implement Notification Scheduler                     | 1 day            |
+| P1       | Optimize Achievement Animations                      | 4 hours          |
 
 ### Phase 3: Refinement & Polish (Weeks 5-6)
 
-| Priority | Task | Estimated Effort |
-|----------|------|------------------|
-| P2 | Deprecate Social Stack | 1 day |
-| P2 | Refactor LeaderboardScreen to Cohort model | 1 day |
-| P2 | Implement Dynamic Content Delivery | 2 days |
-| P3 | Consolidate TranspositionMaze into MoveTrainer | 1 day |
-| P3 | Enhance FSRS with learning mode differentiation | 4 hours |
+| Priority | Task                                            | Estimated Effort |
+| -------- | ----------------------------------------------- | ---------------- |
+| P2       | Deprecate Social Stack                          | 1 day            |
+| P2       | Refactor LeaderboardScreen to Cohort model      | 1 day            |
+| P2       | Implement Dynamic Content Delivery              | 2 days           |
+| P3       | Consolidate TranspositionMaze into MoveTrainer  | 1 day            |
+| P3       | Enhance FSRS with learning mode differentiation | 4 hours          |
 
 **Total Estimated Timeline:** 6 weeks
 **Total Estimated Engineering Effort:** ~18-20 days

@@ -4,14 +4,7 @@
  */
 
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  Dimensions,
-} from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors, Typography, Spacing, BorderRadius } from '../../constants/theme';
 import Chessboard from './Chessboard';
@@ -51,59 +44,37 @@ export default function LessonViewer({ lesson, onComplete, onExit }: LessonViewe
       case 'text':
         return (
           <View style={styles.textContent}>
-            {content.heading && (
-              <Text style={styles.contentHeading}>{content.heading}</Text>
-            )}
-            {content.text && (
-              <Text style={styles.contentText}>{content.text}</Text>
-            )}
+            {content.heading && <Text style={styles.contentHeading}>{content.heading}</Text>}
+            {content.text && <Text style={styles.contentText}>{content.text}</Text>}
           </View>
         );
 
       case 'diagram':
         return (
           <View style={styles.diagramContent}>
-            {content.heading && (
-              <Text style={styles.contentHeading}>{content.heading}</Text>
-            )}
+            {content.heading && <Text style={styles.contentHeading}>{content.heading}</Text>}
             {content.fen && (
               <View style={styles.boardContainer}>
-                <Chessboard
-                  size={BOARD_SIZE}
-                  position={content.fen}
-                  interactive={false}
-                />
+                <Chessboard size={BOARD_SIZE} position={content.fen} interactive={false} />
               </View>
             )}
-            {content.text && (
-              <Text style={styles.contentText}>{content.text}</Text>
-            )}
+            {content.text && <Text style={styles.contentText}>{content.text}</Text>}
           </View>
         );
 
       case 'interactive':
         return (
           <View style={styles.interactiveContent}>
-            {content.heading && (
-              <Text style={styles.contentHeading}>{content.heading}</Text>
-            )}
-            {content.text && (
-              <Text style={styles.contentText}>{content.text}</Text>
-            )}
+            {content.heading && <Text style={styles.contentHeading}>{content.heading}</Text>}
+            {content.text && <Text style={styles.contentText}>{content.text}</Text>}
             {content.fen && (
               <View style={styles.boardContainer}>
-                <Chessboard
-                  size={BOARD_SIZE}
-                  position={content.fen}
-                  interactive={true}
-                />
+                <Chessboard size={BOARD_SIZE} position={content.fen} interactive={true} />
               </View>
             )}
             <View style={styles.interactiveHint}>
               <Ionicons name="hand-left" size={20} color={Colors.primary} />
-              <Text style={styles.interactiveHintText}>
-                Try it yourself on the board above
-              </Text>
+              <Text style={styles.interactiveHintText}>Try it yourself on the board above</Text>
             </View>
           </View>
         );
@@ -148,10 +119,7 @@ export default function LessonViewer({ lesson, onComplete, onExit }: LessonViewe
       <View style={styles.progressContainer}>
         <View style={styles.progressBar}>
           <View
-            style={[
-              styles.progressFill,
-              { width: `${((currentPage + 1) / totalPages) * 100}%` }
-            ]}
+            style={[styles.progressFill, { width: `${((currentPage + 1) / totalPages) * 100}%` }]}
           />
         </View>
         <Text style={styles.progressText}>
@@ -160,10 +128,7 @@ export default function LessonViewer({ lesson, onComplete, onExit }: LessonViewe
       </View>
 
       {/* Content */}
-      <ScrollView
-        style={styles.content}
-        contentContainerStyle={styles.contentContainer}
-      >
+      <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
         {renderContent(currentContent)}
       </ScrollView>
 
@@ -185,10 +150,7 @@ export default function LessonViewer({ lesson, onComplete, onExit }: LessonViewe
         </TouchableOpacity>
 
         {!isLastPage ? (
-          <TouchableOpacity
-            style={styles.navButton}
-            onPress={handleNext}
-          >
+          <TouchableOpacity style={styles.navButton} onPress={handleNext}>
             <Text style={styles.navButtonText}>Next</Text>
             <Ionicons name="chevron-forward" size={24} color={Colors.textInverse} />
           </TouchableOpacity>

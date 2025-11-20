@@ -9,22 +9,22 @@ import type { Arrow, Highlight, Square } from '../types';
  * Predefined arrow colors
  */
 export const ArrowColors = {
-  GREEN: '#15803d',    // Primary suggestion
-  BLUE: '#1e40af',     // Alternative move
-  RED: '#b91c1c',      // Mistake/Blunder
-  YELLOW: '#ca8a04',   // Warning/Caution
-  ORANGE: '#ea580c',   // Interesting move
+  GREEN: '#15803d', // Primary suggestion
+  BLUE: '#1e40af', // Alternative move
+  RED: '#b91c1c', // Mistake/Blunder
+  YELLOW: '#ca8a04', // Warning/Caution
+  ORANGE: '#ea580c', // Interesting move
 } as const;
 
 /**
  * Predefined highlight colors
  */
 export const HighlightColors = {
-  GREEN: '#15803d',    // Good square
-  BLUE: '#1e40af',     // Alternative square
-  RED: '#b91c1c',      // Danger square
-  YELLOW: '#ca8a04',   // Warning square
-  PURPLE: '#7c3aed',   // Special square
+  GREEN: '#15803d', // Good square
+  BLUE: '#1e40af', // Alternative square
+  RED: '#b91c1c', // Danger square
+  YELLOW: '#ca8a04', // Warning square
+  PURPLE: '#7c3aed', // Special square
 } as const;
 
 /**

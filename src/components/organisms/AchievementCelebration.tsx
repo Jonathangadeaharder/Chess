@@ -4,14 +4,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Modal,
-  Animated,
-  Dimensions,
-} from 'react-native';
+import { View, Text, StyleSheet, Modal, Animated, Dimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -141,12 +134,7 @@ export default function AchievementCelebration({
   if (!achievement) return null;
 
   return (
-    <Modal
-      visible={visible}
-      transparent
-      animationType="none"
-      onRequestClose={handleDismiss}
-    >
+    <Modal visible={visible} transparent animationType="none" onRequestClose={handleDismiss}>
       <Animated.View
         style={[
           styles.overlay,
@@ -176,9 +164,7 @@ export default function AchievementCelebration({
               },
             ]}
           >
-            <Text style={styles.confettiText}>
-              {['⭐', '✨', '🎉', '🎊', '💫'][index % 5]}
-            </Text>
+            <Text style={styles.confettiText}>{['⭐', '✨', '🎉', '🎊', '💫'][index % 5]}</Text>
           </Animated.View>
         ))}
 
@@ -188,17 +174,11 @@ export default function AchievementCelebration({
             styles.cardContainer,
             {
               opacity: fadeAnim,
-              transform: [
-                { scale: scaleAnim },
-                { translateY: slideAnim },
-              ],
+              transform: [{ scale: scaleAnim }, { translateY: slideAnim }],
             },
           ]}
         >
-          <LinearGradient
-            colors={[Colors.primary, Colors.primaryDark]}
-            style={styles.gradient}
-          >
+          <LinearGradient colors={[Colors.primary, Colors.primaryDark]} style={styles.gradient}>
             {/* Glow effect */}
             <View style={styles.glow} />
 
@@ -235,9 +215,7 @@ export default function AchievementCelebration({
 
             {/* Category Badge */}
             <View style={styles.categoryBadge}>
-              <Text style={styles.categoryText}>
-                {achievement.category.toUpperCase()}
-              </Text>
+              <Text style={styles.categoryText}>{achievement.category.toUpperCase()}</Text>
             </View>
           </LinearGradient>
         </Animated.View>

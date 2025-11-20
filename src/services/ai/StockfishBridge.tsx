@@ -114,12 +114,12 @@ export const StockfishBridge = forwardRef<StockfishBridgeRef, StockfishBridgePro
         if (webViewRef.current && readyRef.current) {
           const message = JSON.stringify({
             type: 'command',
-            data: command
+            data: command,
           });
           webViewRef.current.postMessage(message);
         }
       },
-      isReady: () => readyRef.current
+      isReady: () => readyRef.current,
     }));
 
     const handleMessage = (event: any) => {
@@ -151,7 +151,7 @@ export const StockfishBridge = forwardRef<StockfishBridgeRef, StockfishBridgePro
         source={{ html: STOCKFISH_HTML }}
         style={styles.hidden}
         onMessage={handleMessage}
-        onError={(syntheticEvent) => {
+        onError={syntheticEvent => {
           const { nativeEvent } = syntheticEvent;
           onError?.(new Error(nativeEvent.description));
         }}
@@ -167,8 +167,8 @@ const styles = StyleSheet.create({
   hidden: {
     width: 0,
     height: 0,
-    opacity: 0
-  }
+    opacity: 0,
+  },
 });
 
 StockfishBridge.displayName = 'StockfishBridge';

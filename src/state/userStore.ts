@@ -4,7 +4,14 @@
  */
 
 import { create } from 'zustand';
-import type { UserState, UserProfile, Achievement, SRSItem, Weakness, SimpleGameHistory } from '../types';
+import type {
+  UserState,
+  UserProfile,
+  Achievement,
+  SRSItem,
+  Weakness,
+  SimpleGameHistory,
+} from '../types';
 import { ALL_ACHIEVEMENTS } from '../constants/achievements';
 import {
   getUserProfile,
@@ -109,14 +116,15 @@ export const useUserStore = create<UserStore>((set, get) => ({
       await migrateToSQLite();
 
       // Load data from SQLite
-      const [profile, srsQueue, gameHistory, weaknesses, tacticalProgression, tacticalAnalytics] = await Promise.all([
-        getUserProfile(),
-        getSRSItems(),
-        getGameHistory(50),
-        getWeaknesses(50),
-        getTacticalProgression(),
-        getTacticalAnalytics(),
-      ]);
+      const [profile, srsQueue, gameHistory, weaknesses, tacticalProgression, tacticalAnalytics] =
+        await Promise.all([
+          getUserProfile(),
+          getSRSItems(),
+          getGameHistory(50),
+          getWeaknesses(50),
+          getTacticalProgression(),
+          getTacticalAnalytics(),
+        ]);
 
       set({
         profile: profile || createDefaultProfile(),
@@ -151,13 +159,11 @@ export const useUserStore = create<UserStore>((set, get) => ({
       // Schedule SRS review reminder if there are upcoming reviews
       if (srsQueue.length > 0) {
         const now = new Date();
-        const upcomingItems = srsQueue.filter(
-          (item) => new Date(item.nextReviewDate) > now
-        );
+        const upcomingItems = srsQueue.filter(item => new Date(item.nextReviewDate) > now);
 
         if (upcomingItems.length > 0) {
           const nextReviewDate = new Date(
-            Math.min(...upcomingItems.map((i) => new Date(i.nextReviewDate).getTime()))
+            Math.min(...upcomingItems.map(i => new Date(i.nextReviewDate).getTime()))
           );
           await scheduleNextReviewReminder(nextReviewDate, upcomingItems.length);
         }
@@ -192,9 +198,7 @@ export const useUserStore = create<UserStore>((set, get) => ({
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    const lastPractice = profile.lastPracticeDate
-      ? new Date(profile.lastPracticeDate)
-      : null;
+    const lastPractice = profile.lastPracticeDate ? new Date(profile.lastPracticeDate) : null;
 
     if (lastPractice) {
       lastPractice.setHours(0, 0, 0, 0);
@@ -255,13 +259,11 @@ export const useUserStore = create<UserStore>((set, get) => ({
   // Unlock achievement
   unlockAchievement: (achievementId: string) => {
     const { achievements } = get();
-    const achievement = achievements.find((a) => a.id === achievementId);
+    const achievement = achievements.find(a => a.id === achievementId);
 
     if (achievement && !achievement.unlocked) {
-      const updatedAchievements = achievements.map((a) =>
-        a.id === achievementId
-          ? { ...a, unlocked: true, unlockedAt: new Date() }
-          : a
+      const updatedAchievements = achievements.map(a =>
+        a.id === achievementId ? { ...a, unlocked: true, unlockedAt: new Date() } : a
       );
 
       set({ achievements: updatedAchievements });
@@ -303,31 +305,25 @@ export const useUserStore = create<UserStore>((set, get) => ({
 
   updateSRSItem: async (itemId: string, updates: Partial<SRSItem>) => {
     const { srsQueue } = get();
-    const item = srsQueue.find((i) => i.id === itemId);
+    const item = srsQueue.find(i => i.id === itemId);
 
     if (!item) return;
 
     const updatedItem = { ...item, ...updates };
-    const updatedQueue = srsQueue.map((i) =>
-      i.id === itemId ? updatedItem : i
-    );
+    const updatedQueue = srsQueue.map(i => (i.id === itemId ? updatedItem : i));
 
     set({ srsQueue: updatedQueue });
     await saveSRSItem(updatedItem);
 
     // Schedule notification for next review if there are due items
     const now = new Date();
-    const dueItems = updatedQueue.filter(
-      (item) => new Date(item.nextReviewDate) <= now
-    );
-    const upcomingItems = updatedQueue.filter(
-      (item) => new Date(item.nextReviewDate) > now
-    );
+    const dueItems = updatedQueue.filter(item => new Date(item.nextReviewDate) <= now);
+    const upcomingItems = updatedQueue.filter(item => new Date(item.nextReviewDate) > now);
 
     if (dueItems.length === 0 && upcomingItems.length > 0) {
       // No items due now, schedule for next upcoming review
       const nextReviewDate = new Date(
-        Math.min(...upcomingItems.map((i) => new Date(i.nextReviewDate).getTime()))
+        Math.min(...upcomingItems.map(i => new Date(i.nextReviewDate).getTime()))
       );
       await scheduleNextReviewReminder(nextReviewDate, upcomingItems.length);
     }
@@ -335,7 +331,7 @@ export const useUserStore = create<UserStore>((set, get) => ({
 
   removeSRSItem: async (itemId: string) => {
     const { srsQueue } = get();
-    const updatedQueue = srsQueue.filter((item) => item.id !== itemId);
+    const updatedQueue = srsQueue.filter(item => item.id !== itemId);
 
     set({ srsQueue: updatedQueue });
     await deleteSRSItem(itemId);
@@ -345,9 +341,7 @@ export const useUserStore = create<UserStore>((set, get) => ({
     const { srsQueue } = get();
     const now = new Date();
 
-    return srsQueue.filter(
-      (item) => new Date(item.nextReviewDate) <= now
-    );
+    return srsQueue.filter(item => new Date(item.nextReviewDate) <= now);
   },
 
   // Weakness tracking
@@ -426,7 +420,11 @@ export const useUserStore = create<UserStore>((set, get) => ({
 
     if (!tacticalAnalytics) return;
 
-    const updatedAnalytics = updateAnalyticsAfterSession(tacticalAnalytics, sessionStats, drillDetails);
+    const updatedAnalytics = updateAnalyticsAfterSession(
+      tacticalAnalytics,
+      sessionStats,
+      drillDetails
+    );
 
     set({ tacticalAnalytics: updatedAnalytics });
     await saveTacticalAnalytics(updatedAnalytics);

@@ -48,30 +48,38 @@ console.log('─'.repeat(60));
 const lessonsPath = path.join(__dirname, '../src/constants/lessons.ts');
 const lessonsContent = fs.readFileSync(lessonsPath, 'utf8');
 
-const systems = [
-  'KIA',
-  'STONEWALL',
-  'COLLE',
-  'LONDON',
-  'TORRE'
-];
+const systems = ['KIA', 'STONEWALL', 'COLLE', 'LONDON', 'TORRE'];
 
 let totalLessons = 0;
 let lessonTestPassed = true;
 
 systems.forEach(system => {
-  const beginnerMatch = lessonsContent.match(new RegExp(`export const ${system}_LESSONS.*?\\[(.*?)\\];`, 's'));
-  const intermediateMatch = lessonsContent.match(new RegExp(`export const ${system}_INTERMEDIATE_LESSONS.*?\\[(.*?)\\];`, 's'));
-  const advancedMatch = lessonsContent.match(new RegExp(`export const ${system}_ADVANCED_LESSONS.*?\\[(.*?)\\];`, 's'));
+  const beginnerMatch = lessonsContent.match(
+    new RegExp(`export const ${system}_LESSONS.*?\\[(.*?)\\];`, 's')
+  );
+  const intermediateMatch = lessonsContent.match(
+    new RegExp(`export const ${system}_INTERMEDIATE_LESSONS.*?\\[(.*?)\\];`, 's')
+  );
+  const advancedMatch = lessonsContent.match(
+    new RegExp(`export const ${system}_ADVANCED_LESSONS.*?\\[(.*?)\\];`, 's')
+  );
 
-  const beginnerCount = beginnerMatch ? (beginnerMatch[1].match(/id: ['"].*?['"]/g) || []).length : 0;
-  const intermediateCount = intermediateMatch ? (intermediateMatch[1].match(/id: ['"].*?['"]/g) || []).length : 0;
-  const advancedCount = advancedMatch ? (advancedMatch[1].match(/id: ['"].*?['"]/g) || []).length : 0;
+  const beginnerCount = beginnerMatch
+    ? (beginnerMatch[1].match(/id: ['"].*?['"]/g) || []).length
+    : 0;
+  const intermediateCount = intermediateMatch
+    ? (intermediateMatch[1].match(/id: ['"].*?['"]/g) || []).length
+    : 0;
+  const advancedCount = advancedMatch
+    ? (advancedMatch[1].match(/id: ['"].*?['"]/g) || []).length
+    : 0;
   const systemTotal = beginnerCount + intermediateCount + advancedCount;
 
   totalLessons += systemTotal;
 
-  console.log(`  ${system.padEnd(12)} - Beginner: ${beginnerCount}, Intermediate: ${intermediateCount}, Advanced: ${advancedCount} = Total: ${systemTotal}`);
+  console.log(
+    `  ${system.padEnd(12)} - Beginner: ${beginnerCount}, Intermediate: ${intermediateCount}, Advanced: ${advancedCount} = Total: ${systemTotal}`
+  );
 
   // Each system should have at least 2 lessons in each category
   if (beginnerCount < 2 || intermediateCount < 2 || advancedCount < 2) {
@@ -90,20 +98,20 @@ const trainScreenPath = path.join(__dirname, '../src/screens/Train/TrainScreen.t
 const trainScreenContent = fs.readFileSync(trainScreenPath, 'utf8');
 
 const miniGames = [
-  { name: 'BishopsPrison', emoji: '♗', description: 'Bishop\'s Prison' },
+  { name: 'BishopsPrison', emoji: '♗', description: "Bishop's Prison" },
   { name: 'TheFuse', emoji: '🔥', description: 'The Fuse' },
   { name: 'TranspositionMaze', emoji: '🥷', description: 'Transposition Maze' },
-  { name: 'CheckmateMaster', emoji: '🏆', description: 'Checkmate Master' }
+  { name: 'CheckmateMaster', emoji: '🏆', description: 'Checkmate Master' },
 ];
 
 let miniGameTestPassed = true;
 
 // Map of mini-game names to their actual handler names in the code
 const handlerMap = {
-  'BishopsPrison': 'handleMiniGameComplete',
-  'TheFuse': 'handleFuseComplete',
-  'TranspositionMaze': 'handleMazeComplete',
-  'CheckmateMaster': 'handleCheckmateMasterComplete'
+  BishopsPrison: 'handleMiniGameComplete',
+  TheFuse: 'handleFuseComplete',
+  TranspositionMaze: 'handleMazeComplete',
+  CheckmateMaster: 'handleCheckmateMasterComplete',
 };
 
 miniGames.forEach(game => {
@@ -114,7 +122,9 @@ miniGames.forEach(game => {
 
   const gameStatus = hasImport && hasState && hasHandler && hasModal;
 
-  console.log(`  ${game.description.padEnd(20)} ${gameStatus ? '✅' : '❌'} (Import: ${hasImport}, State: ${hasState}, Handler: ${hasHandler}, Modal: ${hasModal})`);
+  console.log(
+    `  ${game.description.padEnd(20)} ${gameStatus ? '✅' : '❌'} (Import: ${hasImport}, State: ${hasState}, Handler: ${hasHandler}, Modal: ${hasModal})`
+  );
 
   if (!gameStatus) miniGameTestPassed = false;
 });
@@ -129,7 +139,8 @@ const typesPath = path.join(__dirname, '../src/types/index.ts');
 const typesContent = fs.readFileSync(typesPath, 'utf8');
 
 const hasCheckmateMasterType = typesContent.includes("'checkmate-master'");
-const hasFeedbackTypes = typesContent.includes("'feedback-positive'") && typesContent.includes("'feedback-negative'");
+const hasFeedbackTypes =
+  typesContent.includes("'feedback-positive'") && typesContent.includes("'feedback-negative'");
 
 console.log(`  Checkmate Master Type: ${hasCheckmateMasterType ? '✅' : '❌'}`);
 console.log(`  Coach Feedback Types:  ${hasFeedbackTypes ? '✅' : '❌'}`);
@@ -157,14 +168,22 @@ if (checkmateMasterExists) {
   const hasTimer = checkmateMasterContent.includes('timeRemaining');
 
   console.log(`  Component File:        ${checkmateMasterExists ? '✅' : '❌'}`);
-  console.log(`  Puzzle Data:           ${hasPuzzleData ? '✅' : '❌'} (${puzzleCount} puzzles found)`);
+  console.log(
+    `  Puzzle Data:           ${hasPuzzleData ? '✅' : '❌'} (${puzzleCount} puzzles found)`
+  );
   console.log(`  Pattern Types:         ${hasPatternTypes ? '✅' : '❌'}`);
   console.log(`  Props Interface:       ${hasPropsInterface ? '✅' : '❌'}`);
   console.log(`  Completion Handler:    ${hasOnComplete ? '✅' : '❌'}`);
   console.log(`  Timer System:          ${hasTimer ? '✅' : '❌'}`);
 
-  const componentTestPassed = checkmateMasterExists && hasPuzzleData && hasPatternTypes &&
-                               hasPropsInterface && hasOnComplete && hasTimer && puzzleCount >= 12;
+  const componentTestPassed =
+    checkmateMasterExists &&
+    hasPuzzleData &&
+    hasPatternTypes &&
+    hasPropsInterface &&
+    hasOnComplete &&
+    hasTimer &&
+    puzzleCount >= 12;
   console.log(componentTestPassed ? '  ✅ PASSED' : '  ❌ FAILED');
 } else {
   console.log('  ❌ FAILED - Component file not found');
@@ -178,17 +197,31 @@ console.log('─'.repeat(60));
 const puzzleIds = tacticalContent.match(/id: ['"].*?['"]/g) || [];
 const uniquePuzzleIds = new Set(puzzleIds);
 const noDuplicatePuzzles = puzzleIds.length === uniquePuzzleIds.size;
-console.log(`  No Duplicate Puzzle IDs: ${noDuplicatePuzzles ? '✅' : '❌'} (${puzzleIds.length} total, ${uniquePuzzleIds.size} unique)`);
+console.log(
+  `  No Duplicate Puzzle IDs: ${noDuplicatePuzzles ? '✅' : '❌'} (${puzzleIds.length} total, ${uniquePuzzleIds.size} unique)`
+);
 
 // Check for duplicate IDs in lessons
 const lessonIds = lessonsContent.match(/id: ['"].*?['"]/g) || [];
 const uniqueLessonIds = new Set(lessonIds);
 const noDuplicateLessons = lessonIds.length === uniqueLessonIds.size;
-console.log(`  No Duplicate Lesson IDs: ${noDuplicateLessons ? '✅' : '❌'} (${lessonIds.length} total, ${uniqueLessonIds.size} unique)`);
+console.log(
+  `  No Duplicate Lesson IDs: ${noDuplicateLessons ? '✅' : '❌'} (${lessonIds.length} total, ${uniqueLessonIds.size} unique)`
+);
 
 // Check all puzzles have required fields
 // Note: We count field occurrences in actual puzzle data, excluding interface definitions
-const requiredPuzzleFields = ['id', 'name', 'fen', 'solution', 'pattern', 'difficulty', 'hint', 'explanation', 'timeLimit'];
+const requiredPuzzleFields = [
+  'id',
+  'name',
+  'fen',
+  'solution',
+  'pattern',
+  'difficulty',
+  'hint',
+  'explanation',
+  'timeLimit',
+];
 let allPuzzlesValid = true;
 
 // Extract only the puzzle array sections (not interfaces or comments)
@@ -218,8 +251,12 @@ console.log('\n' + '═'.repeat(60));
 console.log('📋 FINAL SUMMARY');
 console.log('═'.repeat(60));
 
-const allTestsPassed = puzzleTestPassed && lessonTestPassed && miniGameTestPassed &&
-                       typeTestPassed && dataIntegrityPassed;
+const allTestsPassed =
+  puzzleTestPassed &&
+  lessonTestPassed &&
+  miniGameTestPassed &&
+  typeTestPassed &&
+  dataIntegrityPassed;
 
 console.log('\nTest Results:');
 console.log(`  1. Puzzle Library:       ${puzzleTestPassed ? '✅ PASSED' : '❌ FAILED'}`);

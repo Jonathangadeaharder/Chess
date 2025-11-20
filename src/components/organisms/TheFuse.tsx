@@ -8,13 +8,7 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Animated,
-} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Animated } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 
@@ -23,7 +17,11 @@ import DigitalCoachDialog from './DigitalCoachDialog';
 import { useGameStore } from '../../state/gameStore';
 import { playSound } from '../../services/audio/soundService';
 import { Colors, Typography, Spacing, BorderRadius } from '../../constants/theme';
-import { getFusePuzzles, getPatternDisplayName, type TacticalPuzzle } from '../../constants/tacticalPatterns';
+import {
+  getFusePuzzles,
+  getPatternDisplayName,
+  type TacticalPuzzle,
+} from '../../constants/tacticalPatterns';
 import type { CoachPrompt, Square } from '../../types';
 
 interface TheFuseProps {
@@ -100,7 +98,7 @@ export default function TheFuse({ onComplete, onExit }: TheFuseProps) {
     }).start();
 
     timerRef.current = setInterval(() => {
-      setTimeRemaining((prev) => {
+      setTimeRemaining(prev => {
         if (prev <= 1) {
           handleTimeout();
           return 0;
@@ -272,9 +270,7 @@ export default function TheFuse({ onComplete, onExit }: TheFuseProps) {
             </Animated.View>
           )}
         </View>
-        <Text style={styles.timerText}>
-          {Math.max(0, timeRemaining)}s
-        </Text>
+        <Text style={styles.timerText}>{Math.max(0, timeRemaining)}s</Text>
       </View>
 
       {/* Pattern Badge */}
@@ -285,11 +281,7 @@ export default function TheFuse({ onComplete, onExit }: TheFuseProps) {
 
       {/* Chessboard */}
       <View style={styles.boardContainer}>
-        <Chessboard
-          showCoordinates={true}
-          interactionMode="tap-tap"
-          onMove={handleMoveAttempt}
-        />
+        <Chessboard showCoordinates={true} interactionMode="tap-tap" onMove={handleMoveAttempt} />
       </View>
 
       {/* Stats */}

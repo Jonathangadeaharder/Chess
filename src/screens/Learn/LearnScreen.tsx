@@ -4,14 +4,7 @@
  */
 
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  Modal,
-} from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Modal } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors, Typography, Spacing, BorderRadius } from '../../constants/theme';
 import { useUserStore } from '../../state/userStore';
@@ -69,9 +62,7 @@ export default function LearnScreen() {
       <View style={styles.container}>
         <ScrollView contentContainerStyle={styles.content}>
           <Text style={styles.title}>The Academy</Text>
-          <Text style={styles.subtitle}>
-            Master Universal Chess Opening Systems
-          </Text>
+          <Text style={styles.subtitle}>Master Universal Chess Opening Systems</Text>
 
           {/* Overall Progress */}
           <View style={styles.overallProgressCard}>
@@ -94,14 +85,14 @@ export default function LearnScreen() {
 
           {/* Opening Systems */}
           <Text style={styles.sectionTitle}>Opening Systems</Text>
-          {OPENING_SYSTEMS.map((system) => {
+          {OPENING_SYSTEMS.map(system => {
             const progress = getSystemProgress(system.id, completedLessons);
             const difficultyColor =
               system.difficulty === 'beginner'
                 ? Colors.success
                 : system.difficulty === 'intermediate'
-                ? Colors.warning
-                : Colors.error;
+                  ? Colors.warning
+                  : Colors.error;
 
             return (
               <TouchableOpacity
@@ -116,14 +107,9 @@ export default function LearnScreen() {
                   <View style={styles.systemHeader}>
                     <Text style={styles.systemName}>{system.name}</Text>
                     <View
-                      style={[
-                        styles.difficultyBadge,
-                        { backgroundColor: difficultyColor + '20' },
-                      ]}
+                      style={[styles.difficultyBadge, { backgroundColor: difficultyColor + '20' }]}
                     >
-                      <Text
-                        style={[styles.difficultyText, { color: difficultyColor }]}
-                      >
+                      <Text style={[styles.difficultyText, { color: difficultyColor }]}>
                         {system.difficulty.toUpperCase()}
                       </Text>
                     </View>
@@ -131,23 +117,14 @@ export default function LearnScreen() {
                   <Text style={styles.systemDescription}>{system.description}</Text>
                   <View style={styles.systemFooter}>
                     <View style={styles.progressBar}>
-                      <View
-                        style={[
-                          styles.progressFill,
-                          { width: `${progress.percentage}%` },
-                        ]}
-                      />
+                      <View style={[styles.progressFill, { width: `${progress.percentage}%` }]} />
                     </View>
                     <Text style={styles.progressText}>
                       {progress.completed} / {progress.total} lessons
                     </Text>
                   </View>
                 </View>
-                <Ionicons
-                  name="chevron-forward"
-                  size={24}
-                  color={Colors.textSecondary}
-                />
+                <Ionicons name="chevron-forward" size={24} color={Colors.textSecondary} />
               </TouchableOpacity>
             );
           })}
@@ -174,17 +151,10 @@ export default function LearnScreen() {
           <View style={styles.systemDetailHeader}>
             <Text style={styles.systemDetailIcon}>{selectedSystem.icon}</Text>
             <Text style={styles.systemDetailName}>{selectedSystem.name}</Text>
-            <Text style={styles.systemDetailDescription}>
-              {selectedSystem.description}
-            </Text>
+            <Text style={styles.systemDetailDescription}>{selectedSystem.description}</Text>
             <View style={styles.systemDetailProgress}>
               <View style={styles.progressBar}>
-                <View
-                  style={[
-                    styles.progressFill,
-                    { width: `${progress.percentage}%` },
-                  ]}
-                />
+                <View style={[styles.progressFill, { width: `${progress.percentage}%` }]} />
               </View>
               <Text style={styles.progressPercentage}>
                 {Math.round(progress.percentage)}% Complete
@@ -200,10 +170,7 @@ export default function LearnScreen() {
             return (
               <TouchableOpacity
                 key={lesson.id}
-                style={[
-                  styles.lessonCard,
-                  isLocked && styles.lessonCardLocked,
-                ]}
+                style={[styles.lessonCard, isLocked && styles.lessonCardLocked]}
                 onPress={() => !isLocked && handleLessonSelect(lesson)}
                 disabled={isLocked}
               >
@@ -217,19 +184,11 @@ export default function LearnScreen() {
                   )}
                 </View>
                 <View style={styles.lessonContent}>
-                  <Text
-                    style={[
-                      styles.lessonTitle,
-                      isLocked && styles.lessonTitleLocked,
-                    ]}
-                  >
+                  <Text style={[styles.lessonTitle, isLocked && styles.lessonTitleLocked]}>
                     {lesson.title}
                   </Text>
                   <Text
-                    style={[
-                      styles.lessonDescription,
-                      isLocked && styles.lessonDescriptionLocked,
-                    ]}
+                    style={[styles.lessonDescription, isLocked && styles.lessonDescriptionLocked]}
                   >
                     {lesson.description}
                   </Text>
@@ -239,22 +198,13 @@ export default function LearnScreen() {
                       size={16}
                       color={isLocked ? Colors.textSecondary : Colors.text}
                     />
-                    <Text
-                      style={[
-                        styles.lessonMetaText,
-                        isLocked && styles.lessonMetaTextLocked,
-                      ]}
-                    >
+                    <Text style={[styles.lessonMetaText, isLocked && styles.lessonMetaTextLocked]}>
                       {lesson.estimatedMinutes} min
                     </Text>
                   </View>
                 </View>
                 {!isLocked && !isCompleted && (
-                  <Ionicons
-                    name="chevron-forward"
-                    size={24}
-                    color={Colors.textSecondary}
-                  />
+                  <Ionicons name="chevron-forward" size={24} color={Colors.textSecondary} />
                 )}
               </TouchableOpacity>
             );

@@ -29,7 +29,7 @@ export type LeaderboardType =
   | 'accuracy' // Average accuracy
   | 'puzzles' // Puzzles solved
   | 'weekly-xp' // XP gained this week
-  | 'monthly-xp' // XP gained this month;
+  | 'monthly-xp'; // XP gained this month;
 
 export type LeaderboardScope = 'global' | 'friends' | 'country';
 
@@ -80,7 +80,11 @@ export class LeaderboardService {
   /**
    * Get user's rank in a specific leaderboard
    */
-  async getUserRank(userId: string, type: LeaderboardType, scope: LeaderboardScope): Promise<number | null> {
+  async getUserRank(
+    userId: string,
+    type: LeaderboardType,
+    scope: LeaderboardScope
+  ): Promise<number | null> {
     try {
       // TODO: Query backend for user's rank
       return 42;
@@ -128,7 +132,10 @@ export class LeaderboardService {
   /**
    * Get friends leaderboard
    */
-  async getFriendsLeaderboard(type: LeaderboardType, limit: number = 50): Promise<LeaderboardEntry[]> {
+  async getFriendsLeaderboard(
+    type: LeaderboardType,
+    limit: number = 50
+  ): Promise<LeaderboardEntry[]> {
     try {
       // TODO: Fetch friends' scores
       return this.generateMockLeaderboard(type, limit);
@@ -170,10 +177,22 @@ export class LeaderboardService {
   private generateMockLeaderboard(type: LeaderboardType, limit: number): LeaderboardEntry[] {
     const entries: LeaderboardEntry[] = [];
     const usernames = [
-      'ChessMaster', 'TacticalGenius', 'PawnStorm', 'EndgameExpert',
-      'OpeningGuru', 'BlitzKing', 'StrategicMind', 'QueenGambit',
-      'KnightRider', 'BishopBeast', 'RookRevolution', 'PawnPusher',
-      'CheckmateChampion', 'CastleDefender', 'ForwardPawn', 'CenterControl',
+      'ChessMaster',
+      'TacticalGenius',
+      'PawnStorm',
+      'EndgameExpert',
+      'OpeningGuru',
+      'BlitzKing',
+      'StrategicMind',
+      'QueenGambit',
+      'KnightRider',
+      'BishopBeast',
+      'RookRevolution',
+      'PawnPusher',
+      'CheckmateChampion',
+      'CastleDefender',
+      'ForwardPawn',
+      'CenterControl',
     ];
 
     for (let i = 0; i < limit; i++) {

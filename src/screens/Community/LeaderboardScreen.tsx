@@ -6,13 +6,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors, Typography, Spacing, BorderRadius } from '../../constants/theme';
 import { useUserStore } from '../../state/userStore';
@@ -152,7 +146,9 @@ export default function LeaderboardScreen() {
     if (!profile) return [];
 
     const daysActive = profile.lastPracticeDate
-      ? Math.floor((Date.now() - new Date(profile.lastPracticeDate).getTime()) / (1000 * 60 * 60 * 24))
+      ? Math.floor(
+          (Date.now() - new Date(profile.lastPracticeDate).getTime()) / (1000 * 60 * 60 * 24)
+        )
       : 0;
 
     return [
@@ -180,9 +176,10 @@ export default function LeaderboardScreen() {
       {
         icon: 'timer',
         label: 'Avg. Session Length',
-        value: profile.totalGamesPlayed > 0
-          ? `${Math.floor(profile.totalStudyTime / profile.totalGamesPlayed)} min`
-          : '0 min',
+        value:
+          profile.totalGamesPlayed > 0
+            ? `${Math.floor(profile.totalStudyTime / profile.totalGamesPlayed)} min`
+            : '0 min',
         subtitle: 'Per training session',
         color: Colors.primary,
       },
@@ -228,7 +225,7 @@ export default function LeaderboardScreen() {
         style={styles.categorySelector}
         contentContainerStyle={styles.categorySelectorContent}
       >
-        {categories.map((category) => (
+        {categories.map(category => (
           <TouchableOpacity
             key={category.id}
             style={[
@@ -259,21 +256,20 @@ export default function LeaderboardScreen() {
         <View style={styles.statsGrid}>
           {stats.map((stat, index) => (
             <View key={index} style={styles.statCard}>
-              <View style={[styles.statIconContainer, { backgroundColor: (stat.color || Colors.primary) + '15' }]}>
-                <Ionicons
-                  name={stat.icon as any}
-                  size={28}
-                  color={stat.color || Colors.primary}
-                />
+              <View
+                style={[
+                  styles.statIconContainer,
+                  { backgroundColor: (stat.color || Colors.primary) + '15' },
+                ]}
+              >
+                <Ionicons name={stat.icon as any} size={28} color={stat.color || Colors.primary} />
               </View>
               <View style={styles.statContent}>
                 <Text style={styles.statLabel}>{stat.label}</Text>
                 <Text style={[styles.statValue, { color: stat.color || Colors.primary }]}>
                   {stat.value}
                 </Text>
-                {stat.subtitle && (
-                  <Text style={styles.statSubtitle}>{stat.subtitle}</Text>
-                )}
+                {stat.subtitle && <Text style={styles.statSubtitle}>{stat.subtitle}</Text>}
               </View>
             </View>
           ))}

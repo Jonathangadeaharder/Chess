@@ -97,7 +97,13 @@ export interface ReviewResult {
  */
 export interface CoachPrompt {
   id: string;
-  type: 'socratic-question' | 'hint' | 'explanation' | 'encouragement' | 'feedback-positive' | 'feedback-negative';
+  type:
+    | 'socratic-question'
+    | 'hint'
+    | 'explanation'
+    | 'encouragement'
+    | 'feedback-positive'
+    | 'feedback-negative';
   text: string;
   audioUrl?: string;
   expectedResponse?: any;

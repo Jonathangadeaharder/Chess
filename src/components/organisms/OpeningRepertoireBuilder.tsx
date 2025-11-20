@@ -90,13 +90,16 @@ export default function OpeningRepertoireBuilder({ onClose }: { onClose?: () => 
     let lines = OPENING_LINES;
 
     if (selectedSystem !== 'all') {
-      lines = lines.filter(line => typeof line.system !== 'undefined' && line.system === selectedSystem);
+      lines = lines.filter(
+        line => typeof line.system !== 'undefined' && line.system === selectedSystem
+      );
     }
 
     if (searchQuery) {
-      lines = lines.filter(line =>
-        line.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        line.moves.join(' ').toLowerCase().includes(searchQuery.toLowerCase())
+      lines = lines.filter(
+        line =>
+          line.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          line.moves.join(' ').toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
 
@@ -127,25 +130,19 @@ export default function OpeningRepertoireBuilder({ onClose }: { onClose?: () => 
   };
 
   const removeFromRepertoire = (id: string) => {
-    Alert.alert(
-      'Remove from Repertoire',
-      'Are you sure you want to remove this line?',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Remove',
-          style: 'destructive',
-          onPress: () => {
-            setRepertoire(prev => prev.filter(entry => entry.id !== id));
-            saveRepertoire();
-            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
-          },
+    Alert.alert('Remove from Repertoire', 'Are you sure you want to remove this line?', [
+      { text: 'Cancel', style: 'cancel' },
+      {
+        text: 'Remove',
+        style: 'destructive',
+        onPress: () => {
+          setRepertoire(prev => prev.filter(entry => entry.id !== id));
+          saveRepertoire();
+          Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
         },
-      ]
-    );
+      },
+    ]);
   };
-
-
 
   const handlePreviousMove = () => {
     if (currentMoveIndex > 0) {
@@ -178,14 +175,33 @@ export default function OpeningRepertoireBuilder({ onClose }: { onClose?: () => 
           </View>
 
           <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.filterRow}>
-            {(['all', 'kings-indian-attack', 'stonewall-attack', 'colle-system', 'london-system', 'torre-attack'] as const).map(system => (
+            {(
+              [
+                'all',
+                'kings-indian-attack',
+                'stonewall-attack',
+                'colle-system',
+                'london-system',
+                'torre-attack',
+              ] as const
+            ).map(system => (
               <TouchableOpacity
                 key={system}
                 style={[styles.filterChip, selectedSystem === system && styles.filterChipActive]}
                 onPress={() => setSelectedSystem(system)}
               >
-                <Text style={[styles.filterChipText, selectedSystem === system && styles.filterChipTextActive]}>
-                  {system === 'all' ? 'All' : system.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
+                <Text
+                  style={[
+                    styles.filterChipText,
+                    selectedSystem === system && styles.filterChipTextActive,
+                  ]}
+                >
+                  {system === 'all'
+                    ? 'All'
+                    : system
+                        .split('-')
+                        .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+                        .join(' ')}
                 </Text>
               </TouchableOpacity>
             ))}
@@ -210,12 +226,13 @@ export default function OpeningRepertoireBuilder({ onClose }: { onClose?: () => 
                   <View style={styles.lineInfo}>
                     <Text style={styles.lineName}>{line.name}</Text>
                     <Text style={styles.lineSystem}>
-                      {line.system.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
+                      {line.system
+                        .split('-')
+                        .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+                        .join(' ')}
                     </Text>
                   </View>
-                  {inRepertoire && (
-                    <Ionicons name="bookmark" size={24} color={Colors.primary} />
-                  )}
+                  {inRepertoire && <Ionicons name="bookmark" size={24} color={Colors.primary} />}
                 </View>
 
                 <Text style={styles.lineMoves} numberOfLines={2}>
@@ -226,7 +243,7 @@ export default function OpeningRepertoireBuilder({ onClose }: { onClose?: () => 
                   <View style={styles.lineActions}>
                     <TouchableOpacity
                       style={[styles.addButton, styles.whiteButton]}
-                      onPress={(e) => {
+                      onPress={e => {
                         e.stopPropagation();
                         addToRepertoire(line, 'white');
                       }}
@@ -237,13 +254,15 @@ export default function OpeningRepertoireBuilder({ onClose }: { onClose?: () => 
 
                     <TouchableOpacity
                       style={[styles.addButton, styles.blackButton]}
-                      onPress={(e) => {
+                      onPress={e => {
                         e.stopPropagation();
                         addToRepertoire(line, 'black');
                       }}
                     >
                       <Ionicons name="add" size={16} color={Colors.textInverse} />
-                      <Text style={[styles.addButtonText, { color: Colors.textInverse }]}>As Black</Text>
+                      <Text style={[styles.addButtonText, { color: Colors.textInverse }]}>
+                        As Black
+                      </Text>
                     </TouchableOpacity>
                   </View>
                 )}
@@ -272,10 +291,7 @@ export default function OpeningRepertoireBuilder({ onClose }: { onClose?: () => 
             <Text style={styles.emptyStateSubtext}>
               Browse openings and add them to your repertoire
             </Text>
-            <TouchableOpacity
-              style={styles.primaryButton}
-              onPress={() => setViewMode('browse')}
-            >
+            <TouchableOpacity style={styles.primaryButton} onPress={() => setViewMode('browse')}>
               <Text style={styles.primaryButtonText}>Browse Openings</Text>
             </TouchableOpacity>
           </View>
@@ -286,14 +302,22 @@ export default function OpeningRepertoireBuilder({ onClose }: { onClose?: () => 
                 <View style={styles.lineInfo}>
                   <Text style={styles.lineName}>{entry.name}</Text>
                   <View style={styles.repertoireMeta}>
-                    <View style={[styles.colorBadge, entry.color === 'white' ? styles.whiteBadge : styles.blackBadge]}>
-                      <Text style={[styles.colorBadgeText, entry.color === 'black' && { color: Colors.textInverse }]}>
+                    <View
+                      style={[
+                        styles.colorBadge,
+                        entry.color === 'white' ? styles.whiteBadge : styles.blackBadge,
+                      ]}
+                    >
+                      <Text
+                        style={[
+                          styles.colorBadgeText,
+                          entry.color === 'black' && { color: Colors.textInverse },
+                        ]}
+                      >
                         {entry.color}
                       </Text>
                     </View>
-                    <Text style={styles.masteryText}>
-                      {entry.mastery}% mastered
-                    </Text>
+                    <Text style={styles.masteryText}>{entry.mastery}% mastered</Text>
                   </View>
                 </View>
 
@@ -323,7 +347,9 @@ export default function OpeningRepertoireBuilder({ onClose }: { onClose?: () => 
                 </View>
                 <View style={styles.stat}>
                   <Text style={styles.statValue}>
-                    {entry.lastPracticed ? new Date(entry.lastPracticed).toLocaleDateString() : 'Never'}
+                    {entry.lastPracticed
+                      ? new Date(entry.lastPracticed).toLocaleDateString()
+                      : 'Never'}
                   </Text>
                   <Text style={styles.statLabel}>Last Practiced</Text>
                 </View>
@@ -352,15 +378,25 @@ export default function OpeningRepertoireBuilder({ onClose }: { onClose?: () => 
           style={[styles.tab, viewMode === 'browse' && styles.tabActive]}
           onPress={() => setViewMode('browse')}
         >
-          <Ionicons name="library" size={20} color={viewMode === 'browse' ? Colors.primary : Colors.textSecondary} />
-          <Text style={[styles.tabText, viewMode === 'browse' && styles.tabTextActive]}>Browse</Text>
+          <Ionicons
+            name="library"
+            size={20}
+            color={viewMode === 'browse' ? Colors.primary : Colors.textSecondary}
+          />
+          <Text style={[styles.tabText, viewMode === 'browse' && styles.tabTextActive]}>
+            Browse
+          </Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={[styles.tab, viewMode === 'repertoire' && styles.tabActive]}
           onPress={() => setViewMode('repertoire')}
         >
-          <Ionicons name="bookmark" size={20} color={viewMode === 'repertoire' ? Colors.primary : Colors.textSecondary} />
+          <Ionicons
+            name="bookmark"
+            size={20}
+            color={viewMode === 'repertoire' ? Colors.primary : Colors.textSecondary}
+          />
           <Text style={[styles.tabText, viewMode === 'repertoire' && styles.tabTextActive]}>
             My Repertoire ({repertoire.length})
           </Text>
@@ -382,10 +418,7 @@ export default function OpeningRepertoireBuilder({ onClose }: { onClose?: () => 
           </View>
 
           <View style={styles.boardSection}>
-            <Chessboard
-              showCoordinates={true}
-              interactionMode="tap-tap"
-            />
+            <Chessboard showCoordinates={true} interactionMode="tap-tap" />
           </View>
 
           {/* Move Navigation */}

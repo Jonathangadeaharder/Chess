@@ -214,16 +214,13 @@ export async function analyzePlayerGames(
   }
 
   // Convert to array and sort by frequency
-  const patterns = Array.from(weaknessMap.values())
-    .sort((a, b) => b.frequency - a.frequency);
+  const patterns = Array.from(weaknessMap.values()).sort((a, b) => b.frequency - a.frequency);
 
   // Identify strengths (areas with few mistakes)
   const strengths = identifyStrengths(patterns, games);
 
   // Priority areas (top 3 most frequent weaknesses)
-  const priorityAreas = patterns
-    .slice(0, 3)
-    .map(p => p.description);
+  const priorityAreas = patterns.slice(0, 3).map(p => p.description);
 
   return {
     gamesAnalyzed: games.length,
@@ -254,14 +251,17 @@ function detectWeaknessPattern(
       description: 'Leaving pieces undefended',
       frequency: 1,
       severity: 'high',
-      examples: [{
-        gameIndex: 0,
-        moveNumber: Math.floor(moveIndex / 2) + 1,
-        position: '',
-        mistake: move.move,
-        correction: move.bestMove || '',
-      }],
-      recommendation: 'Before moving, check that all your pieces are defended. Count attackers vs defenders.',
+      examples: [
+        {
+          gameIndex: 0,
+          moveNumber: Math.floor(moveIndex / 2) + 1,
+          position: '',
+          mistake: move.move,
+          correction: move.bestMove || '',
+        },
+      ],
+      recommendation:
+        'Before moving, check that all your pieces are defended. Count attackers vs defenders.',
     };
   }
 
@@ -273,13 +273,15 @@ function detectWeaknessPattern(
       description: 'Missing tactical opportunities',
       frequency: 1,
       severity: 'medium',
-      examples: [{
-        gameIndex: 0,
-        moveNumber: Math.floor(moveIndex / 2) + 1,
-        position: '',
-        mistake: move.move,
-        correction: move.bestMove || '',
-      }],
+      examples: [
+        {
+          gameIndex: 0,
+          moveNumber: Math.floor(moveIndex / 2) + 1,
+          position: '',
+          mistake: move.move,
+          correction: move.bestMove || '',
+        },
+      ],
       recommendation: 'Practice tactical puzzles daily to improve pattern recognition.',
     };
   }
@@ -292,14 +294,17 @@ function detectWeaknessPattern(
       description: 'Poor piece placement and planning',
       frequency: 1,
       severity: 'low',
-      examples: [{
-        gameIndex: 0,
-        moveNumber: Math.floor(moveIndex / 2) + 1,
-        position: '',
-        mistake: move.move,
-        correction: move.bestMove || '',
-      }],
-      recommendation: 'Study strategic concepts like piece activity, pawn structure, and king safety.',
+      examples: [
+        {
+          gameIndex: 0,
+          moveNumber: Math.floor(moveIndex / 2) + 1,
+          position: '',
+          mistake: move.move,
+          correction: move.bestMove || '',
+        },
+      ],
+      recommendation:
+        'Study strategic concepts like piece activity, pawn structure, and king safety.',
     };
   }
 
@@ -321,13 +326,15 @@ function detectOpeningWeakness(
       description: 'Weak opening preparation',
       frequency: 1,
       severity: 'medium',
-      examples: [{
-        gameIndex: 0,
-        moveNumber: Math.floor(moveIndex / 2) + 1,
-        position: '',
-        mistake: move.move,
-        correction: move.bestMove || '',
-      }],
+      examples: [
+        {
+          gameIndex: 0,
+          moveNumber: Math.floor(moveIndex / 2) + 1,
+          position: '',
+          mistake: move.move,
+          correction: move.bestMove || '',
+        },
+      ],
       recommendation: 'Study and memorize your opening repertoire more thoroughly.',
     };
   }
@@ -349,13 +356,15 @@ function detectEndgameWeakness(
       description: 'Poor endgame technique',
       frequency: 1,
       severity: 'high',
-      examples: [{
-        gameIndex: 0,
-        moveNumber: Math.floor(moveIndex / 2) + 1,
-        position: '',
-        mistake: move.move,
-        correction: move.bestMove || '',
-      }],
+      examples: [
+        {
+          gameIndex: 0,
+          moveNumber: Math.floor(moveIndex / 2) + 1,
+          position: '',
+          mistake: move.move,
+          correction: move.bestMove || '',
+        },
+      ],
       recommendation: 'Practice fundamental endgames: king and pawn, rook endgames, opposition.',
     };
   }
@@ -365,10 +374,7 @@ function detectEndgameWeakness(
 /**
  * Identify player's strengths based on low error rates
  */
-function identifyStrengths(
-  patterns: WeaknessPattern[],
-  games: PGNGame[]
-): string[] {
+function identifyStrengths(patterns: WeaknessPattern[], games: PGNGame[]): string[] {
   const strengths: string[] = [];
 
   // Check opening strength
@@ -378,7 +384,9 @@ function identifyStrengths(
   }
 
   // Check tactical strength
-  const tacticalMistakes = patterns.filter(p => p.type === 'tactical').reduce((sum, p) => sum + p.frequency, 0);
+  const tacticalMistakes = patterns
+    .filter(p => p.type === 'tactical')
+    .reduce((sum, p) => sum + p.frequency, 0);
   if (tacticalMistakes < games.length * 2) {
     strengths.push('Good tactical awareness');
   }
@@ -402,11 +410,15 @@ function estimateRating(accuracy: number, patterns: WeaknessPattern[]): number {
   baseRating += (accuracy - 40) * 26.67;
 
   // Penalty for blunders
-  const blunders = patterns.filter(p => p.severity === 'high').reduce((sum, p) => sum + p.frequency, 0);
+  const blunders = patterns
+    .filter(p => p.severity === 'high')
+    .reduce((sum, p) => sum + p.frequency, 0);
   baseRating -= blunders * 50;
 
   // Penalty for missed tactics
-  const missedTactics = patterns.filter(p => p.category === 'missed-tactics').reduce((sum, p) => sum + p.frequency, 0);
+  const missedTactics = patterns
+    .filter(p => p.category === 'missed-tactics')
+    .reduce((sum, p) => sum + p.frequency, 0);
   baseRating -= missedTactics * 30;
 
   return Math.max(800, Math.min(2800, Math.round(baseRating)));
@@ -421,7 +433,7 @@ export async function importLichessGames(username: string, count: number = 50): 
       `https://lichess.org/api/games/user/${username}?max=${count}&moves=true&tags=true`,
       {
         headers: {
-          'Accept': 'application/x-chess-pgn',
+          Accept: 'application/x-chess-pgn',
         },
       }
     );
@@ -444,7 +456,11 @@ export async function importLichessGames(username: string, count: number = 50): 
 /**
  * Import PGN games from Chess.com account
  */
-export async function importChessComGames(username: string, year?: number, month?: number): Promise<string[]> {
+export async function importChessComGames(
+  username: string,
+  year?: number,
+  month?: number
+): Promise<string[]> {
   try {
     // Default to current month if not specified
     const now = new Date();
@@ -455,7 +471,7 @@ export async function importChessComGames(username: string, year?: number, month
       `https://api.chess.com/pub/player/${username}/games/${targetYear}/${String(targetMonth).padStart(2, '0')}`,
       {
         headers: {
-          'Accept': 'application/json',
+          Accept: 'application/json',
         },
       }
     );

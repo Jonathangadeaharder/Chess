@@ -98,7 +98,7 @@ export class ErrorTrackingService {
     const originalPromiseRejection = global.Promise.prototype.catch;
 
     // @ts-ignore
-    global.Promise.prototype.catch = function(onRejected) {
+    global.Promise.prototype.catch = function (onRejected) {
       return originalPromiseRejection.call(this, (error: any) => {
         errorTrackingService.captureError(error, {
           severity: 'error',
@@ -243,12 +243,7 @@ export class ErrorTrackingService {
   /**
    * Track network request
    */
-  trackNetworkRequest(
-    url: string,
-    method: string,
-    status?: number,
-    error?: string
-  ): void {
+  trackNetworkRequest(url: string, method: string, status?: number, error?: string): void {
     this.addBreadcrumb({
       category: 'network',
       message: `${method} ${url}`,
@@ -292,15 +287,15 @@ export class ErrorTrackingService {
       return 'network';
     }
 
-    if (message.includes('storage') || message.includes('sqlite') || message.includes('asyncstorage')) {
+    if (
+      message.includes('storage') ||
+      message.includes('sqlite') ||
+      message.includes('asyncstorage')
+    ) {
       return 'storage';
     }
 
-    if (
-      message.includes('render') ||
-      stack.includes('react') ||
-      message.includes('component')
-    ) {
+    if (message.includes('render') || stack.includes('react') || message.includes('component')) {
       return 'rendering';
     }
 
@@ -330,11 +325,7 @@ export class ErrorTrackingService {
     const message = error.message.toLowerCase();
 
     // Fatal errors that crash the app
-    if (
-      message.includes('fatal') ||
-      message.includes('crash') ||
-      message.includes('unhandled')
-    ) {
+    if (message.includes('fatal') || message.includes('crash') || message.includes('unhandled')) {
       return 'fatal';
     }
 
@@ -461,11 +452,7 @@ export const errorTrackingService = new ErrorTrackingService();
 /**
  * Convenience function to capture errors
  */
-export function captureError(
-  error: Error,
-  context?: string,
-  metadata?: Record<string, any>
-): void {
+export function captureError(error: Error, context?: string, metadata?: Record<string, any>): void {
   errorTrackingService.captureError(error, {
     context: {
       userAction: context,
@@ -477,9 +464,6 @@ export function captureError(
 /**
  * Convenience function to capture messages
  */
-export function captureMessage(
-  message: string,
-  severity: ErrorSeverity = 'info'
-): void {
+export function captureMessage(message: string, severity: ErrorSeverity = 'info'): void {
   errorTrackingService.captureMessage(message, severity);
 }

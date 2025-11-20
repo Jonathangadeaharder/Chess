@@ -21,7 +21,9 @@ Grandmaster Path will be a **100% offline, completely free** chess learning appl
 ## Revised Architecture
 
 ### Data Storage
+
 **All data in local SQLite:**
+
 - User profiles
 - SRS queue (opening lines + concepts)
 - Game history
@@ -30,6 +32,7 @@ Grandmaster Path will be a **100% offline, completely free** chess learning appl
 - Lessons and puzzles (bundled with app)
 
 ### Backend Services Status
+
 ✅ **Local Only:** Simple local UID generation for SQLite
 ❌ **Removed:** All cloud sync, authentication, and backend infrastructure
 ❌ **Removed:** All monetization gates and IAP code
@@ -43,33 +46,33 @@ Grandmaster Path will be a **100% offline, completely free** chess learning appl
 
 ### Phase 1: Core Offline Features (Week 1)
 
-| Priority | Task | Status | Effort |
-|----------|------|--------|--------|
-| P0 | ✅ Remove Developer Analytics Dashboard | Complete | 2 hours |
-| P0 | ✅ Validate SQLite persistence works offline | Complete | - |
-| P1 | Add accessibility features to Chessboard | Pending | 1 day |
-| P1 | Implement local notifications for SRS reminders | Pending | 4 hours |
-| P1 | Add manual backup/restore (JSON export/import) | Pending | 1 day |
+| Priority | Task                                            | Status   | Effort  |
+| -------- | ----------------------------------------------- | -------- | ------- |
+| P0       | ✅ Remove Developer Analytics Dashboard         | Complete | 2 hours |
+| P0       | ✅ Validate SQLite persistence works offline    | Complete | -       |
+| P1       | Add accessibility features to Chessboard        | Pending  | 1 day   |
+| P1       | Implement local notifications for SRS reminders | Pending  | 4 hours |
+| P1       | Add manual backup/restore (JSON export/import)  | Pending  | 1 day   |
 
 ### Phase 2: Content & Polish (Week 2)
 
-| Priority | Task | Status | Effort |
-|----------|------|--------|--------|
-| P1 | Expand puzzle library (51 → 200+ puzzles) | Pending | 2 days |
-| P1 | Add more opening lesson content | Pending | 2 days |
-| P2 | Simplify Leaderboards to local-only | Pending | 4 hours |
-| P2 | Remove social networking stack | Pending | 1 day |
-| P3 | Consolidate TranspositionMaze into MoveTrainer | Pending | 1 day |
+| Priority | Task                                           | Status  | Effort  |
+| -------- | ---------------------------------------------- | ------- | ------- |
+| P1       | Expand puzzle library (51 → 200+ puzzles)      | Pending | 2 days  |
+| P1       | Add more opening lesson content                | Pending | 2 days  |
+| P2       | Simplify Leaderboards to local-only            | Pending | 4 hours |
+| P2       | Remove social networking stack                 | Pending | 1 day   |
+| P3       | Consolidate TranspositionMaze into MoveTrainer | Pending | 1 day   |
 
 ### Phase 3: Testing & Release (Week 3)
 
-| Priority | Task | Status | Effort |
-|----------|------|--------|--------|
-| P0 | End-to-end testing (all features offline) | Pending | 2 days |
-| P0 | Performance testing on low-end devices | Pending | 1 day |
-| P1 | Accessibility testing with screen readers | Pending | 1 day |
-| P0 | Final bundle size optimization | Pending | 4 hours |
-| P0 | App store assets and submission | Pending | 2 days |
+| Priority | Task                                      | Status  | Effort  |
+| -------- | ----------------------------------------- | ------- | ------- |
+| P0       | End-to-end testing (all features offline) | Pending | 2 days  |
+| P0       | Performance testing on low-end devices    | Pending | 1 day   |
+| P1       | Accessibility testing with screen readers | Pending | 1 day   |
+| P0       | Final bundle size optimization            | Pending | 4 hours |
+| P0       | App store assets and submission           | Pending | 2 days  |
 
 **Total Timeline:** 2-3 weeks to production
 
@@ -77,20 +80,20 @@ Grandmaster Path will be a **100% offline, completely free** chess learning appl
 
 ## Feature Matrix: Offline vs Original Plan
 
-| Feature | Original Plan | Offline Strategy |
-|---------|--------------|------------------|
-| **Cloud Sync** | ✅ Required | ❌ Removed (pure offline) |
-| **Monetization** | ✅ Freemium | ❌ Removed (100% free) |
-| **Opening Systems** | 1 free, 4 premium | ✅ All 5 free |
-| **Tactical Drills** | Basic free, Flash premium | ✅ All modes free |
-| **Stockfish Analysis** | Depth 10 free, 20 premium | ✅ Full depth free |
-| **SRS Training** | ✅ Full access | ✅ Full access |
-| **Mini-Games** | ✅ All free | ✅ All free |
-| **Achievements** | ✅ All free | ✅ All free |
-| **Leaderboards** | Global + Friends | 📱 Local device only |
-| **Social Features** | Friends, profiles | ❌ Removed |
-| **Notifications** | ✅ Streak reminders | ✅ Local only |
-| **Backup/Restore** | Cloud automatic | 📂 Manual export/import |
+| Feature                | Original Plan             | Offline Strategy          |
+| ---------------------- | ------------------------- | ------------------------- |
+| **Cloud Sync**         | ✅ Required               | ❌ Removed (pure offline) |
+| **Monetization**       | ✅ Freemium               | ❌ Removed (100% free)    |
+| **Opening Systems**    | 1 free, 4 premium         | ✅ All 5 free             |
+| **Tactical Drills**    | Basic free, Flash premium | ✅ All modes free         |
+| **Stockfish Analysis** | Depth 10 free, 20 premium | ✅ Full depth free        |
+| **SRS Training**       | ✅ Full access            | ✅ Full access            |
+| **Mini-Games**         | ✅ All free               | ✅ All free               |
+| **Achievements**       | ✅ All free               | ✅ All free               |
+| **Leaderboards**       | Global + Friends          | 📱 Local device only      |
+| **Social Features**    | Friends, profiles         | ❌ Removed                |
+| **Notifications**      | ✅ Streak reminders       | ✅ Local only             |
+| **Backup/Restore**     | Cloud automatic           | 📂 Manual export/import   |
 
 ---
 
@@ -217,6 +220,7 @@ export async function importUserData(backupJson: string): Promise<void> {
 ### User Interface
 
 Settings Screen → "Backup & Restore"
+
 - **Export Data** → Share JSON file via system share sheet
 - **Import Data** → Read JSON from file picker
 - **Reset Progress** → Clear all data
@@ -239,8 +243,8 @@ export async function scheduleNextReviewReminder(nextReviewDate: Date): Promise<
   // Schedule new
   await Notifications.scheduleNotificationAsync({
     content: {
-      title: "Time to train! ♟️",
-      body: "Your opening lines are ready for review",
+      title: 'Time to train! ♟️',
+      body: 'Your opening lines are ready for review',
       sound: true,
     },
     trigger: {
@@ -267,6 +271,7 @@ export async function scheduleStreakReminder(): Promise<void> {
 ```
 
 **Required:** Add to `app.json`:
+
 ```json
 {
   "expo": {
@@ -291,6 +296,7 @@ Remove global/friend leaderboards. Keep only:
 ### Single-Device Leaderboards
 
 **"Personal Bests" Screen:**
+
 - Longest streak
 - Highest tactical rating
 - Most puzzles solved in one session
@@ -298,6 +304,7 @@ Remove global/friend leaderboards. Keep only:
 - Perfect lesson completion streak
 
 **"Progress Over Time" Charts:**
+
 - XP gained per week
 - Tactical rating progression
 - Opening repertoire coverage
@@ -310,7 +317,9 @@ No comparison with other users - purely personal progress tracking.
 ## Removed Features (YAGNI + Offline)
 
 ### ❌ Social Networking Stack
+
 **Files to remove:**
+
 - `src/screens/Community/FriendsScreen.tsx`
 - `src/screens/Community/SocialProfileScreen.tsx`
 - `src/services/social/socialProfileService.ts`
@@ -319,7 +328,9 @@ No comparison with other users - purely personal progress tracking.
 **Rationale:** Requires backend for user discovery, friend graphs, and profiles. Not compatible with offline-first.
 
 ### ❌ Monetization Infrastructure
+
 **Not needed:**
+
 - RevenueCat integration
 - IAP entitlement checks
 - Premium gates in OpeningRepertoireBuilder
@@ -328,6 +339,7 @@ No comparison with other users - purely personal progress tracking.
 **Rationale:** App is 100% free. All features unlocked by default.
 
 ### ❌ Cloud Sync (Active Use)
+
 **Status:** Infrastructure built but not enabled by default
 **Future:** Can be offered as optional "Cloud Backup" feature via settings toggle
 
@@ -336,12 +348,14 @@ No comparison with other users - purely personal progress tracking.
 ## Content Strategy (Offline Bundle)
 
 ### Current Content (Verified ✅)
+
 - 51 tactical puzzles (Easy: 15, Medium: 21, Hard: 15)
 - 33 lessons across 5 opening systems
 - 12 checkmate patterns
 - 4 mini-games
 
 ### Expansion Plan (Week 2)
+
 - **Tactical Puzzles:** Expand to 200+ puzzles
   - Easy: 60 puzzles
   - Medium: 80 puzzles
@@ -363,6 +377,7 @@ No comparison with other users - purely personal progress tracking.
 ## Bundle Size Optimization
 
 ### Current Optimizations ✅
+
 - Metro tree shaking
 - Terser minification
 - Lazy route loading
@@ -371,12 +386,14 @@ No comparison with other users - purely personal progress tracking.
 ### Additional Optimizations
 
 1. **Remove unused dependencies:**
+
    ```bash
    npm uninstall @supabase/supabase-js  # Not needed offline
    # Keep firebase packages as optional
    ```
 
 2. **Compress puzzle/lesson data:**
+
    ```typescript
    // Use abbreviated field names in constants
    // Before: { id: "fork-1", name: "Knight Fork", pattern: "fork" }
@@ -417,13 +434,14 @@ No comparison with other users - purely personal progress tracking.
 // After move completion
 import { playSound } from './services/audio/soundService';
 
-playSound('move');  // "Knight to f3"
-speak(`${piece} to ${square}`);  // TTS
+playSound('move'); // "Knight to f3"
+speak(`${piece} to ${square}`); // TTS
 ```
 
 ### Screen Reader Support
 
 All interactive elements must have:
+
 - `accessibilityRole`
 - `accessibilityLabel`
 - `accessibilityHint` (for complex interactions)
@@ -435,6 +453,7 @@ All interactive elements must have:
 ## Testing Strategy
 
 ### 1. Offline Functionality Test
+
 - ✅ App launches without internet
 - ✅ All features work in airplane mode
 - ✅ SQLite persistence survives app restart
@@ -442,18 +461,21 @@ All interactive elements must have:
 - ✅ Backup export/import works
 
 ### 2. Performance Test (Low-End Devices)
+
 - Test on budget Android device (2GB RAM)
 - Monitor FPS during animations
 - Check SQLite query performance with 1000+ SRS items
 - Measure app launch time
 
 ### 3. Storage Test
+
 - Add 500 SRS items
 - Play 100 games
 - Complete all lessons
 - Verify database performance remains smooth
 
 ### 4. Accessibility Test
+
 - Navigate entire app with screen reader
 - Test with high contrast mode
 - Verify font scaling works
@@ -464,6 +486,7 @@ All interactive elements must have:
 ## App Store Submission Checklist
 
 ### Metadata
+
 - [ ] App name: "Grandmaster Path"
 - [ ] Subtitle: "Master Chess Openings Offline"
 - [ ] Description highlighting offline capability
@@ -472,16 +495,19 @@ All interactive elements must have:
 - [ ] App icon (1024x1024)
 
 ### Privacy
+
 - [ ] Privacy policy (even for offline app)
 - [ ] Declare: "No data collected" or "Data stays on device"
 - [ ] List permissions used (notifications, storage)
 
 ### Legal
+
 - [ ] Stockfish license attribution (GPL)
 - [ ] Chess.js license (BSD-2-Clause)
 - [ ] Expo license compliance
 
 ### Technical
+
 - [ ] Test on iOS 14+ and Android 8+
 - [ ] Verify app works without network permission
 - [ ] Check app size < 150MB (iOS) / 100MB (Android)
@@ -504,21 +530,22 @@ While V1.0 is 100% free, future sustainability options:
 
 ## Success Metrics (Offline App)
 
-| Metric | Target | How to Measure |
-|--------|--------|----------------|
-| **App Launch Time** | < 2 seconds | Performance profiling |
+| Metric                 | Target                        | How to Measure                    |
+| ---------------------- | ----------------------------- | --------------------------------- |
+| **App Launch Time**    | < 2 seconds                   | Performance profiling             |
 | **Daily Active Users** | Track via anonymous analytics | Firebase Analytics (no user data) |
-| **Session Duration** | > 10 minutes average | Analytics |
-| **Feature Adoption** | > 50% use SRS daily | Analytics |
-| **Crash Rate** | < 0.5% | Sentry/Crashlytics |
-| **Retention (D7)** | > 40% | Analytics |
-| **App Rating** | > 4.5 stars | App Store reviews |
+| **Session Duration**   | > 10 minutes average          | Analytics                         |
+| **Feature Adoption**   | > 50% use SRS daily           | Analytics                         |
+| **Crash Rate**         | < 0.5%                        | Sentry/Crashlytics                |
+| **Retention (D7)**     | > 40%                         | Analytics                         |
+| **App Rating**         | > 4.5 stars                   | App Store reviews                 |
 
 ---
 
 ## Next Steps
 
 ### ✅ Completed V1.0 Features
+
 1. ✅ Removed Developer Analytics Dashboard
 2. ✅ Added comprehensive Chessboard accessibility
 3. ✅ Implemented manual backup/restore service (JSON export/import)
@@ -529,7 +556,9 @@ While V1.0 is 100% free, future sustainability options:
 8. ✅ **Simplified Leaderboards** to local-only "Personal Bests" with 4 stat categories
 
 ### 🎯 V1.0 Launch Status
+
 **Core Features:** ✅ Complete and production-ready
+
 - Offline-first architecture with SQLite
 - Local notifications (SRS + streaks)
 - Manual backup/restore
@@ -540,12 +569,14 @@ While V1.0 is 100% free, future sustainability options:
 - 33 lessons
 
 **Content Roadmap:** Phased approach
+
 - **V1.0 (Launch):** 30 tactical puzzles ✅
 - **V1.1:** Expand to 100 puzzles (add 70 more)
 - **V1.2:** Expand to 200+ puzzles (community-sourced)
 - **V2.0:** Endgame trainer, advanced lessons
 
 ### 📋 Pre-Launch Checklist
+
 - [ ] End-to-end offline functionality testing
 - [ ] Performance testing on low-end Android devices
 - [ ] Accessibility testing (VoiceOver/TalkBack)
@@ -563,5 +594,5 @@ While V1.0 is 100% free, future sustainability options:
 
 ---
 
-*Prepared by Claude (Anthropic AI)*
-*Branch: claude/audit-grandmaster-path-015u8CoTKzUfGLHY1jTYvtNT*
+_Prepared by Claude (Anthropic AI)_
+_Branch: claude/audit-grandmaster-path-015u8CoTKzUfGLHY1jTYvtNT_

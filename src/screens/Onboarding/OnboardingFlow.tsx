@@ -12,13 +12,7 @@
  */
 
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  ScrollView,
-} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors, Typography, Spacing, BorderRadius } from '../../constants/theme';
 import type { OpeningSystem } from '../../types';
@@ -33,7 +27,12 @@ type OnboardingStep =
   | 'customization'
   | 'complete';
 
-type Playstyle = 'aggressor' | 'positional-master' | 'tactician' | 'endgame-specialist' | 'balanced';
+type Playstyle =
+  | 'aggressor'
+  | 'positional-master'
+  | 'tactician'
+  | 'endgame-specialist'
+  | 'balanced';
 
 interface QuizQuestion {
   id: string;
@@ -71,7 +70,11 @@ const PLAYSTYLE_QUIZ: QuizQuestion[] = [
     question: 'Your ideal game would involve:',
     options: [
       { text: 'Sacrificing pieces for a mating attack', playstyle: 'aggressor', icon: '💥' },
-      { text: 'Outmaneuvering your opponent strategically', playstyle: 'positional-master', icon: '♟️' },
+      {
+        text: 'Outmaneuvering your opponent strategically',
+        playstyle: 'positional-master',
+        icon: '♟️',
+      },
       { text: 'A brilliant combination winning material', playstyle: 'tactician', icon: '✨' },
       { text: 'Mastering a technical endgame', playstyle: 'endgame-specialist', icon: '🏆' },
     ],
@@ -98,17 +101,21 @@ const PLAYSTYLE_QUIZ: QuizQuestion[] = [
   },
 ];
 
-const PLAYSTYLE_DESCRIPTIONS: Record<Playstyle, {
-  name: string;
-  description: string;
-  icon: string;
-  recommendedSystem: OpeningSystem;
-  strengths: string[];
-  areasToImprove: string[];
-}> = {
-  'aggressor': {
+const PLAYSTYLE_DESCRIPTIONS: Record<
+  Playstyle,
+  {
+    name: string;
+    description: string;
+    icon: string;
+    recommendedSystem: OpeningSystem;
+    strengths: string[];
+    areasToImprove: string[];
+  }
+> = {
+  aggressor: {
     name: 'The Aggressor',
-    description: 'You thrive on attacking chess! Your games are full of sacrifices, tactics, and relentless pressure on the enemy king.',
+    description:
+      'You thrive on attacking chess! Your games are full of sacrifices, tactics, and relentless pressure on the enemy king.',
     icon: '⚔️',
     recommendedSystem: 'kings-indian-attack',
     strengths: ['Attacking play', 'Initiative', 'Kingside storms'],
@@ -116,15 +123,17 @@ const PLAYSTYLE_DESCRIPTIONS: Record<Playstyle, {
   },
   'positional-master': {
     name: 'The Positional Master',
-    description: 'You excel at strategic maneuvering and long-term planning. You build positions slowly and suffocate opponents.',
+    description:
+      'You excel at strategic maneuvering and long-term planning. You build positions slowly and suffocate opponents.',
     icon: '🏰',
     recommendedSystem: 'london-system',
     strengths: ['Strategic planning', 'Pawn structures', 'Prophylaxis'],
     areasToImprove: ['Tactics', 'Calculation', 'Sharp positions'],
   },
-  'tactician': {
+  tactician: {
     name: 'The Tactician',
-    description: 'You have a sharp eye for combinations! Your games are decided by brilliant tactical blows and precise calculation.',
+    description:
+      'You have a sharp eye for combinations! Your games are decided by brilliant tactical blows and precise calculation.',
     icon: '💡',
     recommendedSystem: 'torre-attack',
     strengths: ['Tactical vision', 'Calculation', 'Pattern recognition'],
@@ -132,15 +141,17 @@ const PLAYSTYLE_DESCRIPTIONS: Record<Playstyle, {
   },
   'endgame-specialist': {
     name: 'The Endgame Specialist',
-    description: 'You shine in the endgame! Technical positions are your forte, and you convert small advantages masterfully.',
+    description:
+      'You shine in the endgame! Technical positions are your forte, and you convert small advantages masterfully.',
     icon: '🎯',
     recommendedSystem: 'colle-system',
     strengths: ['Endgame technique', 'Precision', 'Calculation'],
     areasToImprove: ['Opening theory', 'Middlegame tactics', 'Attacking'],
   },
-  'balanced': {
+  balanced: {
     name: 'The Balanced Player',
-    description: 'You\'re a well-rounded player who adapts to any position. You can play any style depending on what the position demands.',
+    description:
+      "You're a well-rounded player who adapts to any position. You can play any style depending on what the position demands.",
     icon: '⚖️',
     recommendedSystem: 'stonewall-attack',
     strengths: ['Versatility', 'Adaptability', 'All-around skills'],
@@ -150,7 +161,12 @@ const PLAYSTYLE_DESCRIPTIONS: Record<Playstyle, {
 
 const SKILL_LEVELS = [
   { id: 'beginner', name: 'Beginner', rating: '< 1000', description: 'Learning the basics' },
-  { id: 'intermediate', name: 'Intermediate', rating: '1000-1400', description: 'Know the fundamentals' },
+  {
+    id: 'intermediate',
+    name: 'Intermediate',
+    rating: '1000-1400',
+    description: 'Know the fundamentals',
+  },
   { id: 'advanced', name: 'Advanced', rating: '1400-1800', description: 'Solid player' },
   { id: 'expert', name: 'Expert', rating: '1800+', description: 'Strong player' },
 ];
@@ -164,7 +180,9 @@ const GOALS = [
   { id: 'become-master', text: 'Become a master', icon: '👑' },
 ];
 
-export default function OnboardingFlow({ onComplete }: {
+export default function OnboardingFlow({
+  onComplete,
+}: {
   onComplete: (data: OnboardingData) => void;
 }) {
   const [currentStep, setCurrentStep] = useState<OnboardingStep>('welcome');
@@ -175,11 +193,11 @@ export default function OnboardingFlow({ onComplete }: {
 
   const determinePlaystyle = (): Playstyle => {
     const counts: Record<Playstyle, number> = {
-      'aggressor': 0,
+      aggressor: 0,
       'positional-master': 0,
-      'tactician': 0,
+      tactician: 0,
       'endgame-specialist': 0,
-      'balanced': 0,
+      balanced: 0,
     };
 
     Object.values(quizAnswers).forEach(answer => {
@@ -228,9 +246,7 @@ export default function OnboardingFlow({ onComplete }: {
 
   const handleGoalToggle = (goalId: string) => {
     setSelectedGoals(prev =>
-      prev.includes(goalId)
-        ? prev.filter(g => g !== goalId)
-        : [...prev, goalId]
+      prev.includes(goalId) ? prev.filter(g => g !== goalId) : [...prev, goalId]
     );
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
   };
@@ -253,9 +269,7 @@ export default function OnboardingFlow({ onComplete }: {
     <ScrollView contentContainerStyle={styles.stepContainer}>
       <View style={styles.welcomeSection}>
         <Text style={styles.welcomeTitle}>Welcome to Chess Learning!</Text>
-        <Text style={styles.welcomeSubtitle}>
-          Let's personalize your chess journey
-        </Text>
+        <Text style={styles.welcomeSubtitle}>Let's personalize your chess journey</Text>
 
         <View style={styles.featureList}>
           <View style={styles.featureItem}>
@@ -314,25 +328,17 @@ export default function OnboardingFlow({ onComplete }: {
             <Text style={styles.questionText}>{question.question}</Text>
 
             <View style={styles.optionsContainer}>
-              {question.options.map((option) => {
+              {question.options.map(option => {
                 const isSelected = quizAnswers[question.id] === option.playstyle;
 
                 return (
                   <TouchableOpacity
                     key={option.playstyle}
-                    style={[
-                      styles.optionCard,
-                      isSelected && styles.optionCardSelected,
-                    ]}
+                    style={[styles.optionCard, isSelected && styles.optionCardSelected]}
                     onPress={() => handleQuizAnswer(question.id, option.playstyle)}
                   >
                     <Text style={styles.optionIcon}>{option.icon}</Text>
-                    <Text
-                      style={[
-                        styles.optionText,
-                        isSelected && styles.optionTextSelected,
-                      ]}
-                    >
+                    <Text style={[styles.optionText, isSelected && styles.optionTextSelected]}>
                       {option.text}
                     </Text>
                     {isSelected && (
@@ -365,12 +371,10 @@ export default function OnboardingFlow({ onComplete }: {
   const renderSkillAssessment = () => (
     <ScrollView contentContainerStyle={styles.stepContainer}>
       <Text style={styles.stepTitle}>What's Your Current Level?</Text>
-      <Text style={styles.stepSubtitle}>
-        This helps us personalize your training intensity
-      </Text>
+      <Text style={styles.stepSubtitle}>This helps us personalize your training intensity</Text>
 
       <View style={styles.levelsContainer}>
-        {SKILL_LEVELS.map((level) => {
+        {SKILL_LEVELS.map(level => {
           const isSelected = skillLevel === level.id;
 
           return (
@@ -385,7 +389,12 @@ export default function OnboardingFlow({ onComplete }: {
               <Text style={styles.levelRating}>{level.rating}</Text>
               <Text style={styles.levelDescription}>{level.description}</Text>
               {isSelected && (
-                <Ionicons name="checkmark-circle" size={32} color={Colors.primary} style={styles.levelCheck} />
+                <Ionicons
+                  name="checkmark-circle"
+                  size={32}
+                  color={Colors.primary}
+                  style={styles.levelCheck}
+                />
               )}
             </TouchableOpacity>
           );
@@ -442,15 +451,15 @@ export default function OnboardingFlow({ onComplete }: {
             <Ionicons name="bulb" size={32} color={Colors.primary} />
             <Text style={styles.recommendationTitle}>Recommended Opening</Text>
             <Text style={styles.recommendationText}>
-              {profile.recommendedSystem.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
+              {profile.recommendedSystem
+                .split('-')
+                .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+                .join(' ')}
             </Text>
           </View>
         </View>
 
-        <TouchableOpacity
-          style={styles.primaryButton}
-          onPress={() => setCurrentStep('goals')}
-        >
+        <TouchableOpacity style={styles.primaryButton} onPress={() => setCurrentStep('goals')}>
           <Text style={styles.primaryButtonText}>Set My Goals</Text>
           <Ionicons name="arrow-forward" size={24} color={Colors.textInverse} />
         </TouchableOpacity>
@@ -464,7 +473,7 @@ export default function OnboardingFlow({ onComplete }: {
       <Text style={styles.stepSubtitle}>Select all that apply</Text>
 
       <View style={styles.goalsGrid}>
-        {GOALS.map((goal) => {
+        {GOALS.map(goal => {
           const isSelected = selectedGoals.includes(goal.id);
 
           return (
@@ -488,10 +497,7 @@ export default function OnboardingFlow({ onComplete }: {
       </View>
 
       {selectedGoals.length > 0 && (
-        <TouchableOpacity
-          style={styles.primaryButton}
-          onPress={handleComplete}
-        >
+        <TouchableOpacity style={styles.primaryButton} onPress={handleComplete}>
           <Text style={styles.primaryButtonText}>Complete Setup</Text>
           <Ionicons name="checkmark" size={24} color={Colors.textInverse} />
         </TouchableOpacity>

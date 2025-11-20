@@ -160,9 +160,7 @@ export async function saveUserProfile(profile: UserProfile): Promise<void> {
 export async function getUserProfile(): Promise<UserProfile | null> {
   if (!db) throw new Error('Database not initialized');
 
-  const result = await db.getFirstAsync<any>(
-    'SELECT * FROM user_profile LIMIT 1'
-  );
+  const result = await db.getFirstAsync<any>('SELECT * FROM user_profile LIMIT 1');
 
   if (!result) return null;
 
@@ -223,7 +221,9 @@ export async function saveSRSItem(item: SRSItem): Promise<void> {
 export async function getSRSItems(): Promise<SRSItem[]> {
   if (!db) throw new Error('Database not initialized');
 
-  const results = await db.getAllAsync<any>('SELECT * FROM srs_items ORDER BY next_review_date ASC');
+  const results = await db.getAllAsync<any>(
+    'SELECT * FROM srs_items ORDER BY next_review_date ASC'
+  );
 
   return results.map(row => ({
     id: row.id,
@@ -465,10 +465,9 @@ export async function saveWeakness(weakness: Weakness): Promise<void> {
   );
 
   if (existing) {
-    await db.runAsync(
-      'UPDATE weaknesses SET frequency = frequency + 1 WHERE id = ?',
-      [existing.id]
-    );
+    await db.runAsync('UPDATE weaknesses SET frequency = frequency + 1 WHERE id = ?', [
+      existing.id,
+    ]);
   } else {
     await db.runAsync(
       `INSERT INTO weaknesses (
@@ -602,14 +601,17 @@ export async function getSRSStatistics(): Promise<{
   const today = new Date();
   today.setHours(23, 59, 59, 999);
 
-  const stats = await db.getFirstAsync<any>(`
+  const stats = await db.getFirstAsync<any>(
+    `
     SELECT
       COUNT(*) as total_items,
       SUM(CASE WHEN next_review_date <= ? THEN 1 ELSE 0 END) as due_today,
       AVG(retrievability) as avg_retention,
       SUM(CASE WHEN stability > 100 THEN 1 ELSE 0 END) as mastered_items
     FROM srs_items
-  `, [today.getTime()]);
+  `,
+    [today.getTime()]
+  );
 
   return {
     totalItems: stats?.total_items || 0,
@@ -622,12 +624,14 @@ export async function getSRSStatistics(): Promise<{
 /**
  * Performance Trends and Advanced Analytics
  */
-export async function getPerformanceTrend(days: number = 30): Promise<{
-  date: Date;
-  gamesPlayed: number;
-  winRate: number;
-  averageAccuracy: number;
-}[]> {
+export async function getPerformanceTrend(days: number = 30): Promise<
+  {
+    date: Date;
+    gamesPlayed: number;
+    winRate: number;
+    averageAccuracy: number;
+  }[]
+> {
   if (!db) throw new Error('Database not initialized');
 
   const cutoffDate = Date.now() - days * 24 * 60 * 60 * 1000;
@@ -655,22 +659,27 @@ export async function getPerformanceTrend(days: number = 30): Promise<{
   }));
 }
 
-export async function getOpeningStatistics(): Promise<{
-  opening: string;
-  gamesPlayed: number;
-  winRate: number;
-  averageAccuracy: number;
-}[]> {
+export async function getOpeningStatistics(): Promise<
+  {
+    opening: string;
+    gamesPlayed: number;
+    winRate: number;
+    averageAccuracy: number;
+  }[]
+> {
   if (!db) throw new Error('Database not initialized');
 
   const games = await getGameHistory(1000);
 
   // Group games by opening (first 3 moves)
-  const openingStats: Map<string, {
-    games: number;
-    wins: number;
-    totalAccuracy: number;
-  }> = new Map();
+  const openingStats: Map<
+    string,
+    {
+      games: number;
+      wins: number;
+      totalAccuracy: number;
+    }
+  > = new Map();
 
   for (const game of games) {
     if (game.moves.length >= 3) {
@@ -759,12 +768,14 @@ export async function getColorStatistics(): Promise<{
   };
 }
 
-export async function getRatingProgressAnalytics(): Promise<{
-  ratingRange: string;
-  gamesPlayed: number;
-  winRate: number;
-  averageAccuracy: number;
-}[]> {
+export async function getRatingProgressAnalytics(): Promise<
+  {
+    ratingRange: string;
+    gamesPlayed: number;
+    winRate: number;
+    averageAccuracy: number;
+  }[]
+> {
   if (!db) throw new Error('Database not initialized');
 
   // Group by rating ranges: <1000, 1000-1399, 1400-1799, 1800-2199, 2200+
@@ -828,9 +839,7 @@ export async function getWeaknessAnalytics(): Promise<{
   );
 
   // Identify improvement areas (weaknesses with frequency > 3)
-  const improvementAreas = topWeaknesses
-    .filter(w => w.frequency > 3)
-    .map(w => w.concept);
+  const improvementAreas = topWeaknesses.filter(w => w.frequency > 3).map(w => w.concept);
 
   return {
     topWeaknesses: topWeaknesses.map(w => ({

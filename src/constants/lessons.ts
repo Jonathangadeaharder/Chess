@@ -39,13 +39,13 @@ export const KIA_LESSONS: Lesson[] = [
     content: [
       {
         type: 'text',
-        heading: 'Welcome to the King\'s Indian Attack',
-        text: 'The King\'s Indian Attack (KIA) is a flexible opening system that White can play against almost any Black setup. It features a solid pawn structure and natural piece development.',
+        heading: "Welcome to the King's Indian Attack",
+        text: "The King's Indian Attack (KIA) is a flexible opening system that White can play against almost any Black setup. It features a solid pawn structure and natural piece development.",
       },
       {
         type: 'diagram',
         heading: 'The Basic KIA Setup',
-        text: 'White\'s ideal setup includes: pawns on d3, e4, and g3, knights on f3 and d2, bishop on g2, and castling kingside.',
+        text: "White's ideal setup includes: pawns on d3, e4, and g3, knights on f3 and d2, bishop on g2, and castling kingside.",
         fen: 'rnbqkb1r/pppppppp/5n2/8/4P3/5NP1/PPPP1PBP/RNBQK2R w KQkq - 0 1',
         highlightSquares: ['e4', 'd3', 'g3', 'f3', 'g2'],
       },
@@ -78,7 +78,7 @@ export const KIA_LESSONS: Lesson[] = [
       {
         type: 'diagram',
         heading: 'Perfect Timing for e4',
-        text: 'Play e4 after completing your development: Nf3, g3, Bg2, O-O, d3, Nbd2. This ensures you\'re ready to handle Black\'s central counterplay.',
+        text: "Play e4 after completing your development: Nf3, g3, Bg2, O-O, d3, Nbd2. This ensures you're ready to handle Black's central counterplay.",
         fen: 'rnbqkb1r/pppp1ppp/4pn2/8/4P3/3P1NP1/PPP2PBP/RNBQK2R w KQkq - 0 5',
         highlightSquares: ['e4', 'd3', 'g2'],
       },
@@ -104,12 +104,12 @@ export const KIA_LESSONS: Lesson[] = [
       {
         type: 'text',
         heading: 'The Pawn Storm Strategy',
-        text: 'After establishing the e4 central stronghold, White launches a direct attack on Black\'s kingside with f4-f5, g4-g5, and h4-h5. These pawn advances create threats, open files, and weaken Black\'s king position.',
+        text: "After establishing the e4 central stronghold, White launches a direct attack on Black's kingside with f4-f5, g4-g5, and h4-h5. These pawn advances create threats, open files, and weaken Black's king position.",
       },
       {
         type: 'diagram',
         heading: 'The Attack in Motion',
-        text: 'White has played f4 and is preparing f5 to gain space and open attacking lines. Notice how all White\'s pieces support the kingside assault.',
+        text: "White has played f4 and is preparing f5 to gain space and open attacking lines. Notice how all White's pieces support the kingside assault.",
         fen: 'r1bq1rk1/ppp2ppp/2np1n2/2b1p3/2B1PP2/2NP1NP1/PPP3BP/R1BQ1RK1 w - - 0 9',
         highlightSquares: ['f4', 'f5', 'g4', 'h4'],
       },
@@ -146,7 +146,7 @@ export const STONEWALL_LESSONS: Lesson[] = [
       {
         type: 'diagram',
         heading: 'The Basic Formation',
-        text: 'White\'s pawns form a pyramid pointing at Black\'s kingside. The d4-e3-f4 chain controls key central squares but locks in the light-squared bishop.',
+        text: "White's pawns form a pyramid pointing at Black's kingside. The d4-e3-f4 chain controls key central squares but locks in the light-squared bishop.",
         fen: 'rnbqkbnr/ppp1pppp/8/3p4/3P1P2/4P3/PPP3PP/RNBQKBNR w KQkq - 0 3',
         highlightSquares: ['d4', 'e3', 'f4'],
       },
@@ -172,7 +172,7 @@ export const STONEWALL_LESSONS: Lesson[] = [
       {
         type: 'text',
         heading: 'The Light-Square Problem',
-        text: 'In the Stonewall, White\'s light-squared bishop is blocked by the d4-e3-f4 pawn chain. This is the main positional drawback of the system.',
+        text: "In the Stonewall, White's light-squared bishop is blocked by the d4-e3-f4 pawn chain. This is the main positional drawback of the system.",
       },
       {
         type: 'diagram',
@@ -184,7 +184,7 @@ export const STONEWALL_LESSONS: Lesson[] = [
       {
         type: 'text',
         heading: 'Alternative: Trade It Off',
-        text: 'If you didn\'t get Bd3 in early, consider trading the bishop. You can maneuver it via Bd2-e1-h4 or Bd2-c1-g5 to exchange it for Black\'s pieces. A bad piece is often worth trading even if the opponent\'s piece is better.',
+        text: "If you didn't get Bd3 in early, consider trading the bishop. You can maneuver it via Bd2-e1-h4 or Bd2-c1-g5 to exchange it for Black's pieces. A bad piece is often worth trading even if the opponent's piece is better.",
       },
       {
         type: 'concept',
@@ -273,7 +273,7 @@ export const LONDON_LESSONS: Lesson[] = [
       {
         type: 'text',
         heading: 'The London System',
-        text: 'The London System has become one of the most popular openings at all levels. It\'s solid, flexible, and can be played against almost any Black setup.',
+        text: "The London System has become one of the most popular openings at all levels. It's solid, flexible, and can be played against almost any Black setup.",
       },
       {
         type: 'diagram',
@@ -300,7 +300,7 @@ export const LONDON_LESSONS: Lesson[] = [
       {
         type: 'text',
         heading: 'Kingside Expansion',
-        text: 'One of the London\'s key plans is the h3 and g4 pawn advance. This gains space on the kingside and prepares to support the Bf4 if Black tries to challenge it with ...Nh5.',
+        text: "One of the London's key plans is the h3 and g4 pawn advance. This gains space on the kingside and prepares to support the Bf4 if Black tries to challenge it with ...Nh5.",
       },
       {
         type: 'diagram',
@@ -319,7 +319,7 @@ export const LONDON_LESSONS: Lesson[] = [
   {
     id: 'london-lesson-3',
     title: 'Flexible Piece Placement',
-    description: 'Adapt to Black\'s setup',
+    description: "Adapt to Black's setup",
     system: 'london-system',
     order: 3,
     estimatedMinutes: 10,
@@ -327,12 +327,12 @@ export const LONDON_LESSONS: Lesson[] = [
       {
         type: 'text',
         heading: 'Adapting to Black',
-        text: 'The London\'s strength is its flexibility. The basic structure (d4, Nf3, Bf4, e3, Bd3) stays the same, but you can adjust your piece placement based on Black\'s setup.',
+        text: "The London's strength is its flexibility. The basic structure (d4, Nf3, Bf4, e3, Bd3) stays the same, but you can adjust your piece placement based on Black's setup.",
       },
       {
         type: 'diagram',
         heading: 'Against Different Setups',
-        text: 'Whether Black plays ...e6 and ...c5 (attacking the center) or ...g6 (King\'s Indian style), the London gives you a solid foundation. Adjust with moves like Ne5, c3, or Qe2 as needed.',
+        text: "Whether Black plays ...e6 and ...c5 (attacking the center) or ...g6 (King's Indian style), the London gives you a solid foundation. Adjust with moves like Ne5, c3, or Qe2 as needed.",
         fen: 'rnbqk2r/ppp1ppbp/5np1/3p4/3P1B2/3BPN2/PPP2PPP/RN1QK2R w KQkq - 0 6',
         highlightSquares: ['e5', 'c3', 'e2'],
       },
@@ -365,14 +365,14 @@ export const TORRE_LESSONS: Lesson[] = [
       {
         type: 'diagram',
         heading: 'The Torre Setup',
-        text: 'White plays d4, Nf3, Bg5, e3, Nbd2, Bd3, and c3. The Bg5 is the hallmark move, putting immediate pressure on Black\'s position.',
+        text: "White plays d4, Nf3, Bg5, e3, Nbd2, Bd3, and c3. The Bg5 is the hallmark move, putting immediate pressure on Black's position.",
         fen: 'rnbqkb1r/ppp1pppp/5n2/3p2B1/3P4/4PN2/PPP2PPP/RN1QKB1R w KQkq - 0 4',
         highlightSquares: ['d4', 'g5', 'e3', 'd3'],
       },
       {
         type: 'text',
         heading: 'Aggressive Intent',
-        text: 'Unlike the solid Colle or London, the Torre Attack immediately creates tactical threats. The Bg5 pins Black\'s knight or bishop, and White can follow up with aggressive plans like Ne5 or the Bg5-h4-g3 maneuver.',
+        text: "Unlike the solid Colle or London, the Torre Attack immediately creates tactical threats. The Bg5 pins Black's knight or bishop, and White can follow up with aggressive plans like Ne5 or the Bg5-h4-g3 maneuver.",
       },
     ],
   },
@@ -387,19 +387,19 @@ export const TORRE_LESSONS: Lesson[] = [
       {
         type: 'text',
         heading: 'The Famous Maneuver',
-        text: 'The Bg5-h4-g3 maneuver is the Torre Attack\'s trademark. When Black plays ...h6 to challenge the bishop, White retreats to h4. If Black continues with ...g5, the bishop goes to g3 where it controls key central squares.',
+        text: "The Bg5-h4-g3 maneuver is the Torre Attack's trademark. When Black plays ...h6 to challenge the bishop, White retreats to h4. If Black continues with ...g5, the bishop goes to g3 where it controls key central squares.",
       },
       {
         type: 'diagram',
         heading: 'Bishop on g3',
-        text: 'After Bg5-h4-g3, the bishop is beautifully placed. It controls e5, can support Ne5 or f2-f4, and Black\'s kingside has been weakened by ...h6 and ...g5.',
+        text: "After Bg5-h4-g3, the bishop is beautifully placed. It controls e5, can support Ne5 or f2-f4, and Black's kingside has been weakened by ...h6 and ...g5.",
         fen: 'rnbqkb1r/p1p1pp1p/7p/3p2p1/3P4/4PNB1/PPP2PPP/RN1QKB1R w KQkq - 0 6',
         highlightSquares: ['g3', 'e5', 'f4'],
       },
       {
         type: 'text',
         heading: 'Strategic Gains',
-        text: 'This maneuver achieves multiple goals: the bishop reaches an excellent square, Black\'s kingside is weakened, and White can build an attack with Ne5, f4, and Qf3. Meanwhile, Black\'s pawns on h6 and g5 become long-term weaknesses.',
+        text: "This maneuver achieves multiple goals: the bishop reaches an excellent square, Black's kingside is weakened, and White can build an attack with Ne5, f4, and Qf3. Meanwhile, Black's pawns on h6 and g5 become long-term weaknesses.",
       },
     ],
   },
@@ -414,19 +414,19 @@ export const TORRE_LESSONS: Lesson[] = [
       {
         type: 'text',
         heading: 'The e5 Outpost',
-        text: 'The Torre Attack often revolves around establishing a knight on e5. Combined with the Bg3, this creates tremendous pressure on Black\'s position.',
+        text: "The Torre Attack often revolves around establishing a knight on e5. Combined with the Bg3, this creates tremendous pressure on Black's position.",
       },
       {
         type: 'diagram',
         heading: 'Knight on e5',
-        text: 'With the knight securely placed on e5 and the bishop supporting from g3, White has a powerful setup. The knight dominates the center and can\'t easily be challenged.',
+        text: "With the knight securely placed on e5 and the bishop supporting from g3, White has a powerful setup. The knight dominates the center and can't easily be challenged.",
         fen: 'rnbqk2r/ppp1ppbp/5np1/3pN1B1/3P4/4P3/PPP2PPP/RN1QKB1R w KQkq - 0 6',
         highlightSquares: ['e5', 'g3', 'd4'],
       },
       {
         type: 'text',
         heading: 'Building the Attack',
-        text: 'From e5, the knight can jump to f7 or g6 to create threats, or support a pawn storm with f4-f5. The bishop on g3 adds extra pressure. This central domination is the heart of the Torre Attack\'s aggressive nature.',
+        text: "From e5, the knight can jump to f7 or g6 to create threats, or support a pawn storm with f4-f5. The bishop on g3 adds extra pressure. This central domination is the heart of the Torre Attack's aggressive nature.",
       },
     ],
   },
@@ -451,25 +451,25 @@ export const KIA_INTERMEDIATE_LESSONS: Lesson[] = [
     content: [
       {
         type: 'text',
-        heading: 'Black\'s Central Counter',
-        text: 'Strong opponents won\'t let you execute the kingside attack freely. They\'ll often strike in the center with ...d5 or ...c5 to challenge your e4 pawn and create counterplay.',
+        heading: "Black's Central Counter",
+        text: "Strong opponents won't let you execute the kingside attack freely. They'll often strike in the center with ...d5 or ...c5 to challenge your e4 pawn and create counterplay.",
       },
       {
         type: 'diagram',
         heading: 'Central Tension',
-        text: 'Black has played ...d5 to challenge White\'s e4 pawn. How should White respond? The key is maintaining central control while preparing the attack.',
+        text: "Black has played ...d5 to challenge White's e4 pawn. How should White respond? The key is maintaining central control while preparing the attack.",
         fen: 'rnbqkb1r/ppp2ppp/4pn2/3p4/4P3/3P1NP1/PPP2PBP/RNBQK2R w KQkq - 0 6',
         highlightSquares: ['e4', 'd5', 'd3'],
       },
       {
         type: 'text',
         heading: 'Strategic Responses',
-        text: 'Against ...d5, White typically maintains the tension or advances e5, gaining space and fixing Black\'s pieces. Against ...c5, White can support d4 with c3 or allow dxc5, gaining the d4 square for a knight. The key principle: don\'t abandon your central presence just to rush the attack.',
+        text: "Against ...d5, White typically maintains the tension or advances e5, gaining space and fixing Black's pieces. Against ...c5, White can support d4 with c3 or allow dxc5, gaining the d4 square for a knight. The key principle: don't abandon your central presence just to rush the attack.",
       },
       {
         type: 'diagram',
         heading: 'After e5',
-        text: 'White has advanced e5, locking the center. Now the f3 knight can reroute via Nfd2-f1-g3 or Ne1-g2 to support the kingside pawn storm, while Black\'s pieces are cramped.',
+        text: "White has advanced e5, locking the center. Now the f3 knight can reroute via Nfd2-f1-g3 or Ne1-g2 to support the kingside pawn storm, while Black's pieces are cramped.",
         fen: 'rnbqkb1r/ppp2ppp/4pn2/3pP3/8/3P1NP1/PPP2PBP/RNBQK2R w KQkq - 0 7',
         highlightSquares: ['e5', 'f3', 'g3'],
       },
@@ -486,7 +486,7 @@ export const KIA_INTERMEDIATE_LESSONS: Lesson[] = [
       {
         type: 'text',
         heading: 'Sacrificing for Initiative',
-        text: 'The KIA often leads to positions where White can sacrifice a pawn or exchange to accelerate the kingside attack. These sacrifices aren\'t tactical tricks but positional decisions based on piece activity and attacking potential.',
+        text: "The KIA often leads to positions where White can sacrifice a pawn or exchange to accelerate the kingside attack. These sacrifices aren't tactical tricks but positional decisions based on piece activity and attacking potential.",
       },
       {
         type: 'diagram',
@@ -498,12 +498,12 @@ export const KIA_INTERMEDIATE_LESSONS: Lesson[] = [
       {
         type: 'text',
         heading: 'The Exchange Sacrifice',
-        text: 'Sometimes White sacrifices the exchange (rook for knight or bishop) on f5 or h5 to destroy Black\'s kingside pawn structure. If Black\'s king is exposed and White\'s pieces can coordinate for an attack, the exchange sacrifice can be devastating.',
+        text: "Sometimes White sacrifices the exchange (rook for knight or bishop) on f5 or h5 to destroy Black's kingside pawn structure. If Black's king is exposed and White's pieces can coordinate for an attack, the exchange sacrifice can be devastating.",
       },
       {
         type: 'diagram',
         heading: 'Rxf6 Exchange Sacrifice',
-        text: 'White plays Rxf6!, sacrificing the exchange to eliminate Black\'s key defensive piece. After gxf6, Black\'s king is exposed to a fierce attack from White\'s queen and bishop.',
+        text: "White plays Rxf6!, sacrificing the exchange to eliminate Black's key defensive piece. After gxf6, Black's king is exposed to a fierce attack from White's queen and bishop.",
         fen: 'r1bq1rk1/ppp2p1p/2n2Rp1/2bp4/2B1P3/2NP1N2/PPP2PPP/R1BQ2K1 b - - 0 10',
         highlightSquares: ['f6', 'g7', 'h5'],
       },
@@ -526,19 +526,19 @@ export const STONEWALL_INTERMEDIATE_LESSONS: Lesson[] = [
       {
         type: 'text',
         heading: 'Beyond the Kingside',
-        text: 'While the Stonewall is known for kingside attacks, experienced players also use the minority attack on the queenside: b2-b4-b5 to create weaknesses in Black\'s pawn structure.',
+        text: "While the Stonewall is known for kingside attacks, experienced players also use the minority attack on the queenside: b2-b4-b5 to create weaknesses in Black's pawn structure.",
       },
       {
         type: 'diagram',
         heading: 'Starting the Minority Attack',
-        text: 'White prepares b4-b5 to challenge Black\'s queenside pawns. This plan is especially effective when Black has castled queenside or has a solid kingside defense.',
+        text: "White prepares b4-b5 to challenge Black's queenside pawns. This plan is especially effective when Black has castled queenside or has a solid kingside defense.",
         fen: 'r1bqk2r/pppnbppp/4pn2/3p4/1P1P1P2/3BPN2/P1P3PP/RNBQK2R w KQkq - 0 8',
         highlightSquares: ['b4', 'b5', 'c6'],
       },
       {
         type: 'text',
         heading: 'Creating Weaknesses',
-        text: 'After b5, if Black plays ...cxb5, the c6 pawn becomes backward and weak. If Black doesn\'t take, b5xc6 creates doubled pawns. Either way, White gets long-term pressure on the queenside while maintaining stability in the center.',
+        text: "After b5, if Black plays ...cxb5, the c6 pawn becomes backward and weak. If Black doesn't take, b5xc6 creates doubled pawns. Either way, White gets long-term pressure on the queenside while maintaining stability in the center.",
       },
     ],
   },
@@ -553,19 +553,19 @@ export const STONEWALL_INTERMEDIATE_LESSONS: Lesson[] = [
       {
         type: 'text',
         heading: 'Flexibility in a Rigid Structure',
-        text: 'The Stonewall\'s pawn structure is fixed, but your pieces must remain flexible. Learning to regroup pieces to change plans is crucial for intermediate Stonewall players.',
+        text: "The Stonewall's pawn structure is fixed, but your pieces must remain flexible. Learning to regroup pieces to change plans is crucial for intermediate Stonewall players.",
       },
       {
         type: 'diagram',
         heading: 'Knight Maneuvers',
-        text: 'The Nbd2 can reroute to e5 via f3, or to f5 via f1-g3. The Nf3 can swing to e5 or to h4 for kingside play. These maneuvers help adapt to Black\'s setup.',
+        text: "The Nbd2 can reroute to e5 via f3, or to f5 via f1-g3. The Nf3 can swing to e5 or to h4 for kingside play. These maneuvers help adapt to Black's setup.",
         fen: 'r1bqk2r/ppp1bppp/2n1pn2/3p4/3P1P2/3BPN2/PPPN2PP/R1BQK2R w KQkq - 0 7',
         highlightSquares: ['d2', 'f3', 'e5', 'h4'],
       },
       {
         type: 'text',
         heading: 'The Bd3-e2-g4 Maneuver',
-        text: 'Sometimes the Bd3 needs to be redeployed. The maneuver Bd3-e2-g4 puts the bishop on an aggressive diagonal targeting Black\'s king, especially effective after ...g6 or when Black has castled kingside.',
+        text: "Sometimes the Bd3 needs to be redeployed. The maneuver Bd3-e2-g4 puts the bishop on an aggressive diagonal targeting Black's king, especially effective after ...g6 or when Black has castled kingside.",
       },
     ],
   },
@@ -605,7 +605,7 @@ export const COLLE_INTERMEDIATE_LESSONS: Lesson[] = [
   {
     id: 'colle-int-2',
     title: 'Playing Against the Slav Defense',
-    description: 'Handle Black\'s most solid response',
+    description: "Handle Black's most solid response",
     system: 'colle-system',
     order: 4,
     estimatedMinutes: 14,
@@ -613,7 +613,7 @@ export const COLLE_INTERMEDIATE_LESSONS: Lesson[] = [
       {
         type: 'text',
         heading: 'The Slav Challenge',
-        text: 'Black\'s most solid defense to the Colle is the Slav setup with ...c6, ...Bf5, and ...e6. This prevents the typical e4 break and challenges White to find a different plan.',
+        text: "Black's most solid defense to the Colle is the Slav setup with ...c6, ...Bf5, and ...e6. This prevents the typical e4 break and challenges White to find a different plan.",
       },
       {
         type: 'diagram',
@@ -625,7 +625,7 @@ export const COLLE_INTERMEDIATE_LESSONS: Lesson[] = [
       {
         type: 'text',
         heading: 'Alternative Plans',
-        text: 'Against the Slav, White can play Ne5 to challenge the Bf5, or prepare c4 to change the pawn structure. Another plan is g4 to gain space and attack the Bf5. The key is recognizing when your standard plan doesn\'t work and adapting.',
+        text: "Against the Slav, White can play Ne5 to challenge the Bf5, or prepare c4 to change the pawn structure. Another plan is g4 to gain space and attack the Bf5. The key is recognizing when your standard plan doesn't work and adapting.",
       },
     ],
   },
@@ -673,19 +673,19 @@ export const LONDON_INTERMEDIATE_LESSONS: Lesson[] = [
       {
         type: 'text',
         heading: 'Beyond the Setup',
-        text: 'Intermediate London players must know when and how to use pawn breaks to transform the position. The three key breaks are c4 (challenging Black\'s center), e4 (creating central tension), and f4 (preparing kingside expansion).',
+        text: "Intermediate London players must know when and how to use pawn breaks to transform the position. The three key breaks are c4 (challenging Black's center), e4 (creating central tension), and f4 (preparing kingside expansion).",
       },
       {
         type: 'diagram',
         heading: 'The c4 Break',
-        text: 'White plays c4 to challenge Black\'s d5 pawn. If Black takes dxc4, White recaptures with the bishop and gains the d4 square. If Black maintains with ...c6, the position becomes more dynamic.',
+        text: "White plays c4 to challenge Black's d5 pawn. If Black takes dxc4, White recaptures with the bishop and gains the d4 square. If Black maintains with ...c6, the position becomes more dynamic.",
         fen: 'r1bqkb1r/ppp1pppp/2n2n2/3p4/2PP1B2/4PN2/PP3PPP/RN1QKB1R w KQkq - 0 6',
         highlightSquares: ['c4', 'd5', 'd4'],
       },
       {
         type: 'text',
         heading: 'Choosing the Right Break',
-        text: 'The choice depends on Black\'s setup: c4 is good when Black lacks central control, e4 works when you have full development and Black hasn\'t reinforced d5, and f4 is best when preparing a kingside attack. Mastering these breaks makes the London much more dynamic.',
+        text: "The choice depends on Black's setup: c4 is good when Black lacks central control, e4 works when you have full development and Black hasn't reinforced d5, and f4 is best when preparing a kingside attack. Mastering these breaks makes the London much more dynamic.",
       },
     ],
   },
@@ -706,26 +706,26 @@ export const TORRE_INTERMEDIATE_LESSONS: Lesson[] = [
       {
         type: 'text',
         heading: 'Strategic Bishop Trade',
-        text: 'One of the Torre\'s key decisions is whether to trade Bxf6, damaging Black\'s pawn structure. This exchange can create long-term weaknesses but gives up the bishop pair.',
+        text: "One of the Torre's key decisions is whether to trade Bxf6, damaging Black's pawn structure. This exchange can create long-term weaknesses but gives up the bishop pair.",
       },
       {
         type: 'diagram',
         heading: 'After Bxf6',
-        text: 'White has played Bxf6, and after ...exf6 or ...gxf6, Black\'s pawn structure is compromised. The doubled f-pawns create weaknesses, especially the e6 and e5 squares.',
+        text: "White has played Bxf6, and after ...exf6 or ...gxf6, Black's pawn structure is compromised. The doubled f-pawns create weaknesses, especially the e6 and e5 squares.",
         fen: 'rnbqkb1r/ppp1pp1p/5Bp1/3p4/3P4/4PN2/PPP2PPP/RN1QKB1R b KQkq - 0 5',
         highlightSquares: ['f6', 'e5', 'e6'],
       },
       {
         type: 'text',
         heading: 'When to Exchange',
-        text: 'Trade Bxf6 when: 1) Black has already committed to ...g6 (weakening the kingside), 2) You can quickly occupy the weakened squares with Ne5, or 3) Black cannot easily redeploy pieces to cover the weaknesses. Don\'t trade if Black gets active piece play that compensates for the structural damage.',
+        text: "Trade Bxf6 when: 1) Black has already committed to ...g6 (weakening the kingside), 2) You can quickly occupy the weakened squares with Ne5, or 3) Black cannot easily redeploy pieces to cover the weaknesses. Don't trade if Black gets active piece play that compensates for the structural damage.",
       },
     ],
   },
   {
     id: 'torre-int-2',
-    title: 'Handling the King\'s Indian Defense',
-    description: 'Adapt the Torre against Black\'s kingside fianchetto',
+    title: "Handling the King's Indian Defense",
+    description: "Adapt the Torre against Black's kingside fianchetto",
     system: 'torre-attack',
     order: 5,
     estimatedMinutes: 16,
@@ -733,12 +733,12 @@ export const TORRE_INTERMEDIATE_LESSONS: Lesson[] = [
       {
         type: 'text',
         heading: 'Against the Fianchetto',
-        text: 'When Black plays ...g6 and ...Bg7 (King\'s Indian setup), the standard Bg5 pin doesn\'t apply. White must adapt the Torre with different piece placement.',
+        text: "When Black plays ...g6 and ...Bg7 (King's Indian setup), the standard Bg5 pin doesn't apply. White must adapt the Torre with different piece placement.",
       },
       {
         type: 'diagram',
         heading: 'Modified Torre Setup',
-        text: 'Against the King\'s Indian, White can play Bg5 anyway (controlling h6 and e7), or switch to a London-style Bf4 setup. The key is maintaining central control.',
+        text: "Against the King's Indian, White can play Bg5 anyway (controlling h6 and e7), or switch to a London-style Bf4 setup. The key is maintaining central control.",
         fen: 'rnbqk2r/ppp1ppbp/5np1/3p2B1/3P4/4PN2/PPP2PPP/RN1QKB1R w KQkq - 0 5',
         highlightSquares: ['g5', 'e7', 'h6'],
       },
@@ -763,7 +763,7 @@ export const KIA_ADVANCED_LESSONS: Lesson[] = [
   {
     id: 'kia-adv-1',
     title: 'The Reversed Lines',
-    description: 'Understanding the KIA as reversed King\'s Indian Defense',
+    description: "Understanding the KIA as reversed King's Indian Defense",
     system: 'kings-indian-attack',
     order: 6,
     estimatedMinutes: 20,
@@ -771,7 +771,7 @@ export const KIA_ADVANCED_LESSONS: Lesson[] = [
       {
         type: 'text',
         heading: 'Mirror Image',
-        text: 'The KIA is essentially the King\'s Indian Defense with colors reversed and an extra tempo. This connection gives access to a wealth of strategic ideas from the KID, adapted for White.',
+        text: "The KIA is essentially the King's Indian Defense with colors reversed and an extra tempo. This connection gives access to a wealth of strategic ideas from the KID, adapted for White.",
       },
       {
         type: 'diagram',
@@ -783,14 +783,14 @@ export const KIA_ADVANCED_LESSONS: Lesson[] = [
       {
         type: 'text',
         heading: 'Advanced Strategic Themes',
-        text: 'Study both sides of the KID to master the KIA. Learn when to push d4 (transposing to different structures), how to handle Black\'s queenside expansion, and the famous Mar del Plata pawn structures that arise in sharp lines.',
+        text: "Study both sides of the KID to master the KIA. Learn when to push d4 (transposing to different structures), how to handle Black's queenside expansion, and the famous Mar del Plata pawn structures that arise in sharp lines.",
       },
     ],
   },
   {
     id: 'kia-adv-2',
     title: 'Prophylactic Thinking',
-    description: 'Prevent Black\'s counterplay before launching your attack',
+    description: "Prevent Black's counterplay before launching your attack",
     system: 'kings-indian-attack',
     order: 7,
     estimatedMinutes: 18,
@@ -798,7 +798,7 @@ export const KIA_ADVANCED_LESSONS: Lesson[] = [
       {
         type: 'text',
         heading: 'Defending While Attacking',
-        text: 'Advanced KIA players don\'t just attack blindly. They use prophylactic moves to prevent Black\'s counterplay on the queenside before the kingside attack arrives.',
+        text: "Advanced KIA players don't just attack blindly. They use prophylactic moves to prevent Black's counterplay on the queenside before the kingside attack arrives.",
       },
       {
         type: 'diagram',
@@ -831,7 +831,7 @@ export const STONEWALL_ADVANCED_LESSONS: Lesson[] = [
       {
         type: 'text',
         heading: 'Two Sides of the Coin',
-        text: 'The Stonewall Attack is the Dutch Defense with colors reversed. Studying both gives deep strategic insight into the pawn structure\'s strengths and weaknesses.',
+        text: "The Stonewall Attack is the Dutch Defense with colors reversed. Studying both gives deep strategic insight into the pawn structure's strengths and weaknesses.",
       },
       {
         type: 'diagram',
@@ -863,7 +863,7 @@ export const STONEWALL_ADVANCED_LESSONS: Lesson[] = [
       {
         type: 'diagram',
         heading: 'The Classic Bishop Endgame',
-        text: 'White has the better bishop (outside the pawn chain on g2) while Black\'s bishop is locked inside. This advantage can be converted into a win with proper technique.',
+        text: "White has the better bishop (outside the pawn chain on g2) while Black's bishop is locked inside. This advantage can be converted into a win with proper technique.",
         fen: '6k1/pp3ppp/2p5/3p4/3P1P2/5BP1/PP4KP/8 w - - 0 25',
         highlightSquares: ['g2', 'e5', 'c6'],
       },
@@ -903,7 +903,7 @@ export const COLLE_ADVANCED_LESSONS: Lesson[] = [
       {
         type: 'text',
         heading: 'Sacrificial Themes',
-        text: 'Advanced players know when to sacrifice: Bxh7+ when the king can\'t escape, Nxe5 when it opens the d3 bishop\'s diagonal, or even Qxe6+! to destroy Black\'s king safety. These aren\'t wild gambles but calculated decisions based on piece coordination.',
+        text: "Advanced players know when to sacrifice: Bxh7+ when the king can't escape, Nxe5 when it opens the d3 bishop's diagonal, or even Qxe6+! to destroy Black's king safety. These aren't wild gambles but calculated decisions based on piece coordination.",
       },
     ],
   },
@@ -918,12 +918,12 @@ export const COLLE_ADVANCED_LESSONS: Lesson[] = [
       {
         type: 'text',
         heading: 'Building Your Repertoire',
-        text: 'The Colle teaches fundamental chess principles that transfer to many openings. Once you master it, you can expand into the Queen\'s Gambit, Catalan, or even 1.e4 openings with the same strategic understanding.',
+        text: "The Colle teaches fundamental chess principles that transfer to many openings. Once you master it, you can expand into the Queen's Gambit, Catalan, or even 1.e4 openings with the same strategic understanding.",
       },
       {
         type: 'diagram',
         heading: 'Transposition Possibilities',
-        text: 'From the Colle setup, you can transpose into Queen\'s Gambit positions with c4, Semi-Slav structures with e4, or Stonewall formations with f4. This flexibility makes it a great foundation.',
+        text: "From the Colle setup, you can transpose into Queen's Gambit positions with c4, Semi-Slav structures with e4, or Stonewall formations with f4. This flexibility makes it a great foundation.",
         fen: 'rnbqkb1r/ppp1pppp/5n2/3p4/2PP4/3BPN2/PP3PPP/RNBQK2R b KQkq - 0 5',
         highlightSquares: ['c4', 'f4', 'e4'],
       },
@@ -951,7 +951,7 @@ export const LONDON_ADVANCED_LESSONS: Lesson[] = [
       {
         type: 'text',
         heading: 'Move-Order Precision',
-        text: 'Advanced London players use precise move orders to avoid Black\'s most challenging setups. Playing Bf4 on move 2 (before Nf3) gives Black fewer options to counter the system.',
+        text: "Advanced London players use precise move orders to avoid Black's most challenging setups. Playing Bf4 on move 2 (before Nf3) gives Black fewer options to counter the system.",
       },
       {
         type: 'diagram',
@@ -962,7 +962,7 @@ export const LONDON_ADVANCED_LESSONS: Lesson[] = [
       },
       {
         type: 'text',
-        heading: 'Avoiding Black\'s Best Tries',
+        heading: "Avoiding Black's Best Tries",
         text: 'With precise move orders, you can avoid the ...c5 challenge (play Bf4 before c3), prevent ...Qb6 tactics (play Nf3-Nbd2 before Black develops the queen), and control the narrative of the opening.',
       },
     ],
@@ -978,7 +978,7 @@ export const LONDON_ADVANCED_LESSONS: Lesson[] = [
       {
         type: 'text',
         heading: 'The London Can Attack!',
-        text: 'Despite its solid reputation, the London features powerful sacrificial themes: Bxh7+, Nxe5, Nxg7, and even Qxh7+. These aren\'t desperate tactics but logical consequences of superior piece placement.',
+        text: "Despite its solid reputation, the London features powerful sacrificial themes: Bxh7+, Nxe5, Nxg7, and even Qxh7+. These aren't desperate tactics but logical consequences of superior piece placement.",
       },
       {
         type: 'diagram',
@@ -1050,7 +1050,7 @@ export const TORRE_ADVANCED_LESSONS: Lesson[] = [
       {
         type: 'text',
         heading: 'Tactical Themes to Master',
-        text: 'Key Torre tactics: pins and pin breaks (...dxe4 breaking the pin), removing the defender (Bxf6 to weaken e5), discovered attacks (Ne5 uncovering the Bd3), and knight forks from e5. Study these patterns and you\'ll win many short, brilliant games.',
+        text: "Key Torre tactics: pins and pin breaks (...dxe4 breaking the pin), removing the defender (Bxf6 to weaken e5), discovered attacks (Ne5 uncovering the Bd3), and knight forks from e5. Study these patterns and you'll win many short, brilliant games.",
       },
     ],
   },
@@ -1061,7 +1061,11 @@ export const TORRE_ADVANCED_LESSONS: Lesson[] = [
  */
 export const LESSONS_BY_SYSTEM: Record<OpeningSystem, Lesson[]> = {
   'kings-indian-attack': [...KIA_LESSONS, ...KIA_INTERMEDIATE_LESSONS, ...KIA_ADVANCED_LESSONS],
-  'stonewall-attack': [...STONEWALL_LESSONS, ...STONEWALL_INTERMEDIATE_LESSONS, ...STONEWALL_ADVANCED_LESSONS],
+  'stonewall-attack': [
+    ...STONEWALL_LESSONS,
+    ...STONEWALL_INTERMEDIATE_LESSONS,
+    ...STONEWALL_ADVANCED_LESSONS,
+  ],
   'colle-system': [...COLLE_LESSONS, ...COLLE_INTERMEDIATE_LESSONS, ...COLLE_ADVANCED_LESSONS],
   'london-system': [...LONDON_LESSONS, ...LONDON_INTERMEDIATE_LESSONS, ...LONDON_ADVANCED_LESSONS],
   'torre-attack': [...TORRE_LESSONS, ...TORRE_INTERMEDIATE_LESSONS, ...TORRE_ADVANCED_LESSONS],
@@ -1085,7 +1089,10 @@ export function getLessonById(id: string): Lesson | undefined {
 /**
  * Get next incomplete lesson for a system
  */
-export function getNextLesson(system: OpeningSystem, completedLessonIds: string[]): Lesson | undefined {
+export function getNextLesson(
+  system: OpeningSystem,
+  completedLessonIds: string[]
+): Lesson | undefined {
   const lessons = getLessonsForSystem(system);
   return lessons.find(lesson => !completedLessonIds.includes(lesson.id));
 }
@@ -1093,7 +1100,10 @@ export function getNextLesson(system: OpeningSystem, completedLessonIds: string[
 /**
  * Calculate progress for a system
  */
-export function getSystemProgress(system: OpeningSystem, completedLessonIds: string[]): {
+export function getSystemProgress(
+  system: OpeningSystem,
+  completedLessonIds: string[]
+): {
   completed: number;
   total: number;
   percentage: number;
@@ -1121,7 +1131,7 @@ export interface OpeningSystemMeta {
 export const OPENING_SYSTEMS: OpeningSystemMeta[] = [
   {
     id: 'kings-indian-attack',
-    name: 'King\'s Indian Attack',
+    name: "King's Indian Attack",
     description: 'Aggressive kingside attacking system with flexible piece placement',
     icon: '⚔️',
     difficulty: 'intermediate',

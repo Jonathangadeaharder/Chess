@@ -15,7 +15,12 @@ import { useGameStore } from '../../state/gameStore';
 import { useUserStore } from '../../state/userStore';
 import { Colors, Typography, Spacing, BorderRadius } from '../../constants/theme';
 import type { CoachPrompt, Square, SimpleGameHistory, PlayStackParamList } from '../../types';
-import { getAIMoveDelayed, type AIDifficulty, getDifficultyDescription, getEstimatedELO } from '../../services/ai/enhancedAI';
+import {
+  getAIMoveDelayed,
+  type AIDifficulty,
+  getDifficultyDescription,
+  getEstimatedELO,
+} from '../../services/ai/enhancedAI';
 import * as Haptics from 'expo-haptics';
 
 type GameState = 'setup' | 'playing' | 'finished';
@@ -172,46 +177,40 @@ export default function PlayScreen() {
   };
 
   const handleResign = () => {
-    Alert.alert(
-      'Resign Game',
-      'Are you sure you want to resign?',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Resign',
-          style: 'destructive',
-          onPress: () => {
-            setGameResult('You resigned');
-            setGameState('finished');
+    Alert.alert('Resign Game', 'Are you sure you want to resign?', [
+      { text: 'Cancel', style: 'cancel' },
+      {
+        text: 'Resign',
+        style: 'destructive',
+        onPress: () => {
+          setGameResult('You resigned');
+          setGameState('finished');
 
-            const session: SimpleGameHistory = {
-              id: Date.now().toString(),
-              date: new Date(),
-              playerColor,
-              opponentType: 'ai',
-              opponentRating: getEstimatedELO(difficulty),
-              result: 'loss',
-              moves: chess.history(),
-              finalPosition: chess.fen(),
-              timeSpent: 0,
-              accuracy: 0,
-            };
+          const session: SimpleGameHistory = {
+            id: Date.now().toString(),
+            date: new Date(),
+            playerColor,
+            opponentType: 'ai',
+            opponentRating: getEstimatedELO(difficulty),
+            result: 'loss',
+            moves: chess.history(),
+            finalPosition: chess.fen(),
+            timeSpent: 0,
+            accuracy: 0,
+          };
 
-            addGameToHistory(session);
-            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
-          },
+          addGameToHistory(session);
+          Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
         },
-      ]
-    );
+      },
+    ]);
   };
 
   // Render setup screen
   const renderSetup = () => (
     <View style={styles.setupContainer}>
       <Text style={styles.title}>The Sparring Ring</Text>
-      <Text style={styles.subtitle}>
-        Play against AI opponents to practice your skills
-      </Text>
+      <Text style={styles.subtitle}>Play against AI opponents to practice your skills</Text>
 
       {/* Difficulty Selection */}
       <View style={styles.setupCard}>
@@ -233,7 +232,10 @@ export default function PlayScreen() {
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={[styles.difficultyOption, difficulty === 'intermediate' && styles.difficultySelected]}
+          style={[
+            styles.difficultyOption,
+            difficulty === 'intermediate' && styles.difficultySelected,
+          ]}
           onPress={() => setDifficulty('intermediate')}
         >
           <Ionicons
@@ -293,7 +295,10 @@ export default function PlayScreen() {
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={[styles.difficultyOption, difficulty === 'grandmaster' && styles.difficultySelected]}
+          style={[
+            styles.difficultyOption,
+            difficulty === 'grandmaster' && styles.difficultySelected,
+          ]}
           onPress={() => setDifficulty('grandmaster')}
         >
           <Ionicons
@@ -355,7 +360,11 @@ export default function PlayScreen() {
         <View style={styles.infoRow}>
           <Ionicons name="time" size={16} color={Colors.textSecondary} />
           <Text style={styles.infoLabel}>
-            {isAIThinking ? 'AI Thinking...' : chess.turn() === 'w' ? "White's Turn" : "Black's Turn"}
+            {isAIThinking
+              ? 'AI Thinking...'
+              : chess.turn() === 'w'
+                ? "White's Turn"
+                : "Black's Turn"}
           </Text>
         </View>
         <View style={styles.infoRow}>
@@ -379,9 +388,7 @@ export default function PlayScreen() {
         <View style={styles.moveHistory}>
           <Text style={styles.moveHistoryTitle}>Move History</Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <Text style={styles.moveHistoryText}>
-              {chess.history().join(' • ')}
-            </Text>
+            <Text style={styles.moveHistoryText}>{chess.history().join(' • ')}</Text>
           </ScrollView>
         </View>
       )}
@@ -396,10 +403,7 @@ export default function PlayScreen() {
           <Text style={styles.secondaryButtonText}>New Game</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={[styles.actionButton, styles.dangerButton]}
-          onPress={handleResign}
-        >
+        <TouchableOpacity style={[styles.actionButton, styles.dangerButton]} onPress={handleResign}>
           <Ionicons name="flag" size={20} color={Colors.textInverse} />
           <Text style={styles.dangerButtonText}>Resign</Text>
         </TouchableOpacity>
@@ -411,9 +415,17 @@ export default function PlayScreen() {
   const renderFinished = () => (
     <View style={styles.finishedContainer}>
       <Ionicons
-        name={gameResult?.includes('won') ? 'trophy' : gameResult?.includes('lost') ? 'sad' : 'ribbon'}
+        name={
+          gameResult?.includes('won') ? 'trophy' : gameResult?.includes('lost') ? 'sad' : 'ribbon'
+        }
         size={64}
-        color={gameResult?.includes('won') ? Colors.success : gameResult?.includes('lost') ? Colors.error : Colors.warning}
+        color={
+          gameResult?.includes('won')
+            ? Colors.success
+            : gameResult?.includes('lost')
+              ? Colors.error
+              : Colors.warning
+        }
       />
 
       <Text style={styles.resultTitle}>{gameResult}</Text>
@@ -425,9 +437,7 @@ export default function PlayScreen() {
         </View>
         <View style={styles.resultStat}>
           <Text style={styles.resultStatLabel}>XP Earned</Text>
-          <Text style={styles.resultStatValue}>
-            {gameResult?.includes('won') ? '+100' : '+25'}
-          </Text>
+          <Text style={styles.resultStatValue}>{gameResult?.includes('won') ? '+100' : '+25'}</Text>
         </View>
       </View>
 
@@ -444,9 +454,7 @@ export default function PlayScreen() {
       <View style={styles.moveHistory}>
         <Text style={styles.moveHistoryTitle}>Final Move History</Text>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          <Text style={styles.moveHistoryText}>
-            {chess.history().join(' • ')}
-          </Text>
+          <Text style={styles.moveHistoryText}>{chess.history().join(' • ')}</Text>
         </ScrollView>
       </View>
 
@@ -461,7 +469,11 @@ export default function PlayScreen() {
               playerColor,
               opponentType: 'ai',
               opponentRating: getEstimatedELO(difficulty),
-              result: gameResult?.includes('won') ? 'win' : gameResult?.includes('lost') ? 'loss' : 'draw',
+              result: gameResult?.includes('won')
+                ? 'win'
+                : gameResult?.includes('lost')
+                  ? 'loss'
+                  : 'draw',
               moves: chess.history(),
               finalPosition: chess.fen(),
               timeSpent: 0,

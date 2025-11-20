@@ -4,14 +4,7 @@
  */
 
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  Switch,
-} from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Switch } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 
@@ -91,23 +84,14 @@ export default function SettingsScreen() {
             {boardThemes.map(theme => (
               <TouchableOpacity
                 key={theme.id}
-                style={[
-                  styles.themeCard,
-                  boardTheme === theme.id && styles.themeCardSelected,
-                ]}
+                style={[styles.themeCard, boardTheme === theme.id && styles.themeCardSelected]}
                 onPress={() => handleThemeChange(theme.id)}
               >
                 <View
-                  style={[
-                    styles.themePreview,
-                    { backgroundColor: getThemePreviewColor(theme.id) },
-                  ]}
+                  style={[styles.themePreview, { backgroundColor: getThemePreviewColor(theme.id) }]}
                 />
                 <Text
-                  style={[
-                    styles.themeName,
-                    boardTheme === theme.id && styles.themeNameSelected,
-                  ]}
+                  style={[styles.themeName, boardTheme === theme.id && styles.themeNameSelected]}
                 >
                   {theme.name}
                 </Text>
@@ -165,9 +149,7 @@ export default function SettingsScreen() {
           <View style={styles.toggleRow}>
             <View style={styles.toggleInfo}>
               <Text style={styles.toggleTitle}>Haptic Feedback</Text>
-              <Text style={styles.toggleDescription}>
-                Feel vibrations when making moves
-              </Text>
+              <Text style={styles.toggleDescription}>Feel vibrations when making moves</Text>
             </View>
             <Switch
               value={hapticsEnabled}
@@ -181,9 +163,7 @@ export default function SettingsScreen() {
           <View style={styles.toggleRow}>
             <View style={styles.toggleInfo}>
               <Text style={styles.toggleTitle}>Sound Effects</Text>
-              <Text style={styles.toggleDescription}>
-                Play sounds for moves and events
-              </Text>
+              <Text style={styles.toggleDescription}>Play sounds for moves and events</Text>
             </View>
             <Switch
               value={soundEnabled}

@@ -62,15 +62,14 @@ export async function exportUserData(): Promise<string> {
     console.log('[BackupService] Starting data export...');
 
     // Fetch all user data
-    const [profile, srsItems, gameHistory, weaknesses, progression, analytics] =
-      await Promise.all([
-        getUserProfile(),
-        getSRSItems(),
-        getGameHistory(1000), // Export up to 1000 games
-        getWeaknesses(500), // Export up to 500 weaknesses
-        getTacticalProgression(),
-        getTacticalAnalytics(),
-      ]);
+    const [profile, srsItems, gameHistory, weaknesses, progression, analytics] = await Promise.all([
+      getUserProfile(),
+      getSRSItems(),
+      getGameHistory(1000), // Export up to 1000 games
+      getWeaknesses(500), // Export up to 500 weaknesses
+      getTacticalProgression(),
+      getTacticalAnalytics(),
+    ]);
 
     if (!profile) {
       throw new Error('No user profile found. Cannot create backup.');
@@ -102,9 +101,7 @@ export async function exportUserData(): Promise<string> {
     };
 
     const json = JSON.stringify(backup, null, 2);
-    console.log(
-      `[BackupService] Export complete: ${(json.length / 1024).toFixed(2)} KB`
-    );
+    console.log(`[BackupService] Export complete: ${(json.length / 1024).toFixed(2)} KB`);
 
     return json;
   } catch (error) {
@@ -366,8 +363,7 @@ export async function isBackupRecommended(): Promise<boolean> {
 
   if (!lastBackup) return true;
 
-  const daysSinceBackup =
-    (Date.now() - lastBackup.getTime()) / (1000 * 60 * 60 * 24);
+  const daysSinceBackup = (Date.now() - lastBackup.getTime()) / (1000 * 60 * 60 * 24);
 
   return daysSinceBackup >= 7;
 }

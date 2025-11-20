@@ -18,7 +18,11 @@ import Chessboard from '../../components/organisms/Chessboard';
 import DigitalCoachDialog from '../../components/organisms/DigitalCoachDialog';
 import { Colors, Typography, Spacing, BorderRadius } from '../../constants/theme';
 import { analyzeGame, type MoveEvaluation } from '../../services/ai/enhancedAI';
-import { stockfishService, type MoveAnalysis, type GameAnalysis } from '../../services/ai/stockfishService';
+import {
+  stockfishService,
+  type MoveAnalysis,
+  type GameAnalysis,
+} from '../../services/ai/stockfishService';
 import {
   identifyCriticalPositions,
   getCoachPromptForMove,
@@ -164,9 +168,7 @@ export default function GameAnalysisScreen({ route, navigation }: GameAnalysisSc
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color={Colors.primary} />
         <Text style={styles.loadingText}>Analyzing game...</Text>
-        <Text style={styles.loadingSubtext}>
-          Evaluating {game.moves.length} moves
-        </Text>
+        <Text style={styles.loadingSubtext}>Evaluating {game.moves.length} moves</Text>
       </View>
     );
   }
@@ -195,7 +197,12 @@ export default function GameAnalysisScreen({ route, navigation }: GameAnalysisSc
                     Avg loss: {stockfishAnalysis.averageCentipawnLoss.white.toFixed(0)}cp
                   </Text>
                 </View>
-                <View style={[styles.accuracyItem, { borderLeftWidth: 1, borderLeftColor: Colors.border }]}>
+                <View
+                  style={[
+                    styles.accuracyItem,
+                    { borderLeftWidth: 1, borderLeftColor: Colors.border },
+                  ]}
+                >
                   <Text style={styles.accuracyLabel}>Black Accuracy</Text>
                   <Text style={[styles.accuracyValue, { color: Colors.primary }]}>
                     {stockfishAnalysis.accuracy.black.toFixed(1)}%
@@ -214,30 +221,22 @@ export default function GameAnalysisScreen({ route, navigation }: GameAnalysisSc
               <Text style={styles.statLabel}>Overall Accuracy</Text>
             </View>
             <View style={[styles.statItem, styles.statDivider]}>
-              <Text style={[styles.statValue, { color: Colors.success }]}>
-                {stats?.bestMoves}
-              </Text>
+              <Text style={[styles.statValue, { color: Colors.success }]}>{stats?.bestMoves}</Text>
               <Text style={styles.statLabel}>Best Moves</Text>
             </View>
             <View style={[styles.statItem, styles.statDivider]}>
-              <Text style={[styles.statValue, { color: '#FFA500' }]}>
-                {stats?.inaccuracies}
-              </Text>
+              <Text style={[styles.statValue, { color: '#FFA500' }]}>{stats?.inaccuracies}</Text>
               <Text style={styles.statLabel}>Inaccuracies</Text>
             </View>
           </View>
 
           <View style={styles.statsGrid}>
             <View style={styles.statItem}>
-              <Text style={[styles.statValue, { color: Colors.warning }]}>
-                {stats?.mistakes}
-              </Text>
+              <Text style={[styles.statValue, { color: Colors.warning }]}>{stats?.mistakes}</Text>
               <Text style={styles.statLabel}>Mistakes</Text>
             </View>
             <View style={[styles.statItem, styles.statDivider]}>
-              <Text style={[styles.statValue, { color: Colors.error }]}>
-                {stats?.blunders}
-              </Text>
+              <Text style={[styles.statValue, { color: Colors.error }]}>{stats?.blunders}</Text>
               <Text style={styles.statLabel}>Blunders</Text>
             </View>
             <View style={[styles.statItem, styles.statDivider]}>
@@ -253,7 +252,12 @@ export default function GameAnalysisScreen({ route, navigation }: GameAnalysisSc
             <Text style={styles.moveTitle}>
               Move {moveNumber}. {isWhiteMove ? 'White' : 'Black'}
             </Text>
-            <View style={[styles.moveBadge, { backgroundColor: getMoveColor(currentEvaluation) + '20' }]}>
+            <View
+              style={[
+                styles.moveBadge,
+                { backgroundColor: getMoveColor(currentEvaluation) + '20' },
+              ]}
+            >
               <Ionicons
                 name={getMoveIcon(currentEvaluation)}
                 size={16}
@@ -282,10 +286,7 @@ export default function GameAnalysisScreen({ route, navigation }: GameAnalysisSc
 
           {/* Coach Insight Button for Critical Positions */}
           {currentCoachPrompt && (
-            <TouchableOpacity
-              style={styles.coachInsightButton}
-              onPress={() => setShowCoach(true)}
-            >
+            <TouchableOpacity style={styles.coachInsightButton} onPress={() => setShowCoach(true)}>
               <Ionicons name="school" size={20} color={Colors.primary} />
               <Text style={styles.coachInsightText}>Get Coach Insight</Text>
               <Ionicons name="chevron-forward" size={16} color={Colors.primary} />
@@ -332,9 +333,7 @@ export default function GameAnalysisScreen({ route, navigation }: GameAnalysisSc
               name="chevron-forward"
               size={24}
               color={
-                currentMoveIndex === game.moves.length - 1
-                  ? Colors.textSecondary
-                  : Colors.primary
+                currentMoveIndex === game.moves.length - 1 ? Colors.textSecondary : Colors.primary
               }
             />
           </TouchableOpacity>

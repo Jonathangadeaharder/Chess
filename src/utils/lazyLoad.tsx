@@ -195,10 +195,7 @@ export function useLazyLoading() {
 /**
  * Intersection Observer-based lazy loading (for lists)
  */
-export function useLazyListItem(
-  ref: React.RefObject<any>,
-  onVisible: () => void
-) {
+export function useLazyListItem(ref: React.RefObject<any>, onVisible: () => void) {
   const [isVisible, setIsVisible] = React.useState(false);
 
   React.useEffect(() => {

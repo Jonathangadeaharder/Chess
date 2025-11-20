@@ -437,10 +437,7 @@ export class ABTestingService {
 
     try {
       const assignments = this.userAssignments.get(this.userId) || [];
-      await AsyncStorage.setItem(
-        `@assignments_${this.userId}`,
-        JSON.stringify(assignments)
-      );
+      await AsyncStorage.setItem(`@assignments_${this.userId}`, JSON.stringify(assignments));
     } catch (error) {
       console.error('[ABTesting] Failed to save user assignments:', error);
     }

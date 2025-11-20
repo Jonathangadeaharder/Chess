@@ -46,7 +46,7 @@ const ELO_TIERS: ELORating[] = [800, 1000, 1200, 1400, 1600, 1800, 2000];
 export function initializeProgression(): TacticalProgressionState {
   const tierProgress: Record<ELORating, TierProgress> = {} as Record<ELORating, TierProgress>;
 
-  ELO_TIERS.forEach((elo) => {
+  ELO_TIERS.forEach(elo => {
     tierProgress[elo] = {
       eloRating: elo,
       unlocked: elo === 800, // Only 800 unlocked by default
@@ -106,8 +106,8 @@ export function updateProgressionAfterSession(
 
   // Recalculate average time
   updatedTierData.averageTime =
-    ((tierData.averageTime * tierData.totalAttempts) +
-      (sessionStats.averageTime * sessionStats.totalAttempts)) /
+    (tierData.averageTime * tierData.totalAttempts +
+      sessionStats.averageTime * sessionStats.totalAttempts) /
     updatedTierData.totalAttempts;
 
   // Update best time
@@ -161,7 +161,7 @@ export function updateProgressionAfterSession(
  * Get available tiers for selection
  */
 export function getAvailableTiers(state: TacticalProgressionState): ELORating[] {
-  return ELO_TIERS.filter((elo) => state.tierProgress[elo].unlocked);
+  return ELO_TIERS.filter(elo => state.tierProgress[elo].unlocked);
 }
 
 /**
@@ -213,7 +213,9 @@ export function getUnlockProgress(
 /**
  * Get tier mastery level
  */
-export function getTierMasteryLevel(tierData: TierProgress): 'beginner' | 'competent' | 'proficient' | 'master' {
+export function getTierMasteryLevel(
+  tierData: TierProgress
+): 'beginner' | 'competent' | 'proficient' | 'master' {
   if (tierData.totalAttempts === 0) return 'beginner';
 
   const speedPercentage =
@@ -276,7 +278,7 @@ export function getTrainingRecommendation(state: TacticalProgressionState): {
   if (!unlockProgress.canUnlock) {
     let focus = '';
     if (currentTierData.accuracy < 80) {
-      focus = 'Improve accuracy - you\'re making too many mistakes. Slow down and visualize.';
+      focus = "Improve accuracy - you're making too many mistakes. Slow down and visualize.";
     } else {
       focus = 'Increase speed - you need to see patterns FASTER. Do more drills.';
     }

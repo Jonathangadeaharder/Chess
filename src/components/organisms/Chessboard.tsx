@@ -5,13 +5,7 @@
  */
 
 import React, { useState, useCallback, useMemo } from 'react';
-import {
-  View,
-  StyleSheet,
-  Dimensions,
-  TouchableOpacity,
-  Text,
-} from 'react-native';
+import { View, StyleSheet, Dimensions, TouchableOpacity, Text } from 'react-native';
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
 import Animated, {
   useSharedValue,
@@ -33,7 +27,12 @@ import type { Square } from '../../types';
 export type { Arrow, Highlight };
 
 // Get square notation from coordinates
-const getSquareFromCoords = (x: number, y: number, squareSize: number, isFlipped: boolean): Square => {
+const getSquareFromCoords = (
+  x: number,
+  y: number,
+  squareSize: number,
+  isFlipped: boolean
+): Square => {
   const file = Math.floor(x / squareSize);
   const rank = Math.floor(y / squareSize);
 
@@ -250,7 +249,16 @@ export default function Chessboard({
         }
       }
     },
-    [selectedSquare, piecePositions, getLegalMoves, selectSquare, makeMove, hapticsEnabled, onMove, interactionMode]
+    [
+      selectedSquare,
+      piecePositions,
+      getLegalMoves,
+      selectSquare,
+      makeMove,
+      hapticsEnabled,
+      onMove,
+      interactionMode,
+    ]
   );
 
   // Handle drag gesture (drag-drop mode)
@@ -276,11 +284,11 @@ export default function Chessboard({
         scale.value = withSpring(1.2);
         opacity.value = withTiming(0.8);
       })
-      .onUpdate((event) => {
+      .onUpdate(event => {
         translateX.value = event.translationX;
         translateY.value = event.translationY;
       })
-      .onEnd((event) => {
+      .onEnd(event => {
         const coords = getCoordsFromSquare(square, squareSize, isFlipped);
         const dropX = coords.x + event.translationX + squareSize / 2;
         const dropY = coords.y + event.translationY + squareSize / 2;
@@ -350,7 +358,11 @@ export default function Chessboard({
     const isDragged = draggedSquare === square;
 
     const squareColor = isLightSquare ? theme.light : theme.dark;
-    const highlightColor = isSelected ? Colors.primary + '80' : isHighlighted ? Colors.success + '40' : null;
+    const highlightColor = isSelected
+      ? Colors.primary + '80'
+      : isHighlighted
+        ? Colors.success + '40'
+        : null;
 
     const dragGesture = createDragGesture(square);
     const legalMoves = selectedSquare ? getLegalMoves(selectedSquare) : [];
@@ -388,9 +400,7 @@ export default function Chessboard({
         )}
         {showCoordinates && rowIndex === 7 && (
           <Text style={[styles.fileLabel, { fontSize: squareSize * 0.15 }]}>
-            {isFlipped
-              ? String.fromCharCode(104 - colIndex)
-              : String.fromCharCode(97 + colIndex)}
+            {isFlipped ? String.fromCharCode(104 - colIndex) : String.fromCharCode(97 + colIndex)}
           </Text>
         )}
       </View>
@@ -472,9 +482,7 @@ export default function Chessboard({
     for (let row = 0; row < 8; row++) {
       const rowSquares = [];
       for (let col = 0; col < 8; col++) {
-        const file = isFlipped
-          ? String.fromCharCode(104 - col)
-          : String.fromCharCode(97 + col);
+        const file = isFlipped ? String.fromCharCode(104 - col) : String.fromCharCode(97 + col);
         const rank = isFlipped ? row + 1 : 8 - row;
         const square = `${file}${rank}` as Square;
 

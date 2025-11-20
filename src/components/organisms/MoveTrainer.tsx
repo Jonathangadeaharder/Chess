@@ -5,14 +5,7 @@
  */
 
 import React, { useState, useEffect, useCallback } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Modal,
-  Animated,
-} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Modal, Animated } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { Chess } from 'chess.js';
@@ -221,11 +214,7 @@ export default function MoveTrainer({ srsItem, onComplete, onSkip }: MoveTrainer
 
       {/* Chessboard */}
       <View style={styles.boardContainer}>
-        <Chessboard
-          interactionMode="tap-tap"
-          showCoordinates={true}
-          onMove={handleMoveAttempt}
-        />
+        <Chessboard interactionMode="tap-tap" showCoordinates={true} onMove={handleMoveAttempt} />
       </View>
 
       {/* Feedback */}
@@ -258,9 +247,7 @@ export default function MoveTrainer({ srsItem, onComplete, onSkip }: MoveTrainer
             <View style={[styles.feedbackBox, styles.errorBox]}>
               <Ionicons name="close-circle" size={32} color={Colors.error} />
               <Text style={styles.feedbackTitle}>Not quite!</Text>
-              <Text style={styles.feedbackText}>
-                Expected: {openingLine.moves[moveIndex]}
-              </Text>
+              <Text style={styles.feedbackText}>Expected: {openingLine.moves[moveIndex]}</Text>
             </View>
           ) : null}
         </Animated.View>
@@ -268,18 +255,12 @@ export default function MoveTrainer({ srsItem, onComplete, onSkip }: MoveTrainer
 
       {/* Action Buttons */}
       <View style={styles.actions}>
-        <TouchableOpacity
-          style={[styles.actionButton, styles.hintButton]}
-          onPress={handleShowHint}
-        >
+        <TouchableOpacity style={[styles.actionButton, styles.hintButton]} onPress={handleShowHint}>
           <Ionicons name="bulb-outline" size={20} color={Colors.info} />
           <Text style={styles.hintButtonText}>Hint</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={[styles.actionButton, styles.giveUpButton]}
-          onPress={handleGiveUp}
-        >
+        <TouchableOpacity style={[styles.actionButton, styles.giveUpButton]} onPress={handleGiveUp}>
           <Ionicons name="flag-outline" size={20} color={Colors.textSecondary} />
           <Text style={styles.giveUpButtonText}>Give Up</Text>
         </TouchableOpacity>
@@ -287,9 +268,7 @@ export default function MoveTrainer({ srsItem, onComplete, onSkip }: MoveTrainer
 
       {/* Instructions */}
       <View style={styles.instructions}>
-        <Text style={styles.instructionText}>
-          Play the correct next move for this opening line
-        </Text>
+        <Text style={styles.instructionText}>Play the correct next move for this opening line</Text>
       </View>
     </View>
   );

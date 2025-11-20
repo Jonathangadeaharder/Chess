@@ -49,8 +49,9 @@ export const EASY_PUZZLES: TacticalPuzzle[] = [
     solution: 'Rd8#',
     pattern: 'back-rank-mate',
     difficulty: 'easy',
-    hint: 'Black\'s king is trapped on the back rank by its own pawns.',
-    explanation: 'Rd8# is checkmate! The king cannot escape because its own pawns block the escape squares. Always watch for back rank weaknesses.',
+    hint: "Black's king is trapped on the back rank by its own pawns.",
+    explanation:
+      'Rd8# is checkmate! The king cannot escape because its own pawns block the escape squares. Always watch for back rank weaknesses.',
     timeLimit: 10,
   },
   {
@@ -61,7 +62,8 @@ export const EASY_PUZZLES: TacticalPuzzle[] = [
     pattern: 'fork',
     difficulty: 'easy',
     hint: 'After taking on e5, your knight will attack multiple pieces.',
-    explanation: 'Nxe5! and after Black recaptures, Nxc6 forks the queen and rook. Knights love to fork!',
+    explanation:
+      'Nxe5! and after Black recaptures, Nxc6 forks the queen and rook. Knights love to fork!',
     timeLimit: 12,
   },
   {
@@ -72,7 +74,8 @@ export const EASY_PUZZLES: TacticalPuzzle[] = [
     pattern: 'pin',
     difficulty: 'easy',
     hint: 'Your bishop on c4 creates an opportunity for a devastating pin on f7.',
-    explanation: 'Ng5 attacks f7, which is pinned by the Bc4 to the king. Black cannot defend adequately, and White threatens Nxf7 or Qf3.',
+    explanation:
+      'Ng5 attacks f7, which is pinned by the Bc4 to the king. Black cannot defend adequately, and White threatens Nxf7 or Qf3.',
     timeLimit: 12,
   },
   {
@@ -83,7 +86,8 @@ export const EASY_PUZZLES: TacticalPuzzle[] = [
     pattern: 'skewer',
     difficulty: 'easy',
     hint: 'Check the king first, then win material.',
-    explanation: 'Rd8+! forces the king to move, then the rook on d8 is captured. This is a skewer - attacking a more valuable piece that shields a less valuable one.',
+    explanation:
+      'Rd8+! forces the king to move, then the rook on d8 is captured. This is a skewer - attacking a more valuable piece that shields a less valuable one.',
     timeLimit: 10,
   },
   {
@@ -94,7 +98,8 @@ export const EASY_PUZZLES: TacticalPuzzle[] = [
     pattern: 'double-attack',
     difficulty: 'easy',
     hint: 'Take the pawn and threaten two pieces at once.',
-    explanation: 'Nxe5! attacks both the c6 knight and threatens Nxc6, winning material through a double attack.',
+    explanation:
+      'Nxe5! attacks both the c6 knight and threatens Nxc6, winning material through a double attack.',
     timeLimit: 12,
   },
   {
@@ -116,7 +121,8 @@ export const EASY_PUZZLES: TacticalPuzzle[] = [
     pattern: 'fork',
     difficulty: 'easy',
     hint: 'Your queen can attack both a piece and threaten checkmate.',
-    explanation: 'Qf3! attacks the rook on a8 while threatening Qxf7#. Black must defend the mate threat and loses the rook.',
+    explanation:
+      'Qf3! attacks the rook on a8 while threatening Qxf7#. Black must defend the mate threat and loses the rook.',
     timeLimit: 12,
   },
   {
@@ -127,7 +133,8 @@ export const EASY_PUZZLES: TacticalPuzzle[] = [
     pattern: 'discovered-attack',
     difficulty: 'easy',
     hint: 'Moving your knight will give check while winning material.',
-    explanation: 'Nxd5! gives discovered check from the Bf1 and simultaneously attacks the queen. Black must move the king and loses the queen.',
+    explanation:
+      'Nxd5! gives discovered check from the Bf1 and simultaneously attacks the queen. Black must move the king and loses the queen.',
     timeLimit: 12,
   },
   {
@@ -138,7 +145,8 @@ export const EASY_PUZZLES: TacticalPuzzle[] = [
     pattern: 'pin',
     difficulty: 'easy',
     hint: 'The f7 pawn is pinned to the king.',
-    explanation: 'Bxf7+! wins the pawn because it\'s pinned. After Kxf7, White has won material and damaged Black\'s king safety.',
+    explanation:
+      "Bxf7+! wins the pawn because it's pinned. After Kxf7, White has won material and damaged Black's king safety.",
     timeLimit: 10,
   },
   {
@@ -149,7 +157,8 @@ export const EASY_PUZZLES: TacticalPuzzle[] = [
     pattern: 'deflection',
     difficulty: 'easy',
     hint: 'Force the king away from defending.',
-    explanation: 'Re8+ deflects the king from the back rank, and after Kh7 or Kg7, White has won the important e-file.',
+    explanation:
+      'Re8+ deflects the king from the back rank, and after Kh7 or Kg7, White has won the important e-file.',
     timeLimit: 10,
   },
   {
@@ -160,7 +169,8 @@ export const EASY_PUZZLES: TacticalPuzzle[] = [
     pattern: 'removing-defender',
     difficulty: 'easy',
     hint: 'Remove the piece that guards the bishop on c5.',
-    explanation: 'Nxe5! removes the defender of the Bc5. After Nxe5, White threatens Nxc6 and Black\'s pieces are uncoordinated.',
+    explanation:
+      "Nxe5! removes the defender of the Bc5. After Nxe5, White threatens Nxc6 and Black's pieces are uncoordinated.",
     timeLimit: 12,
   },
   {
@@ -170,8 +180,9 @@ export const EASY_PUZZLES: TacticalPuzzle[] = [
     solution: 'Re8+',
     pattern: 'back-rank-mate',
     difficulty: 'easy',
-    hint: 'Black\'s king is trapped on the back rank.',
-    explanation: 'Re8+! forces Rxe8, but if the position continues, this demonstrates the back rank weakness. Always look for these patterns!',
+    hint: "Black's king is trapped on the back rank.",
+    explanation:
+      'Re8+! forces Rxe8, but if the position continues, this demonstrates the back rank weakness. Always look for these patterns!',
     timeLimit: 10,
   },
   {
@@ -182,7 +193,8 @@ export const EASY_PUZZLES: TacticalPuzzle[] = [
     pattern: 'double-attack',
     difficulty: 'easy',
     hint: 'Take the pawn and create multiple threats.',
-    explanation: 'Nxe5! wins the pawn and attacks the c6 knight. This simple double attack wins material.',
+    explanation:
+      'Nxe5! wins the pawn and attacks the c6 knight. This simple double attack wins material.',
     timeLimit: 12,
   },
   {
@@ -193,7 +205,8 @@ export const EASY_PUZZLES: TacticalPuzzle[] = [
     pattern: 'fork',
     difficulty: 'easy',
     hint: 'Capture the pawn with your knight.',
-    explanation: 'Nxd4! and the knight forks multiple pieces from this central square. Knights love the center!',
+    explanation:
+      'Nxd4! and the knight forks multiple pieces from this central square. Knights love the center!',
     timeLimit: 12,
   },
   {
@@ -204,7 +217,8 @@ export const EASY_PUZZLES: TacticalPuzzle[] = [
     pattern: 'battery',
     difficulty: 'easy',
     hint: 'Align your queen with your bishop.',
-    explanation: 'Qd5! creates a queen-bishop battery on the long diagonal, attacking f7 and putting pressure on Black\'s position.',
+    explanation:
+      "Qd5! creates a queen-bishop battery on the long diagonal, attacking f7 and putting pressure on Black's position.",
     timeLimit: 12,
   },
 ];
@@ -222,8 +236,9 @@ export const MEDIUM_PUZZLES: TacticalPuzzle[] = [
     solution: 'Bxh7+',
     pattern: 'greek-gift',
     difficulty: 'medium',
-    hint: 'Look at Black\'s castled king. What piece can sacrifice itself on h7?',
-    explanation: 'The Greek Gift! Bxh7+ forces Kxh7, then Ng5+ wins the queen or delivers checkmate. This is one of the most famous attacking patterns.',
+    hint: "Look at Black's castled king. What piece can sacrifice itself on h7?",
+    explanation:
+      'The Greek Gift! Bxh7+ forces Kxh7, then Ng5+ wins the queen or delivers checkmate. This is one of the most famous attacking patterns.',
     timeLimit: 15,
     followUpMoves: ['Kxh7', 'Ng5+'],
   },
@@ -235,7 +250,8 @@ export const MEDIUM_PUZZLES: TacticalPuzzle[] = [
     pattern: 'battery',
     difficulty: 'medium',
     hint: 'Your queen and bishop can create a deadly battery on the long diagonal.',
-    explanation: 'Qb5! creates a powerful pin on the c6 knight and threatens the undefended e5 pawn. The queen and bishop battery is devastating.',
+    explanation:
+      'Qb5! creates a powerful pin on the c6 knight and threatens the undefended e5 pawn. The queen and bishop battery is devastating.',
     timeLimit: 15,
   },
   {
@@ -245,8 +261,9 @@ export const MEDIUM_PUZZLES: TacticalPuzzle[] = [
     solution: 'Re8+',
     pattern: 'smothered-mate',
     difficulty: 'medium',
-    hint: 'Drive the king into the corner where it\'ll be smothered by its own pieces.',
-    explanation: 'Re8+! forces Rxe8, then the follow-up delivers mate. The king is smothered by its own pawns - a beautiful pattern!',
+    hint: "Drive the king into the corner where it'll be smothered by its own pieces.",
+    explanation:
+      'Re8+! forces Rxe8, then the follow-up delivers mate. The king is smothered by its own pawns - a beautiful pattern!',
     timeLimit: 15,
   },
   {
@@ -257,7 +274,8 @@ export const MEDIUM_PUZZLES: TacticalPuzzle[] = [
     pattern: 'discovered-attack',
     difficulty: 'medium',
     hint: 'Moving your knight will unleash a powerful piece behind it.',
-    explanation: 'Nxe5! removes the knight and discovers an attack from the Bc4 on f7. Black must deal with multiple threats.',
+    explanation:
+      'Nxe5! removes the knight and discovers an attack from the Bc4 on f7. Black must deal with multiple threats.',
     timeLimit: 15,
   },
   {
@@ -268,7 +286,8 @@ export const MEDIUM_PUZZLES: TacticalPuzzle[] = [
     pattern: 'removing-defender',
     difficulty: 'medium',
     hint: 'The king is the only defender of a critical square. Remove it!',
-    explanation: 'Bxf7+! removes the key defender (the king) of the d4 pawn and wins material after Kxf7 Nxd4.',
+    explanation:
+      'Bxf7+! removes the key defender (the king) of the d4 pawn and wins material after Kxf7 Nxd4.',
     timeLimit: 15,
   },
   {
@@ -279,7 +298,8 @@ export const MEDIUM_PUZZLES: TacticalPuzzle[] = [
     pattern: 'deflection',
     difficulty: 'medium',
     hint: 'Deflect the f7 pawn away from defending the king.',
-    explanation: 'exf6! deflects the f-pawn from defending the king. After Qxf6 or gxf6, White has opened lines for attack.',
+    explanation:
+      'exf6! deflects the f-pawn from defending the king. After Qxf6 or gxf6, White has opened lines for attack.',
     timeLimit: 15,
   },
   {
@@ -290,7 +310,8 @@ export const MEDIUM_PUZZLES: TacticalPuzzle[] = [
     pattern: 'fork',
     difficulty: 'medium',
     hint: 'Centralize your knight to attack multiple pieces.',
-    explanation: 'Nd5! centralizes the knight and forks the bishop on f5 and threatens Nxf6+. Black loses material.',
+    explanation:
+      'Nd5! centralizes the knight and forks the bishop on f5 and threatens Nxf6+. Black loses material.',
     timeLimit: 16,
   },
   {
@@ -301,7 +322,8 @@ export const MEDIUM_PUZZLES: TacticalPuzzle[] = [
     pattern: 'pin',
     difficulty: 'medium',
     hint: 'Attack the pinned piece with a pawn.',
-    explanation: 'd4! attacks the Bc5 which is pinned to the king by the Bc4. Black must move the bishop and loses time.',
+    explanation:
+      'd4! attacks the Bc5 which is pinned to the king by the Bc4. Black must move the bishop and loses time.',
     timeLimit: 15,
   },
   {
@@ -312,7 +334,8 @@ export const MEDIUM_PUZZLES: TacticalPuzzle[] = [
     pattern: 'discovered-attack',
     difficulty: 'medium',
     hint: 'Move your knight to discover an attack on the queen.',
-    explanation: 'Ng5! discovers an attack on the queen from the Qe2 while also attacking f7 and e6. Black is in serious trouble.',
+    explanation:
+      'Ng5! discovers an attack on the queen from the Qe2 while also attacking f7 and e6. Black is in serious trouble.',
     timeLimit: 16,
   },
   {
@@ -334,7 +357,8 @@ export const MEDIUM_PUZZLES: TacticalPuzzle[] = [
     pattern: 'removing-defender',
     difficulty: 'medium',
     hint: 'Remove the piece defending the weak d5 pawn.',
-    explanation: 'exf6! removes the knight that was defending d5. After gxf6, Nxd5 wins the pawn with a strong position.',
+    explanation:
+      'exf6! removes the knight that was defending d5. After gxf6, Nxd5 wins the pawn with a strong position.',
     timeLimit: 16,
   },
   {
@@ -345,7 +369,8 @@ export const MEDIUM_PUZZLES: TacticalPuzzle[] = [
     pattern: 'back-rank-mate',
     difficulty: 'medium',
     hint: 'Invade the back rank with your queen.',
-    explanation: 'Qe8! threatens Qxf8#. Black must give up material to prevent mate, as the back rank is fatally weak.',
+    explanation:
+      'Qe8! threatens Qxf8#. Black must give up material to prevent mate, as the back rank is fatally weak.',
     timeLimit: 16,
   },
   {
@@ -356,7 +381,8 @@ export const MEDIUM_PUZZLES: TacticalPuzzle[] = [
     pattern: 'deflection',
     difficulty: 'medium',
     hint: 'Deflect the king from defending f6.',
-    explanation: 'Bxh7+! deflects the king. After Kxh7, Nxf6+ wins the bishop with a strong attack.',
+    explanation:
+      'Bxh7+! deflects the king. After Kxh7, Nxf6+ wins the bishop with a strong attack.',
     timeLimit: 16,
   },
   {
@@ -367,7 +393,8 @@ export const MEDIUM_PUZZLES: TacticalPuzzle[] = [
     pattern: 'double-attack',
     difficulty: 'medium',
     hint: 'Your bishop can attack two pieces at once.',
-    explanation: 'Bb5! pins the knight to the king and attacks it. Black must deal with the pin and loses the knight.',
+    explanation:
+      'Bb5! pins the knight to the king and attacks it. Black must deal with the pin and loses the knight.',
     timeLimit: 15,
   },
   {
@@ -378,7 +405,8 @@ export const MEDIUM_PUZZLES: TacticalPuzzle[] = [
     pattern: 'battery',
     difficulty: 'medium',
     hint: 'Create a powerful central battery.',
-    explanation: 'Qe4! creates a queen-bishop battery on the long diagonal, pressuring both sides of the board.',
+    explanation:
+      'Qe4! creates a queen-bishop battery on the long diagonal, pressuring both sides of the board.',
     timeLimit: 15,
   },
   {
@@ -389,7 +417,8 @@ export const MEDIUM_PUZZLES: TacticalPuzzle[] = [
     pattern: 'smothered-mate',
     difficulty: 'medium',
     hint: 'Bring your knight closer to deliver a smothered mate threat.',
-    explanation: 'Nf4! threatens Nxg6 followed by Nh6# - a smothered mate. Black must weaken the kingside to prevent it.',
+    explanation:
+      'Nf4! threatens Nxg6 followed by Nh6# - a smothered mate. Black must weaken the kingside to prevent it.',
     timeLimit: 16,
   },
   {
@@ -400,7 +429,8 @@ export const MEDIUM_PUZZLES: TacticalPuzzle[] = [
     pattern: 'zwischenzug',
     difficulty: 'medium',
     hint: 'Before Black takes your bishop, create a bigger threat.',
-    explanation: 'Nxe5! is a zwischenzug. Before dealing with the threat on c4, White creates the bigger threat of Nxc6, winning material.',
+    explanation:
+      'Nxe5! is a zwischenzug. Before dealing with the threat on c4, White creates the bigger threat of Nxc6, winning material.',
     timeLimit: 16,
   },
   {
@@ -411,7 +441,8 @@ export const MEDIUM_PUZZLES: TacticalPuzzle[] = [
     pattern: 'x-ray',
     difficulty: 'medium',
     hint: 'Your bishop can x-ray through the knight to attack the queen.',
-    explanation: 'Bg5! pins the knight and x-rays the queen. Black must break the pin or lose material.',
+    explanation:
+      'Bg5! pins the knight and x-rays the queen. Black must break the pin or lose material.',
     timeLimit: 15,
   },
   {
@@ -422,7 +453,8 @@ export const MEDIUM_PUZZLES: TacticalPuzzle[] = [
     pattern: 'desperado',
     difficulty: 'medium',
     hint: 'Your knight is attacked - make it count before it goes.',
-    explanation: 'Nxd4! The knight is lost anyway, so it takes the most valuable target before being captured.',
+    explanation:
+      'Nxd4! The knight is lost anyway, so it takes the most valuable target before being captured.',
     timeLimit: 15,
   },
   {
@@ -445,7 +477,8 @@ export const MEDIUM_PUZZLES: TacticalPuzzle[] = [
     pattern: 'pin',
     difficulty: 'medium',
     hint: 'Break the pin with a powerful central move.',
-    explanation: 'Nd4! breaks the pin and centralizes the knight with multiple threats including Nxf5 and Nxc6.',
+    explanation:
+      'Nd4! breaks the pin and centralizes the knight with multiple threats including Nxf5 and Nxc6.',
     timeLimit: 16,
   },
 ];
@@ -463,8 +496,9 @@ export const HARD_PUZZLES: TacticalPuzzle[] = [
     solution: 'Nxd5',
     pattern: 'zwischenzug',
     difficulty: 'hard',
-    hint: 'Before recapturing on e4, there\'s an in-between move that wins material.',
-    explanation: 'Nxd5! is a zwischenzug (in-between move). Before dealing with the threat on e2, White creates a bigger threat on c7, winning material.',
+    hint: "Before recapturing on e4, there's an in-between move that wins material.",
+    explanation:
+      'Nxd5! is a zwischenzug (in-between move). Before dealing with the threat on e2, White creates a bigger threat on c7, winning material.',
     timeLimit: 20,
   },
   {
@@ -474,8 +508,9 @@ export const HARD_PUZZLES: TacticalPuzzle[] = [
     solution: 'Qe8',
     pattern: 'x-ray',
     difficulty: 'hard',
-    hint: 'Your queen can x-ray through Black\'s rook to attack the king.',
-    explanation: 'Qe8! pins the rook to the king via x-ray. Black loses the exchange or gets mated. X-ray attacks see through pieces!',
+    hint: "Your queen can x-ray through Black's rook to attack the king.",
+    explanation:
+      'Qe8! pins the rook to the king via x-ray. Black loses the exchange or gets mated. X-ray attacks see through pieces!',
     timeLimit: 20,
   },
   {
@@ -486,7 +521,8 @@ export const HARD_PUZZLES: TacticalPuzzle[] = [
     pattern: 'desperado',
     difficulty: 'hard',
     hint: 'Your rook is attacked, but it can cause maximum damage before going down.',
-    explanation: 'Rxc8+! is a desperado move. The rook is doomed anyway, so it trades itself for maximum value with check before being captured.',
+    explanation:
+      'Rxc8+! is a desperado move. The rook is doomed anyway, so it trades itself for maximum value with check before being captured.',
     timeLimit: 18,
   },
   {
@@ -497,7 +533,8 @@ export const HARD_PUZZLES: TacticalPuzzle[] = [
     pattern: 'fork',
     difficulty: 'hard',
     hint: 'Capture with the knight to create multiple threats.',
-    explanation: 'Nxd5! forks multiple pieces. After Nxd5, White threatens Nxf6+ forking king and queen, and Nxc6 is also possible. Multi-layered tactics!',
+    explanation:
+      'Nxd5! forks multiple pieces. After Nxd5, White threatens Nxf6+ forking king and queen, and Nxc6 is also possible. Multi-layered tactics!',
     timeLimit: 20,
   },
   {
@@ -508,7 +545,8 @@ export const HARD_PUZZLES: TacticalPuzzle[] = [
     pattern: 'pin',
     difficulty: 'hard',
     hint: 'Open up lines while the knight is pinned to the queen.',
-    explanation: 'e4! exploits the pin on the f6 knight. Black cannot take because of the pin, and White gains central space with tempo.',
+    explanation:
+      'e4! exploits the pin on the f6 knight. Black cannot take because of the pin, and White gains central space with tempo.',
     timeLimit: 20,
   },
   {
@@ -519,7 +557,8 @@ export const HARD_PUZZLES: TacticalPuzzle[] = [
     pattern: 'deflection',
     difficulty: 'hard',
     hint: 'Deflect the bishop from defending the e4 knight.',
-    explanation: 'Nxd5! deflects the Bf5 from defending e4. After Bxd5, White plays Bxe4 winning material through deflection.',
+    explanation:
+      'Nxd5! deflects the Bf5 from defending e4. After Bxd5, White plays Bxe4 winning material through deflection.',
     timeLimit: 22,
   },
   {
@@ -530,7 +569,8 @@ export const HARD_PUZZLES: TacticalPuzzle[] = [
     pattern: 'removing-defender',
     difficulty: 'hard',
     hint: 'Remove the knight that defends the queen.',
-    explanation: 'Nxe5! removes the defender of the queen. After Nxe5, Bxf7+ forks king and queen, winning the queen.',
+    explanation:
+      'Nxe5! removes the defender of the queen. After Nxe5, Bxf7+ forks king and queen, winning the queen.',
     timeLimit: 20,
   },
   {
@@ -541,7 +581,8 @@ export const HARD_PUZZLES: TacticalPuzzle[] = [
     pattern: 'discovered-attack',
     difficulty: 'hard',
     hint: 'Opening the e-file creates a discovered attack.',
-    explanation: 'exf6! opens the e-file with a discovered attack on the Bb4. After Qxf6 or gxf6, White gains a significant advantage.',
+    explanation:
+      'exf6! opens the e-file with a discovered attack on the Bb4. After Qxf6 or gxf6, White gains a significant advantage.',
     timeLimit: 20,
   },
   {
@@ -552,7 +593,8 @@ export const HARD_PUZZLES: TacticalPuzzle[] = [
     pattern: 'skewer',
     difficulty: 'hard',
     hint: 'Pin the knight to skewer the queen behind it.',
-    explanation: 'Bb5! pins the knight and skewers it to the queen. After the knight moves, Bxd7 wins the queen.',
+    explanation:
+      'Bb5! pins the knight and skewers it to the queen. After the knight moves, Bxd7 wins the queen.',
     timeLimit: 20,
   },
   {
@@ -563,7 +605,8 @@ export const HARD_PUZZLES: TacticalPuzzle[] = [
     pattern: 'greek-gift',
     difficulty: 'hard',
     hint: 'The Greek Gift works even in complex positions.',
-    explanation: 'Bxh7+! Kxh7 Ng5+ Kg8 Qh5 and White has a winning attack despite Black\'s extra pieces. The king\'s safety is paramount!',
+    explanation:
+      "Bxh7+! Kxh7 Ng5+ Kg8 Qh5 and White has a winning attack despite Black's extra pieces. The king's safety is paramount!",
     timeLimit: 22,
     followUpMoves: ['Kxh7', 'Ng5+', 'Kg8', 'Qh5', 'Nf6+'],
   },
@@ -575,7 +618,8 @@ export const HARD_PUZZLES: TacticalPuzzle[] = [
     pattern: 'double-attack',
     difficulty: 'hard',
     hint: 'Centralize your knight to attack multiple weaknesses.',
-    explanation: 'Nd4! centralizes the knight and attacks both the Bf5 and threatens Nxf6+. Black cannot defend everything.',
+    explanation:
+      'Nd4! centralizes the knight and attacks both the Bf5 and threatens Nxf6+. Black cannot defend everything.',
     timeLimit: 20,
   },
   {
@@ -586,7 +630,8 @@ export const HARD_PUZZLES: TacticalPuzzle[] = [
     pattern: 'smothered-mate',
     difficulty: 'hard',
     hint: 'Prepare a smothered mate pattern.',
-    explanation: 'Nf4! threatens Nxg6 and then Nh6#, a smothered mate. Black\'s pieces are poorly coordinated to defend.',
+    explanation:
+      "Nf4! threatens Nxg6 and then Nh6#, a smothered mate. Black's pieces are poorly coordinated to defend.",
     timeLimit: 22,
   },
   {
@@ -597,7 +642,8 @@ export const HARD_PUZZLES: TacticalPuzzle[] = [
     pattern: 'back-rank-mate',
     difficulty: 'hard',
     hint: 'Invade the back rank decisively.',
-    explanation: 'Qe8!! threatens Qxf8#. Black must sacrifice the queen with Qd1 to prevent mate, demonstrating total back rank collapse.',
+    explanation:
+      'Qe8!! threatens Qxf8#. Black must sacrifice the queen with Qd1 to prevent mate, demonstrating total back rank collapse.',
     timeLimit: 22,
   },
   {
@@ -608,7 +654,8 @@ export const HARD_PUZZLES: TacticalPuzzle[] = [
     pattern: 'battery',
     difficulty: 'hard',
     hint: 'Align your queen and bishop for maximum pressure.',
-    explanation: 'Qd2! creates a deadly queen-bishop battery. Combined with the Bf4 threats, Black\'s position collapses under the pressure.',
+    explanation:
+      "Qd2! creates a deadly queen-bishop battery. Combined with the Bf4 threats, Black's position collapses under the pressure.",
     timeLimit: 20,
   },
   {
@@ -619,7 +666,8 @@ export const HARD_PUZZLES: TacticalPuzzle[] = [
     pattern: 'zwischenzug',
     difficulty: 'hard',
     hint: 'Before Black takes your bishop, create threats.',
-    explanation: 'exf6! is a powerful zwischenzug. Before dealing with Bxc4, White creates the bigger threat of fxg7 and Bxf7+.',
+    explanation:
+      'exf6! is a powerful zwischenzug. Before dealing with Bxc4, White creates the bigger threat of fxg7 and Bxf7+.',
     timeLimit: 22,
   },
 ];
@@ -627,11 +675,7 @@ export const HARD_PUZZLES: TacticalPuzzle[] = [
 /**
  * All puzzles combined
  */
-export const ALL_PUZZLES: TacticalPuzzle[] = [
-  ...EASY_PUZZLES,
-  ...MEDIUM_PUZZLES,
-  ...HARD_PUZZLES,
-];
+export const ALL_PUZZLES: TacticalPuzzle[] = [...EASY_PUZZLES, ...MEDIUM_PUZZLES, ...HARD_PUZZLES];
 
 /**
  * Puzzles organized by pattern type
@@ -639,17 +683,17 @@ export const ALL_PUZZLES: TacticalPuzzle[] = [
 export const PUZZLES_BY_PATTERN: Record<TacticalPattern, TacticalPuzzle[]> = {
   'greek-gift': ALL_PUZZLES.filter(p => p.pattern === 'greek-gift'),
   'back-rank-mate': ALL_PUZZLES.filter(p => p.pattern === 'back-rank-mate'),
-  'pin': ALL_PUZZLES.filter(p => p.pattern === 'pin'),
-  'skewer': ALL_PUZZLES.filter(p => p.pattern === 'skewer'),
-  'fork': ALL_PUZZLES.filter(p => p.pattern === 'fork'),
+  pin: ALL_PUZZLES.filter(p => p.pattern === 'pin'),
+  skewer: ALL_PUZZLES.filter(p => p.pattern === 'skewer'),
+  fork: ALL_PUZZLES.filter(p => p.pattern === 'fork'),
   'discovered-attack': ALL_PUZZLES.filter(p => p.pattern === 'discovered-attack'),
   'double-attack': ALL_PUZZLES.filter(p => p.pattern === 'double-attack'),
   'removing-defender': ALL_PUZZLES.filter(p => p.pattern === 'removing-defender'),
-  'deflection': ALL_PUZZLES.filter(p => p.pattern === 'deflection'),
+  deflection: ALL_PUZZLES.filter(p => p.pattern === 'deflection'),
   'smothered-mate': ALL_PUZZLES.filter(p => p.pattern === 'smothered-mate'),
-  'battery': ALL_PUZZLES.filter(p => p.pattern === 'battery'),
-  'zwischenzug': ALL_PUZZLES.filter(p => p.pattern === 'zwischenzug'),
-  'desperado': ALL_PUZZLES.filter(p => p.pattern === 'desperado'),
+  battery: ALL_PUZZLES.filter(p => p.pattern === 'battery'),
+  zwischenzug: ALL_PUZZLES.filter(p => p.pattern === 'zwischenzug'),
+  desperado: ALL_PUZZLES.filter(p => p.pattern === 'desperado'),
   'x-ray': ALL_PUZZLES.filter(p => p.pattern === 'x-ray'),
 };
 
@@ -657,9 +701,9 @@ export const PUZZLES_BY_PATTERN: Record<TacticalPattern, TacticalPuzzle[]> = {
  * Puzzles organized by difficulty
  */
 export const PUZZLES_BY_DIFFICULTY: Record<Difficulty, TacticalPuzzle[]> = {
-  'easy': EASY_PUZZLES,
-  'medium': MEDIUM_PUZZLES,
-  'hard': HARD_PUZZLES,
+  easy: EASY_PUZZLES,
+  medium: MEDIUM_PUZZLES,
+  hard: HARD_PUZZLES,
 };
 
 /**
@@ -708,17 +752,17 @@ export function getPatternDisplayName(pattern: TacticalPattern): string {
   const names: Record<TacticalPattern, string> = {
     'greek-gift': 'Greek Gift Sacrifice',
     'back-rank-mate': 'Back Rank Mate',
-    'pin': 'Pin',
-    'skewer': 'Skewer',
-    'fork': 'Fork',
+    pin: 'Pin',
+    skewer: 'Skewer',
+    fork: 'Fork',
     'discovered-attack': 'Discovered Attack',
     'double-attack': 'Double Attack',
     'removing-defender': 'Removing the Defender',
-    'deflection': 'Deflection',
+    deflection: 'Deflection',
     'smothered-mate': 'Smothered Mate',
-    'battery': 'Battery',
-    'zwischenzug': 'Zwischenzug',
-    'desperado': 'Desperado',
+    battery: 'Battery',
+    zwischenzug: 'Zwischenzug',
+    desperado: 'Desperado',
     'x-ray': 'X-Ray Attack',
   };
   return names[pattern];

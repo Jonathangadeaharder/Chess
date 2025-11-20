@@ -54,7 +54,13 @@ export async function checkAndUnlockAchievements(): Promise<Achievement[]> {
  * Check achievements after a specific event
  */
 export async function checkAchievementsAfterEvent(
-  event: 'streak' | 'srs-review' | 'game-won' | 'minigame-complete' | 'concept-correct' | 'system-complete',
+  event:
+    | 'streak'
+    | 'srs-review'
+    | 'game-won'
+    | 'minigame-complete'
+    | 'concept-correct'
+    | 'system-complete',
   data?: any
 ): Promise<Achievement[]> {
   // This would be called after specific events

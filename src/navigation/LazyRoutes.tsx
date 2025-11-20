@@ -16,10 +16,7 @@ export { default as HomeScreen } from '../screens/Home/HomeScreen';
 /**
  * Game Screens (lazy loaded)
  */
-export const PlayScreen = lazyLoadScreen(
-  () => import('../screens/Game/PlayScreen'),
-  'PlayScreen'
-);
+export const PlayScreen = lazyLoadScreen(() => import('../screens/Game/PlayScreen'), 'PlayScreen');
 
 export const GameAnalysisScreen = lazyLoadScreen(
   () => import('../screens/Game/GameAnalysisScreen'),
@@ -125,22 +122,11 @@ export function preloadCriticalScreens() {
  */
 export const ROUTE_PRIORITIES = {
   // High priority - preload immediately
-  high: [
-    'PlayScreen',
-    'PuzzleScreen',
-    'ProfileScreen',
-  ],
+  high: ['PlayScreen', 'PuzzleScreen', 'ProfileScreen'],
   // Medium priority - preload after initial render
-  medium: [
-    'LearningScreen',
-    'GameAnalysisScreen',
-    'LeaderboardScreen',
-  ],
+  medium: ['LearningScreen', 'GameAnalysisScreen', 'LeaderboardScreen'],
   // Low priority - load on demand only
-  low: [
-    'OnboardingFlow',
-    'SettingsScreen',
-  ],
+  low: ['OnboardingFlow', 'SettingsScreen'],
 };
 
 /**

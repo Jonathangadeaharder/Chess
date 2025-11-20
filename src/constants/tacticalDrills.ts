@@ -71,7 +71,8 @@ export const DRILLS_800: TacticalDrill[] = [
     eloRating: 800,
     timeLimit: 8,
     hint: 'Your knight can attack two pieces at once.',
-    explanation: 'Nf5 forks the king and rook. This is THE most common tactic in chess - you must see it instantly!',
+    explanation:
+      'Nf5 forks the king and rook. This is THE most common tactic in chess - you must see it instantly!',
     frequency: 'very-high',
   },
   {
@@ -97,7 +98,8 @@ export const DRILLS_800: TacticalDrill[] = [
     eloRating: 800,
     timeLimit: 8,
     hint: 'Your queen can attack the king and another piece.',
-    explanation: 'Qa4 pins the knight to the king and threatens to win it. Queen forks are powerful!',
+    explanation:
+      'Qa4 pins the knight to the king and threatens to win it. Queen forks are powerful!',
     frequency: 'very-high',
   },
 
@@ -111,7 +113,7 @@ export const DRILLS_800: TacticalDrill[] = [
     motif: 'hanging-piece',
     eloRating: 800,
     timeLimit: 8,
-    hint: 'One of Black\'s pieces is completely undefended.',
+    hint: "One of Black's pieces is completely undefended.",
     explanation: 'Nxe5 wins the hanging pawn for free. Always check: "What\'s undefended?"',
     frequency: 'very-high',
   },
@@ -125,7 +127,8 @@ export const DRILLS_800: TacticalDrill[] = [
     eloRating: 800,
     timeLimit: 8,
     hint: 'White left a piece undefended.',
-    explanation: 'Nxe4 captures the hanging pawn. The most common blunder is leaving pieces en prise!',
+    explanation:
+      'Nxe4 captures the hanging pawn. The most common blunder is leaving pieces en prise!',
     frequency: 'very-high',
   },
 
@@ -140,7 +143,8 @@ export const DRILLS_800: TacticalDrill[] = [
     eloRating: 800,
     timeLimit: 8,
     hint: 'You can pin a knight to the king.',
-    explanation: 'Bb5 pins the knight to the king. The knight cannot move without exposing the king to check.',
+    explanation:
+      'Bb5 pins the knight to the king. The knight cannot move without exposing the king to check.',
     frequency: 'very-high',
   },
   {
@@ -280,7 +284,8 @@ export const DRILLS_800: TacticalDrill[] = [
     eloRating: 800,
     timeLimit: 8,
     hint: 'Capture the pinned pawn with check.',
-    explanation: 'Bxf7+ wins the pinned pawn. The f7 pawn couldn\'t move because it would expose the king!',
+    explanation:
+      "Bxf7+ wins the pinned pawn. The f7 pawn couldn't move because it would expose the king!",
     frequency: 'very-high',
   },
 
@@ -295,7 +300,8 @@ export const DRILLS_800: TacticalDrill[] = [
     eloRating: 800,
     timeLimit: 8,
     hint: 'Your queen can attack two targets at once.',
-    explanation: 'Qe2 attacks both the e5 pawn and sets up threats. Double attacks force tough choices!',
+    explanation:
+      'Qe2 attacks both the e5 pawn and sets up threats. Double attacks force tough choices!',
     frequency: 'high',
   },
   {
@@ -323,7 +329,8 @@ export const DRILLS_800: TacticalDrill[] = [
     eloRating: 800,
     timeLimit: 8,
     hint: 'The king has no escape squares.',
-    explanation: 'Ra8# is checkmate! The king is trapped by its own pawns. Always give your king breathing room!',
+    explanation:
+      'Ra8# is checkmate! The king is trapped by its own pawns. Always give your king breathing room!',
     frequency: 'high',
   },
   {
@@ -336,7 +343,8 @@ export const DRILLS_800: TacticalDrill[] = [
     eloRating: 800,
     timeLimit: 8,
     hint: 'Invade the back rank.',
-    explanation: 'Ra8 forces Rxa8 Rxa8#. Back rank mates are deadly - always watch your first rank!',
+    explanation:
+      'Ra8 forces Rxa8 Rxa8#. Back rank mates are deadly - always watch your first rank!',
     frequency: 'high',
   },
 
@@ -393,7 +401,7 @@ export const DRILLS_800: TacticalDrill[] = [
     eloRating: 800,
     timeLimit: 8,
     hint: 'The e4 pawn is hanging.',
-    explanation: 'Nxe4 wins the undefended pawn. Always check what\'s hanging!',
+    explanation: "Nxe4 wins the undefended pawn. Always check what's hanging!",
     frequency: 'very-high',
   },
   {
@@ -808,7 +816,7 @@ export const DRILLS_1200: TacticalDrill[] = [
     motif: 'hanging-piece',
     eloRating: 1200,
     timeLimit: 6,
-    hint: 'The e4 pawn looks defended but isn\'t.',
+    hint: "The e4 pawn looks defended but isn't.",
     explanation: 'Nxe4! If dxe4 then Qxd1. The d3 pawn was overworked defending both!',
     frequency: 'very-high',
   },
@@ -850,7 +858,7 @@ export const DRILLS_1200: TacticalDrill[] = [
     eloRating: 1200,
     timeLimit: 6,
     hint: 'The knight on d4 is pinned to the king.',
-    explanation: 'Nxe5 is safe because the d4 knight is absolutely pinned and can\'t recapture!',
+    explanation: "Nxe5 is safe because the d4 knight is absolutely pinned and can't recapture!",
     frequency: 'very-high',
   },
 
@@ -1235,7 +1243,7 @@ export const DRILLS_1400: TacticalDrill[] = [
     eloRating: 1400,
     timeLimit: 5,
     hint: 'Trap the bishop with pawns.',
-    explanation: 'c6 and b5 trap the bishop. Noah\'s Ark Trap pattern!',
+    explanation: "c6 and b5 trap the bishop. Noah's Ark Trap pattern!",
     frequency: 'medium',
   },
 
@@ -1475,7 +1483,7 @@ export const DRILLS_1400: TacticalDrill[] = [
     motif: 'interference',
     eloRating: 1400,
     timeLimit: 5,
-    hint: 'Block the defender\'s line.',
+    hint: "Block the defender's line.",
     explanation: 'Nd5 interferes with the defense of f6. Blocking wins material!',
     frequency: 'low',
   },
@@ -1779,7 +1787,7 @@ export const DRILLS_1800: TacticalDrill[] = [
     eloRating: 1800,
     timeLimit: 4,
     hint: 'Lure the king to a vulnerable square.',
-    explanation: 'Qh5 threatens Qxh7#, forcing the king to h8 where it\'s vulnerable.',
+    explanation: "Qh5 threatens Qxh7#, forcing the king to h8 where it's vulnerable.",
     frequency: 'low',
   },
 
@@ -2304,7 +2312,7 @@ export const DRILLS_2000: TacticalDrill[] = [
     eloRating: 2000,
     timeLimit: 3,
     hint: 'Cut the connection between defenders.',
-    explanation: 'Nd5! interferes with the c6 knight\'s defense. Advanced geometry!',
+    explanation: "Nd5! interferes with the c6 knight's defense. Advanced geometry!",
     frequency: 'low',
   },
   {
@@ -2848,17 +2856,17 @@ export const ALL_DRILLS: TacticalDrill[] = [
  * DRILLS BY MOTIF (for targeted training)
  */
 export const DRILLS_BY_MOTIF: Partial<Record<TacticalMotif, TacticalDrill[]>> = {
-  'fork': ALL_DRILLS.filter(d => d.motif === 'fork'),
+  fork: ALL_DRILLS.filter(d => d.motif === 'fork'),
   'hanging-piece': ALL_DRILLS.filter(d => d.motif === 'hanging-piece'),
-  'pin': ALL_DRILLS.filter(d => d.motif === 'pin'),
+  pin: ALL_DRILLS.filter(d => d.motif === 'pin'),
   'discovered-attack': ALL_DRILLS.filter(d => d.motif === 'discovered-attack'),
-  'skewer': ALL_DRILLS.filter(d => d.motif === 'skewer'),
+  skewer: ALL_DRILLS.filter(d => d.motif === 'skewer'),
   'back-rank-mate': ALL_DRILLS.filter(d => d.motif === 'back-rank-mate'),
-  'deflection': ALL_DRILLS.filter(d => d.motif === 'deflection'),
+  deflection: ALL_DRILLS.filter(d => d.motif === 'deflection'),
   'x-ray': ALL_DRILLS.filter(d => d.motif === 'x-ray'),
   'trapped-piece': ALL_DRILLS.filter(d => d.motif === 'trapped-piece'),
   'greek-gift': ALL_DRILLS.filter(d => d.motif === 'greek-gift'),
-  'zwischenzug': ALL_DRILLS.filter(d => d.motif === 'zwischenzug'),
+  zwischenzug: ALL_DRILLS.filter(d => d.motif === 'zwischenzug'),
 };
 
 /**
@@ -2880,11 +2888,12 @@ export function getDrillsByMotif(motif: TacticalMotif): TacticalDrill[] {
  */
 export function getBig4Drills(elo: ELORating = 800): TacticalDrill[] {
   const allDrills = getDrillsByELO(elo);
-  return allDrills.filter(d =>
-    d.motif === 'fork' ||
-    d.motif === 'hanging-piece' ||
-    d.motif === 'discovered-attack' ||
-    d.motif === 'pin'
+  return allDrills.filter(
+    d =>
+      d.motif === 'fork' ||
+      d.motif === 'hanging-piece' ||
+      d.motif === 'discovered-attack' ||
+      d.motif === 'pin'
   );
 }
 
@@ -2902,24 +2911,24 @@ export function getNextELOTier(currentELO: ELORating): ELORating | null {
  */
 export function getMotifDisplayName(motif: TacticalMotif): string {
   const names: Record<TacticalMotif, string> = {
-    'fork': 'Fork',
+    fork: 'Fork',
     'hanging-piece': 'Hanging Piece',
-    'pin': 'Pin',
+    pin: 'Pin',
     'discovered-attack': 'Discovered Attack',
-    'skewer': 'Skewer',
+    skewer: 'Skewer',
     'back-rank-mate': 'Back Rank Mate',
     'double-attack': 'Double Attack',
-    'deflection': 'Deflection',
+    deflection: 'Deflection',
     'x-ray': 'X-Ray Attack',
     'trapped-piece': 'Trapped Piece',
     'removing-defender': 'Removing Defender',
     'greek-gift': 'Greek Gift',
-    'zwischenzug': 'Zwischenzug',
-    'desperado': 'Desperado',
+    zwischenzug: 'Zwischenzug',
+    desperado: 'Desperado',
     'smothered-mate': 'Smothered Mate',
-    'attraction': 'Attraction',
-    'clearance': 'Clearance',
-    'interference': 'Interference',
+    attraction: 'Attraction',
+    clearance: 'Clearance',
+    interference: 'Interference',
   };
   return names[motif] || motif;
 }
@@ -2931,11 +2940,11 @@ export function getMotifDisplayName(motif: TacticalMotif): string {
 export function calculateSpeedRating(timeLimit: number, timeUsed: number): string {
   const percentage = (timeUsed / timeLimit) * 100;
 
-  if (percentage <= 40) return 'flash';      // Solved in < 40% of time
-  if (percentage <= 60) return 'fast';       // Solved in < 60% of time
-  if (percentage <= 80) return 'good';       // Solved in < 80% of time
-  if (percentage <= 100) return 'slow';      // Solved before timeout
-  return 'too-slow';                         // Failed to solve
+  if (percentage <= 40) return 'flash'; // Solved in < 40% of time
+  if (percentage <= 60) return 'fast'; // Solved in < 60% of time
+  if (percentage <= 80) return 'good'; // Solved in < 80% of time
+  if (percentage <= 100) return 'slow'; // Solved before timeout
+  return 'too-slow'; // Failed to solve
 }
 
 /**

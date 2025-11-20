@@ -6,14 +6,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  ScrollView,
-  Alert,
-} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Chess } from 'chess.js';
 import Chessboard from './Chessboard';
@@ -57,7 +50,29 @@ const ENDGAME_DRILLS: EndgameDrill[] = [
     category: 'basic-checkmate',
     difficulty: 'easy',
     fen: '8/8/8/4k3/8/8/4K3/4R3 w - - 0 1',
-    solution: ['Re3+', 'Kd5', 'Kd2', 'Kd4', 'Re4+', 'Kd5', 'Kd3', 'Kc5', 'Rc4+', 'Kb5', 'Kd4', 'Kb6', 'Kd5', 'Kb7', 'Kd6', 'Kb6', 'Rc6+', 'Kb7', 'Kd7', 'Kb8', 'Rc8#'],
+    solution: [
+      'Re3+',
+      'Kd5',
+      'Kd2',
+      'Kd4',
+      'Re4+',
+      'Kd5',
+      'Kd3',
+      'Kc5',
+      'Rc4+',
+      'Kb5',
+      'Kd4',
+      'Kb6',
+      'Kd5',
+      'Kb7',
+      'Kd6',
+      'Kb6',
+      'Rc6+',
+      'Kb7',
+      'Kd7',
+      'Kb8',
+      'Rc8#',
+    ],
     hint: 'Cut off the king with your rook, then walk it to the edge',
     principle: 'Use the rook to cut the board in half, driving the king to the edge',
     timeLimit: 90,
@@ -96,7 +111,7 @@ const ENDGAME_DRILLS: EndgameDrill[] = [
     difficulty: 'medium',
     fen: '8/4k3/4p3/4K3/8/8/8/8 w - - 0 1',
     solution: ['Kf5', 'Kd6', 'Kf6', 'Kd5', 'Kf7', 'Kd6', 'Kf6'],
-    hint: 'Take the opposition to push Black\'s king back',
+    hint: "Take the opposition to push Black's king back",
     principle: 'Opposition: face your king opposite the enemy king with one square between',
     timeLimit: 60,
   },
@@ -147,9 +162,35 @@ const ENDGAME_DRILLS: EndgameDrill[] = [
     category: 'piece-endgame',
     difficulty: 'hard',
     fen: '8/8/8/4k3/8/3N4/4B3/4K3 w - - 0 1',
-    solution: ['Bc4', 'Kd6', 'Kd2', 'Kc5', 'Ke3', 'Kb4', 'Kd4', 'Kb3', 'Nb2', 'Ka2', 'Kc3', 'Ka1', 'Kb3', 'Kb1', 'Bd3+', 'Ka1', 'Nc4', 'Kb1', 'Na3+', 'Ka1', 'Bc2', 'Ka2', 'Nc4', 'Ka1', 'Nb2#'],
+    solution: [
+      'Bc4',
+      'Kd6',
+      'Kd2',
+      'Kc5',
+      'Ke3',
+      'Kb4',
+      'Kd4',
+      'Kb3',
+      'Nb2',
+      'Ka2',
+      'Kc3',
+      'Ka1',
+      'Kb3',
+      'Kb1',
+      'Bd3+',
+      'Ka1',
+      'Nc4',
+      'Kb1',
+      'Na3+',
+      'Ka1',
+      'Bc2',
+      'Ka2',
+      'Nc4',
+      'Ka1',
+      'Nb2#',
+    ],
     hint: 'Drive the king to a corner that matches your bishop color',
-    principle: 'Force king to corner matching bishop\'s color for checkmate',
+    principle: "Force king to corner matching bishop's color for checkmate",
     timeLimit: 180,
   },
   {
@@ -329,18 +370,25 @@ export default function EndgameDrills({ onComplete }: { onComplete?: () => void 
 
   const getCategoryIcon = (category: EndgameDrill['category']) => {
     switch (category) {
-      case 'basic-checkmate': return '♔';
-      case 'pawn-endgame': return '♟';
-      case 'rook-endgame': return '♜';
-      case 'piece-endgame': return '♞';
+      case 'basic-checkmate':
+        return '♔';
+      case 'pawn-endgame':
+        return '♟';
+      case 'rook-endgame':
+        return '♜';
+      case 'piece-endgame':
+        return '♞';
     }
   };
 
   const getDifficultyColor = (difficulty: EndgameDrill['difficulty']) => {
     switch (difficulty) {
-      case 'easy': return Colors.success;
-      case 'medium': return Colors.warning;
-      case 'hard': return Colors.error;
+      case 'easy':
+        return Colors.success;
+      case 'medium':
+        return Colors.warning;
+      case 'hard':
+        return Colors.error;
     }
   };
 
@@ -365,7 +413,12 @@ export default function EndgameDrills({ onComplete }: { onComplete?: () => void 
           <Text style={styles.scoreLabel}>Completed</Text>
         </View>
         <View style={styles.scoreItem}>
-          <Text style={[styles.scoreValue, { color: timeRemaining < 10 ? Colors.error : Colors.primary }]}>
+          <Text
+            style={[
+              styles.scoreValue,
+              { color: timeRemaining < 10 ? Colors.error : Colors.primary },
+            ]}
+          >
             {timeRemaining}s
           </Text>
           <Text style={styles.scoreLabel}>Time Left</Text>
@@ -376,10 +429,21 @@ export default function EndgameDrills({ onComplete }: { onComplete?: () => void 
       <View style={styles.drillCard}>
         <View style={styles.drillHeader}>
           <Text style={styles.drillCategory}>
-            {getCategoryIcon(currentDrill.category)} {currentDrill.category.replace('-', ' ').toUpperCase()}
+            {getCategoryIcon(currentDrill.category)}{' '}
+            {currentDrill.category.replace('-', ' ').toUpperCase()}
           </Text>
-          <View style={[styles.difficultyBadge, { backgroundColor: getDifficultyColor(currentDrill.difficulty) + '20' }]}>
-            <Text style={[styles.difficultyText, { color: getDifficultyColor(currentDrill.difficulty) }]}>
+          <View
+            style={[
+              styles.difficultyBadge,
+              { backgroundColor: getDifficultyColor(currentDrill.difficulty) + '20' },
+            ]}
+          >
+            <Text
+              style={[
+                styles.difficultyText,
+                { color: getDifficultyColor(currentDrill.difficulty) },
+              ]}
+            >
               {currentDrill.difficulty.toUpperCase()}
             </Text>
           </View>
@@ -405,11 +469,7 @@ export default function EndgameDrills({ onComplete }: { onComplete?: () => void 
 
       {/* Chessboard */}
       <View style={styles.boardSection}>
-        <Chessboard
-          showCoordinates={true}
-          onMove={handleMove}
-          interactionMode="both"
-        />
+        <Chessboard showCoordinates={true} onMove={handleMove} interactionMode="both" />
       </View>
 
       {/* Moves Made */}

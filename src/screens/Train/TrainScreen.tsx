@@ -26,7 +26,15 @@ import type { SRSItem, ReviewResult, Achievement } from '../../types';
 type TrainingMode = 'overview' | 'move-review' | 'concept-review' | 'minigame';
 
 export default function TrainScreen() {
-  const { getDueSRSItems, updateSRSItem, addSRSItem, incrementStreak, profile, tacticalProgression, updateTacticalProgression } = useUserStore();
+  const {
+    getDueSRSItems,
+    updateSRSItem,
+    addSRSItem,
+    incrementStreak,
+    profile,
+    tacticalProgression,
+    updateTacticalProgression,
+  } = useUserStore();
 
   const [mode, setMode] = useState<TrainingMode>('overview');
   const [currentSRSItem, setCurrentSRSItem] = useState<SRSItem | null>(null);
@@ -78,8 +86,8 @@ export default function TrainScreen() {
   };
 
   const dueItems = getDueSRSItems();
-  const movesToReview = dueItems.filter((item) => item.type === 'move').length;
-  const conceptsToReview = dueItems.filter((item) => item.type === 'concept').length;
+  const movesToReview = dueItems.filter(item => item.type === 'move').length;
+  const conceptsToReview = dueItems.filter(item => item.type === 'concept').length;
 
   const handleStartMoveReview = () => {
     const moveItems = reviewQueue.filter(item => item.type === 'move');
@@ -208,9 +216,7 @@ export default function TrainScreen() {
       <View style={styles.container}>
         <ScrollView contentContainerStyle={styles.content}>
           <Text style={styles.title}>The Gym</Text>
-          <Text style={styles.subtitle}>
-            Your daily training and review
-          </Text>
+          <Text style={styles.subtitle}>Your daily training and review</Text>
 
           {/* Daily Review Stats */}
           <View style={styles.reviewCard}>
@@ -269,10 +275,7 @@ export default function TrainScreen() {
               <Ionicons name="chevron-forward" size={24} color={Colors.textSecondary} />
             </TouchableOpacity>
 
-            <TouchableOpacity
-              style={styles.miniGameCard}
-              onPress={() => setShowTheFuse(true)}
-            >
+            <TouchableOpacity style={styles.miniGameCard} onPress={() => setShowTheFuse(true)}>
               <View style={styles.miniGameIcon}>
                 <Text style={styles.miniGameEmoji}>🔥</Text>
               </View>
@@ -356,7 +359,8 @@ export default function TrainScreen() {
               <Ionicons name="checkmark-circle" size={48} color={Colors.success} />
               <Text style={styles.completedTitle}>All Done!</Text>
               <Text style={styles.completedText}>
-                Great work! You've completed all reviews for today. Come back tomorrow to keep your streak alive!
+                Great work! You've completed all reviews for today. Come back tomorrow to keep your
+                streak alive!
               </Text>
             </View>
           )}
@@ -375,10 +379,7 @@ export default function TrainScreen() {
         {/* The Fuse Modal */}
         {showTheFuse && (
           <Modal visible={showTheFuse} animationType="slide">
-            <TheFuse
-              onComplete={handleFuseComplete}
-              onExit={() => setShowTheFuse(false)}
-            />
+            <TheFuse onComplete={handleFuseComplete} onExit={() => setShowTheFuse(false)} />
           </Modal>
         )}
 

@@ -21,29 +21,37 @@ import type { Square } from '../../types';
 // 3. Mock implementation (for development)
 
 export type StockfishDifficulty =
-  | 'beginner'      // ELO ~1000
-  | 'intermediate'  // ELO ~1400
-  | 'advanced'      // ELO ~1800
-  | 'expert'        // ELO ~2200
-  | 'master'        // ELO ~2600
-  | 'grandmaster';  // ELO ~3200
+  | 'beginner' // ELO ~1000
+  | 'intermediate' // ELO ~1400
+  | 'advanced' // ELO ~1800
+  | 'expert' // ELO ~2200
+  | 'master' // ELO ~2600
+  | 'grandmaster'; // ELO ~3200
 
 export interface StockfishMove {
   from: Square;
   to: Square;
   san: string;
-  evaluation: number;  // In centipawns
-  mate?: number;       // Moves to mate (if applicable)
+  evaluation: number; // In centipawns
+  mate?: number; // Moves to mate (if applicable)
   depth: number;
-  pv?: string[];       // Principal variation
+  pv?: string[]; // Principal variation
 }
 
 export interface MoveAnalysis {
   move: string;
   evaluation: number;
   previousEval: number;
-  loss: number;        // Centipawn loss
-  classification: 'brilliant' | 'great' | 'best' | 'good' | 'inaccuracy' | 'mistake' | 'blunder' | 'missed-win';
+  loss: number; // Centipawn loss
+  classification:
+    | 'brilliant'
+    | 'great'
+    | 'best'
+    | 'good'
+    | 'inaccuracy'
+    | 'mistake'
+    | 'blunder'
+    | 'missed-win';
   comment: string;
   bestMove?: string;
   depth: number;
@@ -122,7 +130,7 @@ class StockfishService {
       },
       onMessage: (handler: (event: any) => void) => {
         // Mock handler
-      }
+      },
     };
   }
 
@@ -185,7 +193,7 @@ class StockfishService {
       san: bestMove.san,
       evaluation: 0,
       depth: settings.depth,
-      pv: [bestMove.san]
+      pv: [bestMove.san],
     };
   }
 
@@ -212,7 +220,7 @@ class StockfishService {
       evaluation: 0,
       bestMove: moves[0]?.san || '',
       pv: [moves[0]?.san || ''],
-      depth
+      depth,
     };
   }
 
@@ -232,7 +240,7 @@ class StockfishService {
 
     const stats = {
       white: { blunders: 0, mistakes: 0, inaccuracies: 0, totalLoss: 0, moves: 0 },
-      black: { blunders: 0, mistakes: 0, inaccuracies: 0, totalLoss: 0, moves: 0 }
+      black: { blunders: 0, mistakes: 0, inaccuracies: 0, totalLoss: 0, moves: 0 },
     };
 
     for (let i = 0; i < moves.length; i++) {
@@ -270,44 +278,38 @@ class StockfishService {
         loss,
         classification,
         comment,
-        depth
+        depth,
       });
 
       previousEval = normalizedEval;
     }
 
     // Calculate accuracy scores (0-100)
-    const whiteAccuracy = this.calculateAccuracy(
-      stats.white.totalLoss,
-      stats.white.moves
-    );
-    const blackAccuracy = this.calculateAccuracy(
-      stats.black.totalLoss,
-      stats.black.moves
-    );
+    const whiteAccuracy = this.calculateAccuracy(stats.white.totalLoss, stats.white.moves);
+    const blackAccuracy = this.calculateAccuracy(stats.black.totalLoss, stats.black.moves);
 
     return {
       moves: analysis,
       accuracy: {
         white: whiteAccuracy,
-        black: blackAccuracy
+        black: blackAccuracy,
       },
       blunders: {
         white: stats.white.blunders,
-        black: stats.black.blunders
+        black: stats.black.blunders,
       },
       mistakes: {
         white: stats.white.mistakes,
-        black: stats.black.mistakes
+        black: stats.black.mistakes,
       },
       inaccuracies: {
         white: stats.white.inaccuracies,
-        black: stats.black.inaccuracies
+        black: stats.black.inaccuracies,
       },
       averageCentipawnLoss: {
         white: stats.white.moves > 0 ? stats.white.totalLoss / stats.white.moves : 0,
-        black: stats.black.moves > 0 ? stats.black.totalLoss / stats.black.moves : 0
-      }
+        black: stats.black.moves > 0 ? stats.black.totalLoss / stats.black.moves : 0,
+      },
     };
   }
 
@@ -320,7 +322,12 @@ class StockfishService {
     const chess = new Chess(fen);
 
     const pieceValues: { [key: string]: number } = {
-      'p': 100, 'n': 320, 'b': 330, 'r': 500, 'q': 900, 'k': 0
+      p: 100,
+      n: 320,
+      b: 330,
+      r: 500,
+      q: 900,
+      k: 0,
     };
 
     let score = 0;
@@ -354,19 +361,16 @@ class StockfishService {
   /**
    * Get comment for move classification
    */
-  private getMoveComment(
-    classification: MoveAnalysis['classification'],
-    loss: number
-  ): string {
+  private getMoveComment(classification: MoveAnalysis['classification'], loss: number): string {
     const comments: { [key in MoveAnalysis['classification']]: string } = {
-      'brilliant': 'Brilliant move! A stunning tactical blow.',
-      'great': 'Excellent move! This significantly improves your position.',
-      'best': 'Best move. Maintains or improves your advantage.',
-      'good': 'Good move. Keeps the position balanced.',
-      'inaccuracy': `Inaccuracy. You lost ${Math.round(loss / 10) / 10} pawns of advantage.`,
-      'mistake': `Mistake! This loses ${Math.round(loss / 10) / 10} pawns.`,
-      'blunder': `Blunder!! This is a serious error, losing ${Math.round(loss / 10) / 10} pawns.`,
-      'missed-win': 'You missed a winning move!'
+      brilliant: 'Brilliant move! A stunning tactical blow.',
+      great: 'Excellent move! This significantly improves your position.',
+      best: 'Best move. Maintains or improves your advantage.',
+      good: 'Good move. Keeps the position balanced.',
+      inaccuracy: `Inaccuracy. You lost ${Math.round(loss / 10) / 10} pawns of advantage.`,
+      mistake: `Mistake! This loses ${Math.round(loss / 10) / 10} pawns.`,
+      blunder: `Blunder!! This is a serious error, losing ${Math.round(loss / 10) / 10} pawns.`,
+      'missed-win': 'You missed a winning move!',
     };
 
     return comments[classification];
@@ -385,7 +389,7 @@ class StockfishService {
     // Perfect play (0 loss) = 100%
     // Average loss of 100cp = 90%
     // Average loss of 500cp = 50%
-    const accuracy = Math.max(0, Math.min(100, 100 - (avgLoss / 10)));
+    const accuracy = Math.max(0, Math.min(100, 100 - avgLoss / 10));
 
     return Math.round(accuracy * 10) / 10;
   }
@@ -400,7 +404,7 @@ class StockfishService {
       advanced: { depth: 10, skillLevel: 10, elo: 1800 },
       expert: { depth: 15, skillLevel: 15, elo: 2200 },
       master: { depth: 18, skillLevel: 18, elo: 2600 },
-      grandmaster: { depth: 20, skillLevel: 20, elo: 3200 }
+      grandmaster: { depth: 20, skillLevel: 20, elo: 3200 },
     };
 
     return settings[difficulty];

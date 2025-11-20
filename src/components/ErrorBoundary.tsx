@@ -84,10 +84,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
       // Default fallback UI
       return (
         <View style={styles.container}>
-          <ScrollView
-            style={styles.scrollView}
-            contentContainerStyle={styles.scrollContent}
-          >
+          <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
             <Text style={styles.emoji}>😕</Text>
             <Text style={styles.title}>Oops! Something went wrong</Text>
             <Text style={styles.message}>
@@ -98,9 +95,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
               <View style={styles.errorDetails}>
                 <Text style={styles.errorTitle}>Error Details (Dev Mode):</Text>
                 <Text style={styles.errorMessage}>{error.message}</Text>
-                {error.stack && (
-                  <Text style={styles.errorStack}>{error.stack}</Text>
-                )}
+                {error.stack && <Text style={styles.errorStack}>{error.stack}</Text>}
                 {errorInfo?.componentStack && (
                   <>
                     <Text style={styles.errorTitle}>Component Stack:</Text>
@@ -226,7 +221,7 @@ export function ScreenErrorBoundary({
 
   return (
     <ErrorBoundary
-      onError={(error) => {
+      onError={error => {
         console.error(`Error in screen: ${screenName}`, error);
       }}
     >

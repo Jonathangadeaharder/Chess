@@ -14,10 +14,23 @@ export const DEFAULT_FSRS_PARAMS: FSRSParams = {
   requestRetention: 0.9, // Target 90% retention rate
   maximumInterval: 365, // Maximum days between reviews (1 year)
   w: [
-    0.4, 0.6, 2.4, 5.8, // Initial stability weights
-    4.93, 0.94, 0.86, 0.01, // Difficulty weights
-    1.49, 0.14, 0.94, 2.18, // Retrievability weights
-    0.05, 0.34, 1.26, 0.29, 0.62, // Advanced scheduling weights
+    0.4,
+    0.6,
+    2.4,
+    5.8, // Initial stability weights
+    4.93,
+    0.94,
+    0.86,
+    0.01, // Difficulty weights
+    1.49,
+    0.14,
+    0.94,
+    2.18, // Retrievability weights
+    0.05,
+    0.34,
+    1.26,
+    0.29,
+    0.62, // Advanced scheduling weights
   ],
 };
 
@@ -57,11 +70,7 @@ function calculateRetrievability(
  * Update difficulty based on performance
  * Difficulty increases when forgotten, decreases when easily recalled
  */
-function updateDifficulty(
-  currentDifficulty: number,
-  rating: number,
-  params: FSRSParams
-): number {
+function updateDifficulty(currentDifficulty: number, rating: number, params: FSRSParams): number {
   const { w } = params;
 
   // Mean reversion: difficulty gradually moves toward average (5.5)
@@ -93,7 +102,8 @@ function calculateNewStability(
   if (rating === 1) {
     // Again: Item was forgotten
     // Stability decreases but doesn't drop below minimum
-    newStability = w[11] * Math.pow(difficulty, -w[12]) * (Math.pow(currentStability + 1, w[13]) - 1);
+    newStability =
+      w[11] * Math.pow(difficulty, -w[12]) * (Math.pow(currentStability + 1, w[13]) - 1);
   } else {
     // Item was recalled (Hard, Good, or Easy)
     // Stability increases based on how well it was recalled
@@ -110,7 +120,11 @@ function calculateNewStability(
 /**
  * Calculate the next review interval based on stability and target retention
  */
-function calculateInterval(stability: number, requestRetention: number, maximumInterval: number): number {
+function calculateInterval(
+  stability: number,
+  requestRetention: number,
+  maximumInterval: number
+): number {
   // Interval = S * (ln(requestRetention) / ln(0.9))
   const interval = stability * (Math.log(requestRetention) / Math.log(0.9));
 
@@ -225,7 +239,7 @@ export function createSRSItem(
  */
 export function getDueItems(items: SRSItem[]): SRSItem[] {
   const now = new Date();
-  return items.filter((item) => new Date(item.nextReviewDate) <= now);
+  return items.filter(item => new Date(item.nextReviewDate) <= now);
 }
 
 /**
@@ -241,7 +255,7 @@ export function getForecast(items: SRSItem[], days: number = 30): { [day: number
     forecast[i] = 0;
   }
 
-  items.forEach((item) => {
+  items.forEach(item => {
     const reviewDate = new Date(item.nextReviewDate);
     reviewDate.setHours(0, 0, 0, 0);
 
@@ -283,7 +297,7 @@ export function getAverageStability(items: SRSItem[]): number {
 export function calculateRetentionRate(items: SRSItem[]): number {
   if (items.length === 0) return 1;
 
-  const reviewedItems = items.filter((item) => item.reviewCount > 0);
+  const reviewedItems = items.filter(item => item.reviewCount > 0);
   if (reviewedItems.length === 0) return 1;
 
   const totalReviews = reviewedItems.reduce((acc, item) => acc + item.reviewCount, 0);

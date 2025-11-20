@@ -105,13 +105,7 @@ export async function optimizeImage(
   uri: string,
   options: ImageOptimizationOptions = {}
 ): Promise<string> {
-  const {
-    width,
-    height,
-    quality = 0.8,
-    format = 'jpeg',
-    cache = true,
-  } = options;
+  const { width, height, quality = 0.8, format = 'jpeg', cache = true } = options;
 
   try {
     // Check cache first
@@ -134,11 +128,7 @@ export async function optimizeImage(
     // Optimize image
     const result = await manipulateAsync(
       uri,
-      [
-        ...(width || height
-          ? [{ resize: { width, height } }]
-          : []),
-      ],
+      [...(width || height ? [{ resize: { width, height } }] : [])],
       {
         compress: quality,
         format: saveFormat,
@@ -224,10 +214,7 @@ export function calculateOptimalDimensions(
 /**
  * Compress image file
  */
-export async function compressImage(
-  uri: string,
-  quality: number = 0.7
-): Promise<string> {
+export async function compressImage(uri: string, quality: number = 0.7): Promise<string> {
   return optimizeImage(uri, { quality, format: 'jpeg' });
 }
 
@@ -268,9 +255,7 @@ export async function batchOptimizeImages(
 /**
  * Get image dimensions
  */
-export async function getImageDimensions(
-  uri: string
-): Promise<{ width: number; height: number }> {
+export async function getImageDimensions(uri: string): Promise<{ width: number; height: number }> {
   return new Promise((resolve, reject) => {
     Image.getSize(
       uri,
@@ -298,10 +283,7 @@ export async function isImageCached(uri: string): Promise<boolean> {
 /**
  * Create thumbnail from image
  */
-export async function createThumbnail(
-  uri: string,
-  size: number = 200
-): Promise<string> {
+export async function createThumbnail(uri: string, size: number = 200): Promise<string> {
   return optimizeImage(uri, {
     width: size,
     height: size,

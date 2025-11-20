@@ -19,7 +19,8 @@ export const KIA_MAIN_LINE: OpeningLine = {
       id: 'kia-var-1',
       name: 'Against French Defense setup',
       moves: ['Nf3', 'g3', 'Bg2', 'O-O', 'd3', 'Nbd2', 'e4', 'Re1'],
-      explanation: 'This transposes to the KIA against Black\'s French-style setup with ...e6 and ...d5',
+      explanation:
+        "This transposes to the KIA against Black's French-style setup with ...e6 and ...d5",
     },
   ],
   concepts: [
@@ -44,11 +45,7 @@ export const KIA_VS_CARO: OpeningLine = {
       explanation: 'We establish strong central presence while maintaining flexibility',
     },
   ],
-  concepts: [
-    'Universal setup',
-    'Avoiding main line theory',
-    'Central tension',
-  ],
+  concepts: ['Universal setup', 'Avoiding main line theory', 'Central tension'],
 };
 
 /**
@@ -90,7 +87,8 @@ export const STONEWALL_MAIN: OpeningLine = {
       id: 'stonewall-var-1',
       name: 'Stonewall pawn chain',
       moves: ['d4', 'e3', 'f4', 'Nf3', 'Bd3', 'O-O', 'Nbd2'],
-      explanation: 'The characteristic d4-e3-f4 pawn chain controls e5 and prepares kingside attack',
+      explanation:
+        'The characteristic d4-e3-f4 pawn chain controls e5 and prepares kingside attack',
     },
   ],
   concepts: [
@@ -118,11 +116,7 @@ export const LONDON_MAIN: OpeningLine = {
       explanation: 'Developing the bishop early to avoid being locked in by e3',
     },
   ],
-  concepts: [
-    'Bishop outside the pawn chain',
-    'Solid central control',
-    'Flexible piece placement',
-  ],
+  concepts: ['Bishop outside the pawn chain', 'Solid central control', 'Flexible piece placement'],
 };
 
 /**
@@ -142,11 +136,7 @@ export const TORRE_MAIN: OpeningLine = {
       explanation: 'The bishop on g5 pins the knight and controls key central squares',
     },
   ],
-  concepts: [
-    'Early Bg5 pin',
-    'Central control',
-    'Flexible pawn structure',
-  ],
+  concepts: ['Early Bg5 pin', 'Central control', 'Flexible pawn structure'],
 };
 
 /**
@@ -210,7 +200,7 @@ export const COLLE_VS_SLAV: OpeningLine = {
 export const STONEWALL_VS_KID: OpeningLine = {
   id: 'stonewall-kid-1',
   system: 'stonewall-attack',
-  name: 'Stonewall vs King\'s Indian',
+  name: "Stonewall vs King's Indian",
   moves: ['d4', 'e3', 'Bd3', 'f4', 'Nf3', 'O-O', 'c3'],
   targetFen: 'rnbqk2r/ppp1ppbp/5np1/3p4/3P1P2/2PBPN2/PP4PP/RNBQ1RK1 b kq - 0 1',
   variations: [
@@ -230,7 +220,7 @@ export const STONEWALL_VS_KID: OpeningLine = {
 export const LONDON_VS_KID: OpeningLine = {
   id: 'london-kid-1',
   system: 'london-system',
-  name: 'London vs King\'s Indian',
+  name: "London vs King's Indian",
   moves: ['d4', 'Nf3', 'Bf4', 'e3', 'h3', 'Nbd2', 'Bd3'],
   targetFen: 'rnbqk2r/ppp1ppbp/5np1/3p4/3P1B2/3BPN1P/PPP2PP1/RN1QK2R b KQkq - 0 1',
   variations: [
@@ -267,7 +257,7 @@ export const LONDON_ACCELERATED: OpeningLine = {
 export const TORRE_VS_KID: OpeningLine = {
   id: 'torre-kid-1',
   system: 'torre-attack',
-  name: 'Torre vs King\'s Indian',
+  name: "Torre vs King's Indian",
   moves: ['d4', 'Nf3', 'Bg5', 'Nbd2', 'e3', 'c3', 'Bd3'],
   targetFen: 'rnbqk2r/ppp1ppbp/5np1/3p2B1/3P4/2PBPN2/PP1N1PPP/R2QK2R b KQkq - 0 1',
   variations: [

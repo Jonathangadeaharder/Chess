@@ -17,10 +17,7 @@ export interface CriticalPosition {
 /**
  * Identifies critical positions in a game that warrant coach intervention
  */
-export function identifyCriticalPositions(
-  moves: string[],
-  startFen?: string
-): CriticalPosition[] {
+export function identifyCriticalPositions(moves: string[], startFen?: string): CriticalPosition[] {
   const chess = new Chess(startFen);
   const criticalPositions: CriticalPosition[] = [];
 
@@ -57,7 +54,12 @@ export function identifyCriticalPositions(
           moveIndex: i,
           type: 'missed-tactic',
           severity: 'medium',
-          coachPrompt: generateMissedTacticPrompt(beforeFen, movePlayed, bestMoveInfo?.san || '', i),
+          coachPrompt: generateMissedTacticPrompt(
+            beforeFen,
+            movePlayed,
+            bestMoveInfo?.san || '',
+            i
+          ),
         });
       }
     }
@@ -283,16 +285,20 @@ function detectPinOrSkewer(chess: Chess): boolean {
 
       if (piece.type === 'r' || piece.type === 'q') {
         // Check rank and file
-        if (hasAlignedEnemyPieces(board, rank, file, 'horizontal') ||
-            hasAlignedEnemyPieces(board, rank, file, 'vertical')) {
+        if (
+          hasAlignedEnemyPieces(board, rank, file, 'horizontal') ||
+          hasAlignedEnemyPieces(board, rank, file, 'vertical')
+        ) {
           return true;
         }
       }
 
       if (piece.type === 'b' || piece.type === 'q') {
         // Check diagonals
-        if (hasAlignedEnemyPieces(board, rank, file, 'diagonal-up') ||
-            hasAlignedEnemyPieces(board, rank, file, 'diagonal-down')) {
+        if (
+          hasAlignedEnemyPieces(board, rank, file, 'diagonal-up') ||
+          hasAlignedEnemyPieces(board, rank, file, 'diagonal-down')
+        ) {
           return true;
         }
       }
@@ -383,10 +389,22 @@ function hasAlignedEnemyPieces(
 
   let enemyCount = 0;
   const deltas = {
-    'horizontal': [[0, 1], [0, -1]],
-    'vertical': [[1, 0], [-1, 0]],
-    'diagonal-up': [[1, 1], [-1, -1]],
-    'diagonal-down': [[1, -1], [-1, 1]]
+    horizontal: [
+      [0, 1],
+      [0, -1],
+    ],
+    vertical: [
+      [1, 0],
+      [-1, 0],
+    ],
+    'diagonal-up': [
+      [1, 1],
+      [-1, -1],
+    ],
+    'diagonal-down': [
+      [1, -1],
+      [-1, 1],
+    ],
   };
 
   for (const [dr, df] of deltas[direction]) {
@@ -432,7 +450,11 @@ function canDeliverCheckmate(fen: string): boolean {
 /**
  * Generates visual highlights for blunders
  */
-function generateBlunderHighlights(fen: string, movePlayed: string, bestMove: string): VisualHighlight[] {
+function generateBlunderHighlights(
+  fen: string,
+  movePlayed: string,
+  bestMove: string
+): VisualHighlight[] {
   const highlights: VisualHighlight[] = [];
 
   try {
@@ -561,9 +583,6 @@ export function getCoachPromptForMove(
 /**
  * Determines if a move index is critical
  */
-export function isCriticalMove(
-  criticalPositions: CriticalPosition[],
-  moveIndex: number
-): boolean {
+export function isCriticalMove(criticalPositions: CriticalPosition[], moveIndex: number): boolean {
   return criticalPositions.some(cp => cp.moveIndex === moveIndex);
 }

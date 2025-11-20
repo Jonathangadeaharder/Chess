@@ -81,9 +81,7 @@ export default function AnalyticsDashboard() {
     const metrics: MetricCard[] = [
       {
         title: 'Session Duration',
-        value: sessionMetrics
-          ? Math.floor(sessionMetrics.duration / 60000)
-          : 0,
+        value: sessionMetrics ? Math.floor(sessionMetrics.duration / 60000) : 0,
         unit: 'min',
         icon: '⏱️',
       },
@@ -206,16 +204,16 @@ export default function AnalyticsDashboard() {
                 performanceStats.issueCount === 0
                   ? styles.healthGood
                   : performanceStats.issueCount < 10
-                  ? styles.healthWarning
-                  : styles.healthBad,
+                    ? styles.healthWarning
+                    : styles.healthBad,
               ]}
             >
               <Text style={styles.healthBadgeText}>
                 {performanceStats.issueCount === 0
                   ? '✓ Excellent'
                   : performanceStats.issueCount < 10
-                  ? '⚠ Fair'
-                  : '✗ Needs Attention'}
+                    ? '⚠ Fair'
+                    : '✗ Needs Attention'}
               </Text>
             </View>
           </View>
@@ -254,8 +252,14 @@ export default function AnalyticsDashboard() {
           <Text style={styles.sectionTitle}>Error Statistics</Text>
           <View style={styles.infoCard}>
             <InfoRow label="Total Errors Tracked" value={errorStats.totalErrors} />
-            <InfoRow label="Error Categories" value={Object.keys(errorStats.errorsByCategory).length} />
-            <InfoRow label="Severity Levels" value={Object.keys(errorStats.errorsBySeverity).length} />
+            <InfoRow
+              label="Error Categories"
+              value={Object.keys(errorStats.errorsByCategory).length}
+            />
+            <InfoRow
+              label="Severity Levels"
+              value={Object.keys(errorStats.errorsBySeverity).length}
+            />
           </View>
         </View>
 
@@ -268,16 +272,16 @@ export default function AnalyticsDashboard() {
                 errorStats.totalErrors === 0
                   ? styles.healthGood
                   : errorStats.totalErrors < 5
-                  ? styles.healthWarning
-                  : styles.healthBad,
+                    ? styles.healthWarning
+                    : styles.healthBad,
               ]}
             >
               <Text style={styles.healthBadgeText}>
                 {errorStats.totalErrors === 0
                   ? '✓ No Errors'
                   : errorStats.totalErrors < 5
-                  ? '⚠ Minor Issues'
-                  : '✗ Action Required'}
+                    ? '⚠ Minor Issues'
+                    : '✗ Action Required'}
               </Text>
             </View>
           </View>
@@ -315,9 +319,7 @@ export default function AnalyticsDashboard() {
                     </View>
                   ))}
                 </View>
-                <Text style={styles.experimentMetrics}>
-                  {exp.metrics.length} metrics tracked
-                </Text>
+                <Text style={styles.experimentMetrics}>{exp.metrics.length} metrics tracked</Text>
               </View>
             ))
           )}
@@ -390,10 +392,7 @@ function TabButton({
   onPress: () => void;
 }) {
   return (
-    <TouchableOpacity
-      style={[styles.tab, active && styles.tabActive]}
-      onPress={onPress}
-    >
+    <TouchableOpacity style={[styles.tab, active && styles.tabActive]} onPress={onPress}>
       <Text style={[styles.tabText, active && styles.tabTextActive]}>{title}</Text>
     </TouchableOpacity>
   );
