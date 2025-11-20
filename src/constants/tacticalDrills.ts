@@ -18,6 +18,9 @@
 
 import type { ELORating } from '../types';
 
+// Re-export for convenience
+export type { ELORating };
+
 export type TacticalMotif =
   | 'fork'
   | 'hanging-piece'
@@ -2843,6 +2846,7 @@ export const DRILLS_BY_ELO: Record<ELORating, TacticalDrill[]> = {
   1600: DRILLS_1400, // Reuse 1400 - focus is on speed mastery
   1800: DRILLS_1800,
   2000: DRILLS_2000,
+  2400: DRILLS_2000, // Reuse 2000 - master level
 };
 
 export const ALL_DRILLS: TacticalDrill[] = [
