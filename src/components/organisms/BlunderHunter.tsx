@@ -73,7 +73,7 @@ const BLUNDER_PUZZLES: BlunderPuzzle[] = [
     theme: 'Discovered Attack',
     hint: "Black's bishop just moved. What piece is now undefended?",
     explanation:
-      "Black played ...Bc5, but the knight on c6 was defending e5! Nxe5 wins the pawn, and the knight can't be recaptured without losing the bishop.",
+      "Black played ...Bc5, but the knight on c6 was defending e5! Nxe5 wins the pawn, and the knight can&apos;t be recaptured without losing the bishop.",
   },
   {
     id: 'blunder-5',

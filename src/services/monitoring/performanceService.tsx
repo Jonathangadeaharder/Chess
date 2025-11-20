@@ -106,7 +106,7 @@ export class PerformanceService {
    * Set up performance observer (if available)
    */
   private setupPerformanceObserver(): void {
-    // React Native doesn't have full PerformanceObserver support yet
+    // React Native doesn&apos;t have full PerformanceObserver support yet
     // This is a placeholder for future implementation
     // Can integrate with react-native-performance or similar libraries
   }
@@ -158,7 +158,7 @@ export class PerformanceService {
     setInterval(() => {
       if (!this.isMonitoring) return;
 
-      // Note: React Native doesn't expose detailed memory info
+      // Note: React Native doesn&apos;t expose detailed memory info
       // This would require native modules or libraries like react-native-device-info
       // For now, we'll use a placeholder
 
@@ -484,7 +484,7 @@ export function withPerformanceTracking<P extends object>(
   Component: React.ComponentType<P>,
   componentName: string
 ): React.FC<P> {
-  return (props: P) => {
+  const WrappedComponent: React.FC<P> = (props: P) => {
     React.useEffect(() => {
       const startTime = Date.now();
 
@@ -496,6 +496,8 @@ export function withPerformanceTracking<P extends object>(
 
     return <Component {...props} />;
   };
+  WrappedComponent.displayName = `withPerformanceTracking(${componentName})`;
+  return WrappedComponent;
 }
 
 /**

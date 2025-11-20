@@ -211,7 +211,7 @@ export default function Chessboard({
 
       const piece = piecePositions[square];
 
-      // If no square is selected and there's a piece, select it
+      // If no square is selected and there&apos;s a piece, select it
       if (!selectedSquare && piece) {
         const legalMoves = getLegalMoves(square);
         if (legalMoves.length > 0) {

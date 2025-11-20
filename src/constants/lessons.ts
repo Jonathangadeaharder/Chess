@@ -419,7 +419,7 @@ export const TORRE_LESSONS: Lesson[] = [
       {
         type: 'diagram',
         heading: 'Knight on e5',
-        text: "With the knight securely placed on e5 and the bishop supporting from g3, White has a powerful setup. The knight dominates the center and can't easily be challenged.",
+        text: "With the knight securely placed on e5 and the bishop supporting from g3, White has a powerful setup. The knight dominates the center and can&apos;t easily be challenged.",
         fen: 'rnbqk2r/ppp1ppbp/5np1/3pN1B1/3P4/4P3/PPP2PPP/RN1QKB1R w KQkq - 0 6',
         highlightSquares: ['e5', 'g3', 'd4'],
       },
@@ -452,7 +452,7 @@ export const KIA_INTERMEDIATE_LESSONS: Lesson[] = [
       {
         type: 'text',
         heading: "Black's Central Counter",
-        text: "Strong opponents won't let you execute the kingside attack freely. They'll often strike in the center with ...d5 or ...c5 to challenge your e4 pawn and create counterplay.",
+        text: "Strong opponents won&apos;t let you execute the kingside attack freely. They'll often strike in the center with ...d5 or ...c5 to challenge your e4 pawn and create counterplay.",
       },
       {
         type: 'diagram',
@@ -538,7 +538,7 @@ export const STONEWALL_INTERMEDIATE_LESSONS: Lesson[] = [
       {
         type: 'text',
         heading: 'Creating Weaknesses',
-        text: "After b5, if Black plays ...cxb5, the c6 pawn becomes backward and weak. If Black doesn't take, b5xc6 creates doubled pawns. Either way, White gets long-term pressure on the queenside while maintaining stability in the center.",
+        text: "After b5, if Black plays ...cxb5, the c6 pawn becomes backward and weak. If Black doesn&apos;t take, b5xc6 creates doubled pawns. Either way, White gets long-term pressure on the queenside while maintaining stability in the center.",
       },
     ],
   },
@@ -625,7 +625,7 @@ export const COLLE_INTERMEDIATE_LESSONS: Lesson[] = [
       {
         type: 'text',
         heading: 'Alternative Plans',
-        text: "Against the Slav, White can play Ne5 to challenge the Bf5, or prepare c4 to change the pawn structure. Another plan is g4 to gain space and attack the Bf5. The key is recognizing when your standard plan doesn't work and adapting.",
+        text: "Against the Slav, White can play Ne5 to challenge the Bf5, or prepare c4 to change the pawn structure. Another plan is g4 to gain space and attack the Bf5. The key is recognizing when your standard plan doesn&apos;t work and adapting.",
       },
     ],
   },
@@ -718,7 +718,7 @@ export const TORRE_INTERMEDIATE_LESSONS: Lesson[] = [
       {
         type: 'text',
         heading: 'When to Exchange',
-        text: "Trade Bxf6 when: 1) Black has already committed to ...g6 (weakening the kingside), 2) You can quickly occupy the weakened squares with Ne5, or 3) Black cannot easily redeploy pieces to cover the weaknesses. Don't trade if Black gets active piece play that compensates for the structural damage.",
+        text: "Trade Bxf6 when: 1) Black has already committed to ...g6 (weakening the kingside), 2) You can quickly occupy the weakened squares with Ne5, or 3) Black cannot easily redeploy pieces to cover the weaknesses. Don&apos;t trade if Black gets active piece play that compensates for the structural damage.",
       },
     ],
   },
@@ -733,7 +733,7 @@ export const TORRE_INTERMEDIATE_LESSONS: Lesson[] = [
       {
         type: 'text',
         heading: 'Against the Fianchetto',
-        text: "When Black plays ...g6 and ...Bg7 (King's Indian setup), the standard Bg5 pin doesn't apply. White must adapt the Torre with different piece placement.",
+        text: "When Black plays ...g6 and ...Bg7 (King's Indian setup), the standard Bg5 pin doesn&apos;t apply. White must adapt the Torre with different piece placement.",
       },
       {
         type: 'diagram',
@@ -903,7 +903,7 @@ export const COLLE_ADVANCED_LESSONS: Lesson[] = [
       {
         type: 'text',
         heading: 'Sacrificial Themes',
-        text: "Advanced players know when to sacrifice: Bxh7+ when the king can't escape, Nxe5 when it opens the d3 bishop's diagonal, or even Qxe6+! to destroy Black's king safety. These aren't wild gambles but calculated decisions based on piece coordination.",
+        text: "Advanced players know when to sacrifice: Bxh7+ when the king can&apos;t escape, Nxe5 when it opens the d3 bishop's diagonal, or even Qxe6+! to destroy Black's king safety. These aren't wild gambles but calculated decisions based on piece coordination.",
       },
     ],
   },

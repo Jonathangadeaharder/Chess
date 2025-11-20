@@ -3,7 +3,7 @@
  * Animated modal that appears when an achievement is unlocked
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { View, Text, StyleSheet, Modal, Animated, Dimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
@@ -37,6 +37,23 @@ export default function AchievementCelebration({
       opacity: new Animated.Value(1),
     }))
   );
+
+  const handleDismiss = useCallback(() => {
+    Animated.parallel([
+      Animated.timing(fadeAnim, {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: true,
+      }),
+      Animated.timing(scaleAnim, {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: true,
+      }),
+    ]).start(() => {
+      onDismiss();
+    });
+  }, [fadeAnim, scaleAnim, onDismiss]);
 
   useEffect(() => {
     if (visible && achievement) {
@@ -112,24 +129,7 @@ export default function AchievementCelebration({
         anim.opacity.setValue(1);
       });
     }
-  }, [visible, achievement]);
-
-  const handleDismiss = () => {
-    Animated.parallel([
-      Animated.timing(fadeAnim, {
-        toValue: 0,
-        duration: 200,
-        useNativeDriver: true,
-      }),
-      Animated.timing(scaleAnim, {
-        toValue: 0,
-        duration: 200,
-        useNativeDriver: true,
-      }),
-    ]).start(() => {
-      onDismiss();
-    });
-  };
+  }, [visible, achievement, handleDismiss, fadeAnim, scaleAnim, slideAnim, confettiAnims]);
 
   if (!achievement) return null;
 

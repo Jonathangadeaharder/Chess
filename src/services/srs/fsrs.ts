@@ -101,7 +101,7 @@ function calculateNewStability(
 
   if (rating === 1) {
     // Again: Item was forgotten
-    // Stability decreases but doesn't drop below minimum
+    // Stability decreases but doesn&apos;t drop below minimum
     newStability =
       w[11] * Math.pow(difficulty, -w[12]) * (Math.pow(currentStability + 1, w[13]) - 1);
   } else {

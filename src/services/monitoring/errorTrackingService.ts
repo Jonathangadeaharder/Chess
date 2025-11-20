@@ -97,7 +97,7 @@ export class ErrorTrackingService {
     // Handle unhandled promise rejections
     const originalPromiseRejection = global.Promise.prototype.catch;
 
-    // @ts-ignore
+    // @ts-expect-error - Overriding Promise.prototype for error tracking
     global.Promise.prototype.catch = function (onRejected) {
       return originalPromiseRejection.call(this, (error: any) => {
         errorTrackingService.captureError(error, {
@@ -372,7 +372,7 @@ export class ErrorTrackingService {
         message: report.message,
       });
     } catch (error) {
-      // Don't throw errors while reporting errors
+      // Don&apos;t throw errors while reporting errors
       console.error('[ErrorTracking] Failed to send error report:', error);
     }
   }

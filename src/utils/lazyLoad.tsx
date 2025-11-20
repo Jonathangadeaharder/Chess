@@ -48,11 +48,13 @@ export function lazyLoadScreen<T extends ComponentType<any>>(
 ): ComponentType<any> {
   const LazyScreen = lazy(importFunc);
 
-  return (props: any) => (
+  const LazyScreenWrapper: React.FC<any> = (props: any) => (
     <Suspense fallback={fallback || <DefaultLoadingFallback />}>
       <LazyScreen {...props} />
     </Suspense>
   );
+  LazyScreenWrapper.displayName = `LazyScreen(${screenName})`;
+  return LazyScreenWrapper;
 }
 
 /**
@@ -62,9 +64,9 @@ export function preloadComponent<T extends ComponentType<any>>(
   lazyComponent: LazyExoticComponent<T>
 ): void {
   // Access the _result property to trigger loading
-  // @ts-ignore - Accessing internal React property
+  // @ts-expect-error - Accessing internal React property
   if (lazyComponent._payload && lazyComponent._payload._status === -1) {
-    // @ts-ignore
+    // @ts-expect-error - Calling internal React method to preload component
     lazyComponent._payload._result();
   }
 }
@@ -78,11 +80,13 @@ export function withLazyLoading<P extends object>(
 ): ComponentType<P> {
   const LazyComponent = lazy(importFunc);
 
-  return (props: P) => (
+  const LazyWrapper: React.FC<P> = (props: P) => (
     <Suspense fallback={fallback || <DefaultLoadingFallback />}>
       <LazyComponent {...props} />
     </Suspense>
   );
+  LazyWrapper.displayName = 'LazyWrapper';
+  return LazyWrapper;
 }
 
 /**

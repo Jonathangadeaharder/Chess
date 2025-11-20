@@ -5,7 +5,7 @@
  * Progression Model:
  * - Start at ELO 800 (unlocked by default)
  * - Must achieve 80% accuracy + 70% fast solves to unlock next tier
- * - Tier unlock is permanent (can't be lost)
+ * - Tier unlock is permanent (can&apos;t be lost)
  * - Historical stats tracked per tier
  */
 

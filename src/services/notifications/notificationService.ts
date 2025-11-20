@@ -81,7 +81,7 @@ export async function scheduleNextReviewReminder(
     // Cancel existing SRS reminders
     await cancelNotificationsByTag('srs-review');
 
-    // Don't schedule if the review is in the past
+    // Don&apos;t schedule if the review is in the past
     if (nextReviewDate <= new Date()) {
       console.log('[NotificationService] Review already due, skipping notification');
       return;
@@ -123,7 +123,7 @@ export async function scheduleStreakReminder(currentStreak: number): Promise<voi
     // Schedule daily reminder at 8 PM
     await Notifications.scheduleNotificationAsync({
       content: {
-        title: "Don't break your streak! 🔥",
+        title: "Don&apos;t break your streak! 🔥",
         body: `Keep your ${currentStreak}-day streak alive! Practice today.`,
         sound: true,
         priority: Notifications.AndroidNotificationPriority.DEFAULT,

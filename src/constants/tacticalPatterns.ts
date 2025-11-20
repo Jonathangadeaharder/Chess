@@ -146,7 +146,7 @@ export const EASY_PUZZLES: TacticalPuzzle[] = [
     difficulty: 'easy',
     hint: 'The f7 pawn is pinned to the king.',
     explanation:
-      "Bxf7+! wins the pawn because it's pinned. After Kxf7, White has won material and damaged Black's king safety.",
+      "Bxf7+! wins the pawn because it&apos;s pinned. After Kxf7, White has won material and damaged Black's king safety.",
     timeLimit: 10,
   },
   {
@@ -496,7 +496,7 @@ export const HARD_PUZZLES: TacticalPuzzle[] = [
     solution: 'Nxd5',
     pattern: 'zwischenzug',
     difficulty: 'hard',
-    hint: "Before recapturing on e4, there's an in-between move that wins material.",
+    hint: "Before recapturing on e4, there&apos;s an in-between move that wins material.",
     explanation:
       'Nxd5! is a zwischenzug (in-between move). Before dealing with the threat on e2, White creates a bigger threat on c7, winning material.',
     timeLimit: 20,

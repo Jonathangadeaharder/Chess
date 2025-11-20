@@ -356,7 +356,7 @@ export async function recordBackupTime(): Promise<void> {
 
 /**
  * Check if backup is recommended
- * Returns true if it's been more than 7 days since last backup
+ * Returns true if it&apos;s been more than 7 days since last backup
  */
 export async function isBackupRecommended(): Promise<boolean> {
   const lastBackup = await getLastBackupTime();

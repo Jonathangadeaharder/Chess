@@ -111,7 +111,7 @@ export default function BishopsPrison({ onComplete, onExit }: BishopsPrisonProps
     const lossPrompt: CoachPrompt = {
       id: 'bishops-prison-loss',
       type: 'hint',
-      text: "Your king got checkmated! Remember: In this endgame, your advantage is mobility. Keep your king active and infiltrate where their bad bishop can't reach.",
+      text: "Your king got checkmated! Remember: In this endgame, your advantage is mobility. Keep your king active and infiltrate where their bad bishop can&apos;t reach.",
     };
 
     setCoachPrompt(lossPrompt);
@@ -130,7 +130,7 @@ export default function BishopsPrison({ onComplete, onExit }: BishopsPrisonProps
     const drawPrompt: CoachPrompt = {
       id: 'bishops-prison-draw',
       type: 'hint',
-      text: "It's a draw. In this position, you had a winning advantage. Try to be more aggressive with your king - it's your strongest piece in this endgame!",
+      text: "It's a draw. In this position, you had a winning advantage. Try to be more aggressive with your king - it&apos;s your strongest piece in this endgame!",
     };
 
     setCoachPrompt(drawPrompt);
@@ -181,7 +181,7 @@ export default function BishopsPrison({ onComplete, onExit }: BishopsPrisonProps
     const hintPrompt: CoachPrompt = {
       id: 'bishops-prison-hint',
       type: 'hint',
-      text: "Look at Black's bishop. See how it's trapped behind its own pawns? Your king can invade on the dark squares where their bishop can't reach. Try advancing your king!",
+      text: "Look at Black's bishop. See how it&apos;s trapped behind its own pawns? Your king can invade on the dark squares where their bishop can&apos;t reach. Try advancing your king!",
       visualHighlights: [
         {
           type: 'circle',

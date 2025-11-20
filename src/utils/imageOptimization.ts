@@ -173,7 +173,7 @@ export function getResponsiveImageSource(
   // Sort sources by width
   const sorted = [...sources].sort((a, b) => a.width - b.width);
 
-  // Find the smallest image that's larger than the screen width
+  // Find the smallest image that&apos;s larger than the screen width
   const match = sorted.find(source => source.width >= screenWidth);
 
   // If no match, use the largest available

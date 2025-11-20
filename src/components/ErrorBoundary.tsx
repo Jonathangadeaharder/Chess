@@ -88,7 +88,8 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
             <Text style={styles.emoji}>😕</Text>
             <Text style={styles.title}>Oops! Something went wrong</Text>
             <Text style={styles.message}>
-              We've encountered an unexpected error. Don't worry, your progress has been saved.
+              We&apos;ve encountered an unexpected error. Don&apos;t worry, your progress has been
+              saved.
             </Text>
 
             {__DEV__ && error && (
@@ -124,11 +125,13 @@ export function withErrorBoundary<P extends object>(
   Component: React.ComponentType<P>,
   fallback?: ErrorBoundaryProps['fallback']
 ): React.FC<P> {
-  return (props: P) => (
+  const WrappedComponent: React.FC<P> = (props: P) => (
     <ErrorBoundary fallback={fallback}>
       <Component {...props} />
     </ErrorBoundary>
   );
+  WrappedComponent.displayName = `withErrorBoundary(${Component.displayName || Component.name || 'Component'})`;
+  return WrappedComponent;
 }
 
 const styles = StyleSheet.create({

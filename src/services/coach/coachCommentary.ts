@@ -214,7 +214,7 @@ function generateCheckmatePrompt(
 }
 
 /**
- * Detects if there's a tactical opportunity in the position
+ * Detects if there&apos;s a tactical opportunity in the position
  */
 function detectTacticalOpportunity(fen: string): boolean {
   const chess = new Chess(fen);

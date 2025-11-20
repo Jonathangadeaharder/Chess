@@ -20,6 +20,7 @@ module.exports = [
       'eslint.config.js',
       '.prettierrc.js',
       '**/*.config.js',
+      'scripts/**',
     ],
   },
   {

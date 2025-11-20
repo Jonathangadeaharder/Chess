@@ -151,7 +151,7 @@ const PLAYSTYLE_DESCRIPTIONS: Record<
   balanced: {
     name: 'The Balanced Player',
     description:
-      "You're a well-rounded player who adapts to any position. You can play any style depending on what the position demands.",
+      "You&apos;re a well-rounded player who adapts to any position. You can play any style depending on what the position demands.",
     icon: '⚖️',
     recommendedSystem: 'stonewall-attack',
     strengths: ['Versatility', 'Adaptability', 'All-around skills'],

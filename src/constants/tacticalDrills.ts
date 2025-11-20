@@ -401,7 +401,7 @@ export const DRILLS_800: TacticalDrill[] = [
     eloRating: 800,
     timeLimit: 8,
     hint: 'The e4 pawn is hanging.',
-    explanation: "Nxe4 wins the undefended pawn. Always check what's hanging!",
+    explanation: "Nxe4 wins the undefended pawn. Always check what&apos;s hanging!",
     frequency: 'very-high',
   },
   {
@@ -858,7 +858,7 @@ export const DRILLS_1200: TacticalDrill[] = [
     eloRating: 1200,
     timeLimit: 6,
     hint: 'The knight on d4 is pinned to the king.',
-    explanation: "Nxe5 is safe because the d4 knight is absolutely pinned and can't recapture!",
+    explanation: "Nxe5 is safe because the d4 knight is absolutely pinned and can&apos;t recapture!",
     frequency: 'very-high',
   },
 
@@ -1787,7 +1787,7 @@ export const DRILLS_1800: TacticalDrill[] = [
     eloRating: 1800,
     timeLimit: 4,
     hint: 'Lure the king to a vulnerable square.',
-    explanation: "Qh5 threatens Qxh7#, forcing the king to h8 where it's vulnerable.",
+    explanation: "Qh5 threatens Qxh7#, forcing the king to h8 where it&apos;s vulnerable.",
     frequency: 'low',
   },
 

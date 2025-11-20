@@ -88,7 +88,7 @@ const TRANSPOSITION_PUZZLES: TranspositionPuzzle[] = [
       {
         move: 'e2e3',
         san: 'e3',
-        description: "Playing e3 before Bf4 blocks the bishop - that's the Colle, not London!",
+        description: "Playing e3 before Bf4 blocks the bishop - that&apos;s the Colle, not London!",
         isCorrect: false,
       },
     ],
@@ -377,7 +377,7 @@ export default function TranspositionMaze({ onComplete, onExit }: TranspositionM
           <View style={[styles.resultCard, styles.resultCardError]}>
             <Ionicons name="close-circle" size={48} color={Colors.error} />
             <Text style={[styles.resultTitle, styles.resultTitleError]}>Wrong Path</Text>
-            <Text style={styles.resultText}>That move doesn't lead to the target. Try again!</Text>
+            <Text style={styles.resultText}>That move doesn&apos;t lead to the target. Try again!</Text>
           </View>
         )}
 
