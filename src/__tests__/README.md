@@ -74,7 +74,7 @@ npm run test:unit
 
 ## Test Structure
 
-```
+```text
 src/__tests__/
 ├── setup/
 │   ├── jest.setup.ts          # Global mocks and setup

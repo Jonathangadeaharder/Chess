@@ -25,7 +25,7 @@ This application implements the complete blueprint for a modern chess learning p
 
 ### Folder Structure (Atomic Design)
 
-```
+```text
 src/
 ├── components/
 │   ├── atoms/          # Basic UI elements (buttons, text, icons)

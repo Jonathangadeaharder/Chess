@@ -198,7 +198,7 @@ Apply steeper initial forgetting curve for procedural items, gentler curve for c
 
 **Executed:** `scripts/verify-content.js`
 
-```
+```text
 ✅ TEST 1: Puzzle Library - PASSED
   Easy: 15/15 | Medium: 21/21 | Hard: 15/15 | Total: 51/51
 

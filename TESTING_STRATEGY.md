@@ -32,7 +32,7 @@ This document outlines the comprehensive testing strategy for the Grandmaster Pa
 
 ## Test Pyramid
 
-```
+```text
         /\
        /E2E\         10% - Full user flows (future)
       /------\
@@ -131,7 +131,7 @@ This document outlines the comprehensive testing strategy for the Grandmaster Pa
 
 ### File Structure
 
-```
+```text
 src/
 ├── components/
 │   └── organisms/

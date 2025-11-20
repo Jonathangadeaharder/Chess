@@ -16,12 +16,16 @@ export type SoundType =
   | 'checkmate' // Checkmate
   | 'draw' // Draw/stalemate
   | 'success' // Puzzle/drill success
+  | 'correct' // Correct move (alias for success)
   | 'error' // Incorrect move/blunder
+  | 'incorrect' // Incorrect move (alias for error)
   | 'click' // UI button click
+  | 'select' // Piece selection
   | 'whoosh' // Menu navigation
   | 'streak' // Streak achievement
   | 'levelUp' // Level up
   | 'unlock' // Achievement unlock
+  | 'achievement-unlock' // Achievement unlock (alias)
   | 'notification'; // General notification
 
 // Sound cache
@@ -40,12 +44,16 @@ const SOUND_FREQUENCIES: Record<
   checkmate: { frequency: 660, duration: 400, volume: 0.6 },
   draw: { frequency: 392, duration: 300, volume: 0.4 },
   success: { frequency: 784, duration: 150, volume: 0.5 },
+  correct: { frequency: 784, duration: 150, volume: 0.5 }, // Alias for success
   error: { frequency: 220, duration: 200, volume: 0.4 },
+  incorrect: { frequency: 220, duration: 200, volume: 0.4 }, // Alias for error
   click: { frequency: 800, duration: 50, volume: 0.2 },
+  select: { frequency: 600, duration: 80, volume: 0.25 }, // Piece selection
   whoosh: { frequency: 600, duration: 100, volume: 0.3 },
   streak: { frequency: 1046, duration: 250, volume: 0.5 },
   levelUp: { frequency: 1318, duration: 300, volume: 0.6 },
   unlock: { frequency: 987, duration: 350, volume: 0.55 },
+  'achievement-unlock': { frequency: 987, duration: 350, volume: 0.55 }, // Alias for unlock
   notification: { frequency: 523, duration: 150, volume: 0.4 },
 };
 
