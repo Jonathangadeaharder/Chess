@@ -7,10 +7,14 @@
 global.TextEncoder = global.TextEncoder || require('util').TextEncoder;
 global.TextDecoder = global.TextDecoder || require('util').TextDecoder;
 
-// Mock expo modules
-jest.mock('expo', () => ({
-  ...jest.requireActual('expo'),
-}));
+// Mock Expo's import.meta registry (causes issues with Jest)
+global.__ExpoImportMetaRegistry = {
+  get: jest.fn(() => ({})),
+};
+
+// Mock expo modules that use import.meta
+jest.mock('expo/src/winter/runtime.native.ts', () => ({}), { virtual: true });
+jest.mock('expo/src/winter/installGlobal.ts', () => ({}), { virtual: true });
 
 // Mock expo-haptics
 jest.mock('expo-haptics', () => ({
