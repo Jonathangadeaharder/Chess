@@ -388,7 +388,7 @@ export interface UIState {
 /**
  * Tactical Training types
  */
-export type ELORating = 800 | 1200 | 1600 | 2000 | 2400;
+export type ELORating = 800 | 1000 | 1200 | 1400 | 1600 | 1800 | 2000 | 2400;
 
 export interface DrillStats {
   totalAttempts: number;

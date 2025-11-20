@@ -16,7 +16,7 @@
  * - Master (2000+): 3 seconds
  */
 
-export type ELORating = 800 | 1000 | 1200 | 1400 | 1600 | 1800 | 2000;
+import type { ELORating } from '../types';
 
 export type TacticalMotif =
   | 'fork'
