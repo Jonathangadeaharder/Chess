@@ -204,12 +204,9 @@ export default function TranspositionMaze({ onComplete, onExit }: TranspositionM
       setShowFailed(true);
 
       const failPrompt: CoachPrompt = {
+        id: 'transposition-fail',
         type: 'explanation',
         text: `That's not the right path. ${node.description}`,
-        followUp: {
-          type: 'hint',
-          text: currentPuzzle.hint,
-        },
       };
       setCoachPrompt(failPrompt);
 
@@ -233,6 +230,7 @@ export default function TranspositionMaze({ onComplete, onExit }: TranspositionM
       setShowSuccess(true);
 
       const successPrompt: CoachPrompt = {
+        id: 'transposition-success',
         type: 'encouragement',
         text: `Excellent! You found a transposition path to the ${currentPuzzle.targetDescription}!`,
       };
@@ -391,6 +389,7 @@ export default function TranspositionMaze({ onComplete, onExit }: TranspositionM
             style={styles.hintButton}
             onPress={() => {
               const hintPrompt: CoachPrompt = {
+                id: 'transposition-hint',
                 type: 'hint',
                 text: currentPuzzle.hint,
               };
