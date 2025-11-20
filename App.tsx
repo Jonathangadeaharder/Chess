@@ -16,6 +16,9 @@ import MainTabNavigator from './src/navigation/MainTabNavigator';
 import { useUserStore } from './src/state/userStore';
 import { useUIStore } from './src/state/uiStore';
 
+// Import theme
+import { Colors } from './src/constants/theme';
+
 // Import services
 import { initializeErrorHandling } from './src/services/errorHandler';
 import { performanceService } from './src/services/monitoring/performanceService';
@@ -142,11 +145,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#1a1a1a',
+    backgroundColor: Colors.backgroundDark,
   },
   loadingText: {
     marginTop: 16,
     fontSize: 16,
-    color: '#999999',
+    color: Colors.textGray,
   },
 });

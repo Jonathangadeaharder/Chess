@@ -6,8 +6,9 @@
  */
 
 import React, { Component, ReactNode } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Platform } from 'react-native';
 import { errorTrackingService } from '../services/monitoring/errorTrackingService';
+import { Colors } from '../constants/theme';
 
 interface ErrorBoundaryProps {
   children: ReactNode;
@@ -137,7 +138,7 @@ export function withErrorBoundary<P extends object>(
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1a1a1a',
+    backgroundColor: Colors.backgroundDark,
   },
   scrollView: {
     flex: 1,
@@ -155,33 +156,33 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#ffffff',
+    color: Colors.white,
     marginBottom: 12,
     textAlign: 'center',
   },
   message: {
     fontSize: 16,
-    color: '#b3b3b3',
+    color: Colors.textGrayLight,
     textAlign: 'center',
     marginBottom: 32,
     lineHeight: 24,
     paddingHorizontal: 20,
   },
   button: {
-    backgroundColor: '#4a9eff',
+    backgroundColor: Colors.accent,
     paddingHorizontal: 32,
     paddingVertical: 14,
     borderRadius: 8,
     marginTop: 20,
   },
   buttonText: {
-    color: '#ffffff',
+    color: Colors.white,
     fontSize: 16,
     fontWeight: '600',
   },
   errorDetails: {
     width: '100%',
-    backgroundColor: '#2a2a2a',
+    backgroundColor: Colors.backgroundDarkSecondary,
     borderRadius: 8,
     padding: 16,
     marginTop: 20,
@@ -190,19 +191,19 @@ const styles = StyleSheet.create({
   errorTitle: {
     fontSize: 14,
     fontWeight: 'bold',
-    color: '#ff6b6b',
+    color: Colors.accentRed,
     marginTop: 12,
     marginBottom: 8,
   },
   errorMessage: {
     fontSize: 12,
-    color: '#ff6b6b',
+    color: Colors.accentRed,
     fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace',
     marginBottom: 8,
   },
   errorStack: {
     fontSize: 10,
-    color: '#999999',
+    color: Colors.textGray,
     fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace',
     lineHeight: 14,
   },

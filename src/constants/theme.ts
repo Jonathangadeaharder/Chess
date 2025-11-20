@@ -10,10 +10,15 @@ export const Colors = {
   primaryLight: '#D17875',
   primaryDark: '#8A3D3B',
 
-  // Background colors
+  // Background colors (Light Mode)
   background: '#FFFFFF',
   backgroundSecondary: '#F8F9FA',
   backgroundTertiary: '#E9ECEF',
+
+  // Background colors (Dark Mode)
+  backgroundDark: '#1a1a1a',
+  backgroundDarkSecondary: '#2a2a2a',
+  backgroundDarkTertiary: '#3a3a3a',
 
   // Chess board colors
   boardLight: '#F0D9B5',
@@ -21,23 +26,48 @@ export const Colors = {
 
   // Semantic colors
   success: '#4CAF50',
+  successLight: '#4caf5020', // 20% opacity
   error: '#F44336',
+  errorLight: '#f4433620', // 20% opacity
   warning: '#FF9800',
+  warningLight: '#ff990020', // 20% opacity
   info: '#2196F3',
+
+  // Accent colors
+  accent: '#4a9eff',
+  accentRed: '#ff6b6b',
 
   // Text colors
   text: '#212529',
   textSecondary: '#6C757D',
   textLight: '#ADB5BD',
   textInverse: '#FFFFFF',
+  textGray: '#999999',
+  textGrayLight: '#b3b3b3',
 
   // UI elements
   border: '#DEE2E6',
   disabled: '#CED4DA',
   overlay: 'rgba(0, 0, 0, 0.5)',
+  overlayDark: 'rgba(0, 0, 0, 0.7)',
+  overlayDarker: 'rgba(0, 0, 0, 0.8)',
+  overlayLight: 'rgba(0, 0, 0, 0.1)',
+  overlaySubtle: 'rgba(0, 0, 0, 0.2)',
+  overlayMedium: 'rgba(0, 0, 0, 0.3)',
+
+  // White overlays for dark backgrounds
+  whiteOverlay: 'rgba(255, 255, 255, 0.1)',
+  whiteOverlayMedium: 'rgba(255, 255, 255, 0.2)',
+  whiteOverlayStrong: 'rgba(255, 255, 255, 0.3)',
+
+  // Special colors
+  transparent: 'transparent' as const,
+  black: '#000',
+  white: '#ffffff',
 
   // Gamification colors
   streak: '#FF6B35', // Flame color
+  streakAlt: '#FFA500', // Orange
   milestone: '#FFD700', // Gold for achievements
   xp: '#9C27B0', // Purple for XP
 };
