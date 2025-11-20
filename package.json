@@ -16,7 +16,9 @@
     "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "lint:md": "markdownlint \"**/*.md\" --ignore node_modules",
     "lint:md:fix": "markdownlint \"**/*.md\" --ignore node_modules --fix",
-    "lint:all": "npm run lint && npm run lint:md && npm run type-check",
+    "lint:styles": "stylelint \"**/*.{ts,tsx}\"",
+    "lint:styles:fix": "stylelint \"**/*.{ts,tsx}\" --fix",
+    "lint:all": "npm run lint && npm run lint:md && npm run lint:styles && npm run type-check",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
     "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,md}\"",
     "type-check": "tsc --noEmit"
@@ -67,6 +69,8 @@
     "prettier": "^3.6.2",
     "react-native-worklets": "^0.6.1",
     "react-test-renderer": "^19.1.0",
+    "stylelint": "^16.25.0",
+    "stylelint-react-native": "^2.7.0",
     "typescript": "~5.9.2"
   },
   "private": true

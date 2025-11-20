@@ -1,0 +1,14 @@
+{
+  "plugins": ["stylelint-react-native"],
+  "rules": {
+    "react-native/font-weight-no-ignored-values": true,
+    "react-native/style-property-no-unknown": true
+  },
+  "ignoreFiles": [
+    "node_modules/**",
+    ".expo/**",
+    "dist/**",
+    "build/**",
+    "coverage/**"
+  ]
+}
