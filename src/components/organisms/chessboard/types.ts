@@ -3,7 +3,11 @@
  * All TypeScript interfaces and types for the chessboard component
  */
 
-import type { Square } from '../../../types';
+import type { Square as SquareType } from '../../../types';
+
+// Re-export Square for convenience
+export type Square = SquareType;
+export type PieceType = 'pawn' | 'knight' | 'bishop' | 'rook' | 'queen' | 'king';
 
 // ============================================================================
 // HIGHLIGHT TYPES

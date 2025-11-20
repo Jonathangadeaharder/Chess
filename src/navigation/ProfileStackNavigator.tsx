@@ -18,9 +18,10 @@ import ProfileScreen from '../screens/Profile/ProfileScreen';
 import {
   SettingsScreen,
   LeaderboardScreen,
-  StatisticsScreen,
-  AchievementsScreen,
-  ProgressScreen,
+  // TODO: Uncomment when screens are implemented
+  // StatisticsScreen,
+  // AchievementsScreen,
+  // ProgressScreen,
 } from '../navigation/LazyRoutes';
 
 const Stack = createNativeStackNavigator<ProfileStackParamList>();
@@ -70,6 +71,7 @@ export default function ProfileStackNavigator() {
           title: 'Leaderboards',
         }}
       />
+      {/* TODO: Uncomment when screens are implemented
       <Stack.Screen
         name="Statistics"
         component={StatisticsScreen}
@@ -91,6 +93,7 @@ export default function ProfileStackNavigator() {
           title: 'Progress',
         }}
       />
+      */}
     </Stack.Navigator>
   );
 }
