@@ -10,46 +10,28 @@ import { lazyLoadScreen } from '../utils/lazyLoad';
 /**
  * Home & Main Screens (keep these loaded for faster initial render)
  */
-// Home screen is not lazy loaded for instant display
-export { default as HomeScreen } from '../screens/Home/HomeScreen';
+// Train screen serves as home - not lazy loaded for instant display
+export { default as HomeScreen } from '../screens/Train/TrainScreen';
 
 /**
- * Game Screens (lazy loaded)
+ * Play Screens (lazy loaded)
  */
-export const PlayScreen = lazyLoadScreen(() => import('../screens/Game/PlayScreen'), 'PlayScreen');
+export const PlayScreen = lazyLoadScreen(() => import('../screens/Play/PlayScreen'), 'PlayScreen');
 
 export const GameAnalysisScreen = lazyLoadScreen(
-  () => import('../screens/Game/GameAnalysisScreen'),
+  () => import('../screens/Play/GameAnalysisScreen'),
   'GameAnalysisScreen'
 );
 
-export const PuzzleScreen = lazyLoadScreen(
-  () => import('../screens/Learning/PuzzleScreen'),
-  'PuzzleScreen'
-);
+/**
+ * Learn Screens (lazy loaded)
+ */
+export const LearnScreen = lazyLoadScreen(() => import('../screens/Learn/LearnScreen'), 'LearnScreen');
 
 /**
- * Learning Screens (lazy loaded)
+ * Train Screens (lazy loaded)
  */
-export const LearningScreen = lazyLoadScreen(
-  () => import('../screens/Learning/LearningScreen'),
-  'LearningScreen'
-);
-
-export const LessonScreen = lazyLoadScreen(
-  () => import('../screens/Learning/LessonScreen'),
-  'LessonScreen'
-);
-
-export const OpeningLibraryScreen = lazyLoadScreen(
-  () => import('../screens/Learning/OpeningLibraryScreen'),
-  'OpeningLibraryScreen'
-);
-
-export const EndgameDrillsScreen = lazyLoadScreen(
-  () => import('../screens/Learning/EndgameDrillsScreen'),
-  'EndgameDrillsScreen'
-);
+export const TrainScreen = lazyLoadScreen(() => import('../screens/Train/TrainScreen'), 'TrainScreen');
 
 /**
  * Profile & Progress Screens (lazy loaded)
@@ -57,21 +39,6 @@ export const EndgameDrillsScreen = lazyLoadScreen(
 export const ProfileScreen = lazyLoadScreen(
   () => import('../screens/Profile/ProfileScreen'),
   'ProfileScreen'
-);
-
-export const ProgressScreen = lazyLoadScreen(
-  () => import('../screens/Profile/ProgressScreen'),
-  'ProgressScreen'
-);
-
-export const StatisticsScreen = lazyLoadScreen(
-  () => import('../screens/Profile/StatisticsScreen'),
-  'StatisticsScreen'
-);
-
-export const AchievementsScreen = lazyLoadScreen(
-  () => import('../screens/Profile/AchievementsScreen'),
-  'AchievementsScreen'
 );
 
 /**
@@ -91,6 +58,14 @@ export const LeaderboardScreen = lazyLoadScreen(
 );
 
 /**
+ * Analytics Screens (lazy loaded)
+ */
+export const AnalyticsDashboard = lazyLoadScreen(
+  () => import('../screens/Analytics/AnalyticsDashboard'),
+  'AnalyticsDashboard'
+);
+
+/**
  * Onboarding Screens (lazy loaded)
  */
 export const OnboardingFlowScreen = lazyLoadScreen(
@@ -99,13 +74,25 @@ export const OnboardingFlowScreen = lazyLoadScreen(
 );
 
 /**
+ * Placeholder exports for screens that will be implemented later
+ */
+// TODO: Implement these screens when needed
+// export const PuzzleScreen = lazyLoadScreen(() => import('../screens/Learn/PuzzleScreen'), 'PuzzleScreen');
+// export const LessonScreen = lazyLoadScreen(() => import('../screens/Learn/LessonScreen'), 'LessonScreen');
+// export const OpeningLibraryScreen = lazyLoadScreen(() => import('../screens/Learn/OpeningLibraryScreen'), 'OpeningLibraryScreen');
+// export const EndgameDrillsScreen = lazyLoadScreen(() => import('../screens/Learn/EndgameDrillsScreen'), 'EndgameDrillsScreen');
+// export const ProgressScreen = lazyLoadScreen(() => import('../screens/Profile/ProgressScreen'), 'ProgressScreen');
+// export const StatisticsScreen = lazyLoadScreen(() => import('../screens/Profile/StatisticsScreen'), 'StatisticsScreen');
+// export const AchievementsScreen = lazyLoadScreen(() => import('../screens/Profile/AchievementsScreen'), 'AchievementsScreen');
+
+/**
  * Preload critical screens for better UX
  */
 export function preloadCriticalScreens() {
   // Preload screens that are likely to be accessed soon
   const criticalImports = [
-    () => import('../screens/Game/PlayScreen'),
-    () => import('../screens/Learning/PuzzleScreen'),
+    () => import('../screens/Play/PlayScreen'),
+    () => import('../screens/Learn/LearnScreen'),
     () => import('../screens/Profile/ProfileScreen'),
   ];
 
@@ -122,11 +109,11 @@ export function preloadCriticalScreens() {
  */
 export const ROUTE_PRIORITIES = {
   // High priority - preload immediately
-  high: ['PlayScreen', 'PuzzleScreen', 'ProfileScreen'],
+  high: ['PlayScreen', 'LearnScreen', 'ProfileScreen'],
   // Medium priority - preload after initial render
-  medium: ['LearningScreen', 'GameAnalysisScreen', 'LeaderboardScreen'],
+  medium: ['TrainScreen', 'GameAnalysisScreen', 'LeaderboardScreen'],
   // Low priority - load on demand only
-  low: ['OnboardingFlow', 'SettingsScreen'],
+  low: ['OnboardingFlow', 'SettingsScreen', 'AnalyticsDashboard'],
 };
 
 /**
@@ -136,14 +123,15 @@ export async function preloadScreensByPriority(priority: keyof typeof ROUTE_PRIO
   const screenNames = ROUTE_PRIORITIES[priority];
 
   const importMap: Record<string, () => Promise<any>> = {
-    PlayScreen: () => import('../screens/Game/PlayScreen'),
-    PuzzleScreen: () => import('../screens/Learning/PuzzleScreen'),
+    PlayScreen: () => import('../screens/Play/PlayScreen'),
+    LearnScreen: () => import('../screens/Learn/LearnScreen'),
     ProfileScreen: () => import('../screens/Profile/ProfileScreen'),
-    LearningScreen: () => import('../screens/Learning/LearningScreen'),
-    GameAnalysisScreen: () => import('../screens/Game/GameAnalysisScreen'),
+    TrainScreen: () => import('../screens/Train/TrainScreen'),
+    GameAnalysisScreen: () => import('../screens/Play/GameAnalysisScreen'),
     LeaderboardScreen: () => import('../screens/Community/LeaderboardScreen'),
     OnboardingFlow: () => import('../screens/Onboarding/OnboardingFlow'),
     SettingsScreen: () => import('../screens/Settings/SettingsScreen'),
+    AnalyticsDashboard: () => import('../screens/Analytics/AnalyticsDashboard'),
   };
 
   for (const screenName of screenNames) {

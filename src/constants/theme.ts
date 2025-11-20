@@ -69,6 +69,7 @@ export const Colors = {
   streak: '#FF6B35', // Flame color
   streakAlt: '#FFA500', // Orange
   milestone: '#FFD700', // Gold for achievements
+  gold: '#FFD700', // Alias for milestone
   xp: '#9C27B0', // Purple for XP
 };
 
@@ -105,6 +106,33 @@ export const Typography = {
     tight: 1.25,
     normal: 1.5,
     relaxed: 1.75,
+  },
+
+  // Text style presets
+  h1: {
+    fontSize: 36,
+    fontWeight: '700' as const,
+    lineHeight: 1.25,
+  },
+  h2: {
+    fontSize: 30,
+    fontWeight: '700' as const,
+    lineHeight: 1.25,
+  },
+  h3: {
+    fontSize: 24,
+    fontWeight: '600' as const,
+    lineHeight: 1.3,
+  },
+  body: {
+    fontSize: 16,
+    fontWeight: '400' as const,
+    lineHeight: 1.5,
+  },
+  caption: {
+    fontSize: 12,
+    fontWeight: '400' as const,
+    lineHeight: 1.4,
   },
 };
 
