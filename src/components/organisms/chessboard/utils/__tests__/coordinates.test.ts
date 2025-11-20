@@ -160,18 +160,7 @@ describe('coordinates.ts', () => {
 
   describe('Round-trip conversion', () => {
     const orientation: BoardOrientation = 'white';
-    const squares: Square[] = [
-      'a1',
-      'a8',
-      'h1',
-      'h8',
-      'e4',
-      'd5',
-      'c3',
-      'f6',
-      'b2',
-      'g7',
-    ];
+    const squares: Square[] = ['a1', 'a8', 'h1', 'h8', 'e4', 'd5', 'c3', 'f6', 'b2', 'g7'];
 
     it('should maintain consistency: square -> coords -> square', () => {
       squares.forEach(square => {
@@ -185,12 +174,7 @@ describe('coordinates.ts', () => {
       const blackOrientation: BoardOrientation = 'black';
       squares.forEach(square => {
         const coords = getCoordsFromSquare(square, SQUARE_SIZE, blackOrientation);
-        const resultSquare = getSquareFromCoords(
-          coords.x,
-          coords.y,
-          SQUARE_SIZE,
-          blackOrientation
-        );
+        const resultSquare = getSquareFromCoords(coords.x, coords.y, SQUARE_SIZE, blackOrientation);
         expect(resultSquare).toBe(square);
       });
     });

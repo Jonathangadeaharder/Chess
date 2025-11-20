@@ -25,12 +25,7 @@ const Pieces: React.FC = () => {
         // Don't render dragged piece at original position
         // (it will be rendered at the drag position by the Piece component's transform)
         return (
-          <Piece
-            key={square}
-            square={square as any}
-            piece={piece as PieceSymbol}
-            size={size}
-          />
+          <Piece key={square} square={square as any} piece={piece as PieceSymbol} size={size} />
         );
       })}
     </View>

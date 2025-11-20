@@ -106,7 +106,7 @@ export default function BishopsPrison({ onComplete, onExit }: BishopsPrisonProps
     const lossPrompt: CoachPrompt = {
       id: 'bishops-prison-loss',
       type: 'hint',
-      text: "Your king got checkmated! Remember: In this endgame, your advantage is mobility. Keep your king active and infiltrate where their bad bishop can&apos;t reach.",
+      text: 'Your king got checkmated! Remember: In this endgame, your advantage is mobility. Keep your king active and infiltrate where their bad bishop can&apos;t reach.',
     };
 
     setCoachPrompt(lossPrompt);

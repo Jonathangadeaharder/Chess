@@ -5,6 +5,7 @@ This directory contains the testing infrastructure for the Grandmaster Path ches
 ## Current Status
 
 ✅ **Complete**:
+
 - Comprehensive testing strategy document (`/TESTING_STRATEGY.md`)
 - Jest + React Native Testing Library setup
 - Test utilities and custom render functions (`setup/test-utils.tsx`)
@@ -13,6 +14,7 @@ This directory contains the testing infrastructure for the Grandmaster Path ches
 - NPM test scripts configured
 
 ⚠️ **Known Issues**:
+
 - Jest/Expo module resolution conflict with `import.meta` needs resolution
 - Tests are written and ready but require environment configuration fixes
 - Error: "You are trying to `import` a file outside of the scope of the test code"
@@ -20,6 +22,7 @@ This directory contains the testing infrastructure for the Grandmaster Path ches
 ## Test Suites Created
 
 ### 1. Coordinates Tests (`coordinates.test.ts`)
+
 - ✅ 50+ test cases for square ↔ pixel conversions
 - ✅ Tests for both white and black board orientations
 - ✅ Round-trip conversion validation
@@ -27,6 +30,7 @@ This directory contains the testing infrastructure for the Grandmaster Path ches
 - ✅ All 64 squares coverage
 
 ### 2. Pieces Tests (`pieces.test.ts`)
+
 - ✅ 40+ test cases for piece utilities
 - ✅ Unicode symbol conversion
 - ✅ FEN position parsing
@@ -34,6 +38,7 @@ This directory contains the testing infrastructure for the Grandmaster Path ches
 - ✅ Complex position validation
 
 ### 3. Validation Tests (`validation.test.ts`)
+
 - ✅ 30+ test cases for move validation
 - ✅ Square validation
 - ✅ Square color detection
@@ -104,6 +109,7 @@ src/components/organisms/chessboard/utils/__tests__/
 ## Notes
 
 The test files themselves are production-ready and follow best practices:
+
 - Clear, descriptive test names
 - Arrange-Act-Assert pattern
 - Comprehensive edge case coverage
@@ -111,6 +117,7 @@ The test files themselves are production-ready and follow best practices:
 - Focus on user-facing behavior
 
 Once the environment configuration is resolved, these tests will provide:
+
 - **95%+ coverage** of utility functions
 - **Confidence** in coordinate conversions (critical for chessboard)
 - **Regression prevention** for FEN parsing

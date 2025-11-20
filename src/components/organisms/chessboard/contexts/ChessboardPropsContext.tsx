@@ -72,7 +72,9 @@ export const ChessboardPropsProvider: React.FC<ChessboardPropsProviderProps> = (
     ]
   );
 
-  return <ChessboardPropsContext.Provider value={config}>{children}</ChessboardPropsContext.Provider>;
+  return (
+    <ChessboardPropsContext.Provider value={config}>{children}</ChessboardPropsContext.Provider>
+  );
 };
 
 // ============================================================================

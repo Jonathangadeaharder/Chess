@@ -9,13 +9,7 @@ import type { Square } from '../../../types';
 // HIGHLIGHT TYPES
 // ============================================================================
 
-export type HighlightType =
-  | 'selected'
-  | 'legal-move'
-  | 'last-move'
-  | 'check'
-  | 'mate'
-  | 'custom';
+export type HighlightType = 'selected' | 'legal-move' | 'last-move' | 'check' | 'mate' | 'custom';
 
 export interface Highlight {
   square: Square;

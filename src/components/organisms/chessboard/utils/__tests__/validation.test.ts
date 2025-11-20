@@ -9,18 +9,7 @@ import type { Square } from '../../types';
 describe('validation.ts', () => {
   describe('isValidSquare', () => {
     it('should return true for valid squares', () => {
-      const validSquares = [
-        'a1',
-        'a8',
-        'h1',
-        'h8',
-        'e4',
-        'd5',
-        'c3',
-        'f6',
-        'b2',
-        'g7',
-      ];
+      const validSquares = ['a1', 'a8', 'h1', 'h8', 'e4', 'd5', 'c3', 'f6', 'b2', 'g7'];
 
       validSquares.forEach(square => {
         expect(isValidSquare(square)).toBe(true);

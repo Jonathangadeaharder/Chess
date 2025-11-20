@@ -10,14 +10,9 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 /**
  * Custom render that wraps components with necessary providers
  */
-export function renderWithProviders(
-  ui: ReactElement,
-  options?: Omit<RenderOptions, 'wrapper'>
-) {
+export function renderWithProviders(ui: ReactElement, options?: Omit<RenderOptions, 'wrapper'>) {
   const AllProviders = ({ children }: { children: React.ReactNode }) => {
-    return (
-      <GestureHandlerRootView style={{ flex: 1 }}>{children}</GestureHandlerRootView>
-    );
+    return <GestureHandlerRootView style={{ flex: 1 }}>{children}</GestureHandlerRootView>;
   };
 
   return render(ui, { wrapper: AllProviders, ...options });

@@ -110,29 +110,32 @@ export default function OpeningRepertoireBuilder({ onClose }: { onClose?: () => 
     return lines;
   };
 
-  const addToRepertoire = useCallback((line: OpeningLine, color: 'white' | 'black') => {
-    const timestamp = Date.now();
-    const entry: RepertoireEntry = {
-      id: `${line.id}-${color}-${timestamp}`,
-      openingLineId: line.id,
-      system: line.system,
-      name: line.name,
-      moves: line.moves,
-      color,
-      mastery: 0,
-      timesPlayed: 0,
-      successRate: 0,
-      notes: '',
-      tags: [],
-    };
+  const addToRepertoire = useCallback(
+    (line: OpeningLine, color: 'white' | 'black') => {
+      const timestamp = Date.now();
+      const entry: RepertoireEntry = {
+        id: `${line.id}-${color}-${timestamp}`,
+        openingLineId: line.id,
+        system: line.system,
+        name: line.name,
+        moves: line.moves,
+        color,
+        mastery: 0,
+        timesPlayed: 0,
+        successRate: 0,
+        notes: '',
+        tags: [],
+      };
 
-    setRepertoire(prev => [...prev, entry]);
-    saveRepertoire();
-    addXP(50);
+      setRepertoire(prev => [...prev, entry]);
+      saveRepertoire();
+      addXP(50);
 
-    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-    Alert.alert('Added to Repertoire', `${line.name} added as ${color}`);
-  }, [addXP]);
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      Alert.alert('Added to Repertoire', `${line.name} added as ${color}`);
+    },
+    [addXP]
+  );
 
   const removeFromRepertoire = (id: string) => {
     Alert.alert('Remove from Repertoire', 'Are you sure you want to remove this line?', [

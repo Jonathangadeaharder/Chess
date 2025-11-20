@@ -123,7 +123,7 @@ export async function scheduleStreakReminder(currentStreak: number): Promise<voi
     // Schedule daily reminder at 8 PM
     await Notifications.scheduleNotificationAsync({
       content: {
-        title: "Don&apos;t break your streak! 🔥",
+        title: 'Don&apos;t break your streak! 🔥',
         body: `Keep your ${currentStreak}-day streak alive! Practice today.`,
         sound: true,
         priority: Notifications.AndroidNotificationPriority.DEFAULT,

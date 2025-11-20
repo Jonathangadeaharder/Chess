@@ -401,6 +401,7 @@ No comparison with other users - purely personal progress tracking.
    ```
 
 3. **Asset audit:**
+
    ```bash
    # Remove any unused images/sounds
    find assets -type f -exec ls -lh {} \; | awk '{print $5, $9}'

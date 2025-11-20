@@ -141,7 +141,7 @@ describe('pieces.ts', () => {
       expect(position['e8']).toBe('k');
     });
 
-    it('should parse Bishop\'s Prison position correctly', () => {
+    it("should parse Bishop's Prison position correctly", () => {
       const fen = '5b2/ppp1k1pp/3p4/2p1P3/3P1P2/4K3/PPP3PP/2B5 w - - 0 1';
       const position = parseFENPosition(fen);
 
@@ -278,7 +278,8 @@ describe('pieces.ts', () => {
 
     it('should handle position with maximum pieces', () => {
       // All pawns promoted to queens
-      const fen = 'qqqqqqqq/qqqqqqqq/qqqqqqqq/qqqqqqqq/QQQQQQQQ/QQQQQQQQ/QQQQQQQQ/QQQQQQQQ w - - 0 1';
+      const fen =
+        'qqqqqqqq/qqqqqqqq/qqqqqqqq/qqqqqqqq/QQQQQQQQ/QQQQQQQQ/QQQQQQQQ/QQQQQQQQ w - - 0 1';
       const position = parseFENPosition(fen);
 
       expect(Object.keys(position).length).toBe(64);

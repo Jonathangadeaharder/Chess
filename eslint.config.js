@@ -21,6 +21,7 @@ module.exports = [
       '.prettierrc.js',
       '**/*.config.js',
       'scripts/**',
+      'src/__tests__/setup/**/*.js', // Jest setup files use CommonJS
     ],
   },
   {
@@ -75,6 +76,13 @@ module.exports = [
       react: {
         version: 'detect',
       },
+    },
+  },
+  // Override for Jest setup files - allow require() in Node.js context
+  {
+    files: ['src/__tests__/setup/**/*.{ts,tsx}'],
+    rules: {
+      '@typescript-eslint/no-require-imports': 'off',
     },
   },
 ];

@@ -7,6 +7,7 @@ This document outlines the comprehensive testing strategy for the Grandmaster Pa
 ## Testing Philosophy
 
 **Core Principles:**
+
 1. **Test behavior, not implementation** - Focus on what components do, not how they do it
 2. **Write tests that give confidence** - Prioritize tests that catch real bugs
 3. **Maintain tests like production code** - Keep tests clean, readable, and maintainable
@@ -16,6 +17,7 @@ This document outlines the comprehensive testing strategy for the Grandmaster Pa
 ## Testing Stack
 
 ### Frameworks & Libraries
+
 - **Jest** - Test runner and assertion library
 - **React Native Testing Library** - Component testing utilities
 - **@testing-library/react-hooks** - Hook testing utilities
@@ -23,6 +25,7 @@ This document outlines the comprehensive testing strategy for the Grandmaster Pa
 - **@testing-library/jest-native** - Custom matchers for React Native
 
 ### Tools
+
 - **TypeScript** - Type-safe tests
 - **Mock Service Worker (future)** - API mocking
 - **Detox (future)** - E2E testing
@@ -40,27 +43,33 @@ This document outlines the comprehensive testing strategy for the Grandmaster Pa
 ```
 
 ### Unit Tests (60%)
+
 **What:** Pure functions, utilities, helpers
 **Why:** Fast, isolated, easy to debug
 **Examples:**
+
 - Chessboard coordinate conversions
 - FEN parsing functions
 - Move validation logic
 - Utility helpers
 
 ### Integration Tests (30%)
+
 **What:** Multiple components working together
 **Why:** Catch issues in component interactions
 **Examples:**
+
 - Chessboard with user interactions
 - Game flows (BishopsPrison, TacticalDrill)
 - State management integration
 - Context provider interactions
 
 ### E2E Tests (10% - Future)
+
 **What:** Full user journeys
 **Why:** Ensure app works as users expect
 **Examples:**
+
 - Complete a training drill
 - Navigate through lesson
 - Track progress metrics
@@ -68,12 +77,14 @@ This document outlines the comprehensive testing strategy for the Grandmaster Pa
 ## Test Coverage Goals
 
 ### Minimum Coverage Targets
+
 - **Overall:** 70% (statements, branches, functions, lines)
 - **Critical paths:** 90%+ (game logic, move validation, scoring)
 - **Utilities:** 95%+ (pure functions should be nearly 100%)
 - **UI Components:** 60%+ (focus on behavior, not rendering details)
 
 ### Critical Areas (Must Have 90%+ Coverage)
+
 1. **Chessboard utilities** (`src/components/organisms/chessboard/utils/`)
    - coordinate.ts - Square↔pixel conversions
    - pieces.ts - FEN parsing
@@ -94,6 +105,7 @@ This document outlines the comprehensive testing strategy for the Grandmaster Pa
    - Achievement triggers
 
 ### Medium Priority (70%+ Coverage)
+
 1. **Chessboard components**
    - Piece.tsx - Gesture interactions
    - Chessboard.tsx - Imperative API
@@ -110,6 +122,7 @@ This document outlines the comprehensive testing strategy for the Grandmaster Pa
    - Spaced repetition (SR-2)
 
 ### Lower Priority (50%+ Coverage)
+
 1. **Screen components** - Focus on critical interactions only
 2. **Navigation** - Test key user flows
 3. **UI/Styling components** - Visual regression testing (future)
@@ -117,6 +130,7 @@ This document outlines the comprehensive testing strategy for the Grandmaster Pa
 ## Test Organization
 
 ### File Structure
+
 ```
 src/
 ├── components/
@@ -151,6 +165,7 @@ src/
 ```
 
 ### Naming Conventions
+
 - **Unit tests:** `[filename].test.ts(x)`
 - **Integration tests:** `[feature].integration.test.tsx`
 - **E2E tests:** `[flow].e2e.test.ts`
@@ -158,7 +173,9 @@ src/
 ## Testing Best Practices
 
 ### DO ✅
+
 1. **Test user-facing behavior**
+
    ```typescript
    // ✅ Good - Tests what user sees
    expect(screen.getByText('Checkmate!')).toBeOnTheScreen();
@@ -168,6 +185,7 @@ src/
    ```
 
 2. **Use accessible queries**
+
    ```typescript
    // ✅ Good - Accessible query
    screen.getByRole('button', { name: 'Make Move' });
@@ -179,6 +197,7 @@ src/
    ```
 
 3. **Write descriptive test names**
+
    ```typescript
    // ✅ Good - Clear what's being tested
    it('should convert square "e4" to pixel coordinates (320, 256) on white-oriented board', () => {
@@ -188,6 +207,7 @@ src/
    ```
 
 4. **Arrange-Act-Assert pattern**
+
    ```typescript
    it('should highlight legal moves when piece is selected', () => {
      // Arrange - Set up test state
@@ -202,6 +222,7 @@ src/
    ```
 
 5. **Mock external dependencies**
+
    ```typescript
    // Mock sound service
    jest.mock('../../services/audio/soundService', () => ({
@@ -211,6 +232,7 @@ src/
    ```
 
 ### DON'T ❌
+
 1. **Don't test implementation details**
    - Internal state
    - Private methods
@@ -233,6 +255,7 @@ src/
 ## Test Examples
 
 ### 1. Utility Function Test
+
 ```typescript
 // src/components/organisms/chessboard/utils/__tests__/coordinates.test.ts
 import { getSquareFromCoords, getCoordsFromSquare } from '../coordinates';
@@ -258,6 +281,7 @@ describe('coordinates.ts', () => {
 ```
 
 ### 2. Context Test
+
 ```typescript
 // src/components/organisms/chessboard/contexts/__tests__/ChessboardPropsContext.test.tsx
 import { renderHook } from '@testing-library/react-hooks';
@@ -285,6 +309,7 @@ describe('ChessboardPropsContext', () => {
 ```
 
 ### 3. Component Test
+
 ```typescript
 // src/components/organisms/chessboard/__tests__/Chessboard.test.tsx
 import { render, fireEvent } from '@testing-library/react-native';
@@ -324,6 +349,7 @@ describe('Chessboard', () => {
 ```
 
 ### 4. Integration Test
+
 ```typescript
 // src/__tests__/integration/BishopsPrison.integration.test.tsx
 import { render, fireEvent, waitFor } from '@testing-library/react-native';
@@ -366,6 +392,7 @@ describe('BishopsPrison Integration', () => {
 ## Running Tests
 
 ### Commands
+
 ```bash
 # Run all tests
 npm test
@@ -387,6 +414,7 @@ npm test -- -u
 ```
 
 ### CI/CD Integration
+
 - Run tests on every PR
 - Require 70% coverage minimum
 - Block merge if tests fail
@@ -395,6 +423,7 @@ npm test -- -u
 ## Coverage Reports
 
 ### Viewing Coverage
+
 ```bash
 # Generate coverage report
 npm test -- --coverage
@@ -404,6 +433,7 @@ open coverage/lcov-report/index.html
 ```
 
 ### Coverage Badges (Future)
+
 - Add badges to README.md
 - Track coverage trends over time
 - Alert on coverage drops
@@ -411,12 +441,14 @@ open coverage/lcov-report/index.html
 ## Continuous Improvement
 
 ### Monthly Reviews
+
 1. **Review flaky tests** - Fix or remove
 2. **Check coverage gaps** - Add tests for uncovered critical paths
 3. **Refactor test utilities** - Keep test code DRY
 4. **Update strategy** - Adapt to new features
 
 ### Test Metrics to Track
+
 - ✅ Test execution time (keep under 30s for all unit tests)
 - ✅ Test flakiness rate (target: 0%)
 - ✅ Coverage percentage by module
@@ -426,11 +458,13 @@ open coverage/lcov-report/index.html
 ## Future Enhancements
 
 ### Phase 2 (3-6 months)
+
 - [ ] Visual regression testing (Percy, Chromatic)
 - [ ] Performance testing (measure render times)
 - [ ] Accessibility testing (react-native-a11y)
 
 ### Phase 3 (6-12 months)
+
 - [ ] E2E testing with Detox
 - [ ] API contract testing
 - [ ] Load testing for multiplayer features
@@ -438,11 +472,13 @@ open coverage/lcov-report/index.html
 ## Resources
 
 ### Documentation
+
 - [React Native Testing Library](https://callstack.github.io/react-native-testing-library/)
 - [Jest Documentation](https://jestjs.io/docs/getting-started)
 - [Testing Library Best Practices](https://kentcdodds.com/blog/common-mistakes-with-react-testing-library)
 
 ### Team Guidelines
+
 - Review test strategy quarterly
 - All new features require tests
 - Fix broken tests immediately

@@ -180,7 +180,7 @@ export const COLLE_CONCEPTS: ConceptCard[] = [
       moveNumber: 7,
     },
     correctAnswer:
-      "The knight reaches e5 via Nbd2-f3-e5 or after e3-e4 dxe4, Nxe4-e5. The e5 square is powerful because it&apos;s a central outpost, controls key squares (c6, d7, f7, g6), and supports kingside attacks.",
+      'The knight reaches e5 via Nbd2-f3-e5 or after e3-e4 dxe4, Nxe4-e5. The e5 square is powerful because it&apos;s a central outpost, controls key squares (c6, d7, f7, g6), and supports kingside attacks.',
     hints: [
       'Can Black easily remove a knight on e5?',
       'What important squares does a knight on e5 control?',
@@ -411,7 +411,7 @@ export const GENERAL_CONCEPTS: ConceptCard[] = [
     hints: [
       "Can Black's pawns attack a knight on d5 or e5?",
       'What squares would a knight on e5 control?',
-      "Why is a piece that can&apos;t be driven away by pawns so strong?",
+      'Why is a piece that can&apos;t be driven away by pawns so strong?',
     ],
     explanation:
       "Outposts are advanced squares that enemy pawns cannot attack. In this position, e5 and d5 are potential outposts because Black's e and d pawns have advanced. A knight on e5 would be incredibly strong: it controls c6, d7, f7, g6, and g4, cannot be driven away by pawns, and supports both attack and defense. Knights especially love outposts because, unlike bishops, they don't need open diagonals - just a secure square.",

@@ -188,7 +188,9 @@ export const ChessboardStateProvider: React.FC<ChessboardStateProviderProps> = (
     ]
   );
 
-  return <ChessboardStateContext.Provider value={value}>{children}</ChessboardStateContext.Provider>;
+  return (
+    <ChessboardStateContext.Provider value={value}>{children}</ChessboardStateContext.Provider>
+  );
 };
 
 // ============================================================================

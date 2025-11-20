@@ -47,6 +47,7 @@ npx react-native-bundle-visualizer
    ```
 
 3. **Analyze with source-map-explorer**:
+
    ```bash
    npm install -g source-map-explorer
    source-map-explorer dist/bundles/*.js
