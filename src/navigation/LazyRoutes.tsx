@@ -26,12 +26,18 @@ export const GameAnalysisScreen = lazyLoadScreen(
 /**
  * Learn Screens (lazy loaded)
  */
-export const LearnScreen = lazyLoadScreen(() => import('../screens/Learn/LearnScreen'), 'LearnScreen');
+export const LearnScreen = lazyLoadScreen(
+  () => import('../screens/Learn/LearnScreen'),
+  'LearnScreen'
+);
 
 /**
  * Train Screens (lazy loaded)
  */
-export const TrainScreen = lazyLoadScreen(() => import('../screens/Train/TrainScreen'), 'TrainScreen');
+export const TrainScreen = lazyLoadScreen(
+  () => import('../screens/Train/TrainScreen'),
+  'TrainScreen'
+);
 
 /**
  * Profile & Progress Screens (lazy loaded)

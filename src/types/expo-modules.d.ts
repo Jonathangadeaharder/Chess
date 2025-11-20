@@ -47,20 +47,11 @@ declare module 'expo-file-system' {
     options?: { encoding?: string }
   ): Promise<void>;
 
-  export function deleteAsync(
-    fileUri: string,
-    options?: { idempotent?: boolean }
-  ): Promise<void>;
+  export function deleteAsync(fileUri: string, options?: { idempotent?: boolean }): Promise<void>;
 
-  export function moveAsync(options: {
-    from: string;
-    to: string;
-  }): Promise<void>;
+  export function moveAsync(options: { from: string; to: string }): Promise<void>;
 
-  export function copyAsync(options: {
-    from: string;
-    to: string;
-  }): Promise<void>;
+  export function copyAsync(options: { from: string; to: string }): Promise<void>;
 
   export function makeDirectoryAsync(
     fileUri: string,
@@ -105,9 +96,7 @@ declare module 'expo-document-picker' {
     output?: FileList | null;
   }
 
-  export function getDocumentAsync(
-    options?: DocumentPickerOptions
-  ): Promise<DocumentPickerResult>;
+  export function getDocumentAsync(options?: DocumentPickerOptions): Promise<DocumentPickerResult>;
 }
 
 declare module 'expo-linking' {
@@ -168,9 +157,7 @@ declare module 'expo-notifications' {
   }
 
   export function setNotificationHandler(handler: {
-    handleNotification: (
-      notification: Notification
-    ) => Promise<{
+    handleNotification: (notification: Notification) => Promise<{
       shouldShowAlert: boolean;
       shouldPlaySound: boolean;
       shouldSetBadge: boolean;
@@ -182,9 +169,7 @@ declare module 'expo-notifications' {
     trigger: NotificationTrigger
   ): Promise<string>;
 
-  export function cancelScheduledNotificationAsync(
-    notificationId: string
-  ): Promise<void>;
+  export function cancelScheduledNotificationAsync(notificationId: string): Promise<void>;
 
   export function cancelAllScheduledNotificationsAsync(): Promise<void>;
 
@@ -194,17 +179,15 @@ declare module 'expo-notifications' {
 
   export function dismissAllNotificationsAsync(): Promise<void>;
 
-  export function addNotificationReceivedListener(
-    listener: (notification: Notification) => void
-  ): { remove: () => void };
+  export function addNotificationReceivedListener(listener: (notification: Notification) => void): {
+    remove: () => void;
+  };
 
   export function addNotificationResponseReceivedListener(
     listener: (response: NotificationResponse) => void
   ): { remove: () => void };
 
-  export function removeNotificationSubscription(subscription: {
-    remove: () => void;
-  }): void;
+  export function removeNotificationSubscription(subscription: { remove: () => void }): void;
 
   export function getExpoPushTokenAsync(options?: {
     experienceId?: string;
