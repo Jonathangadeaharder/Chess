@@ -15,8 +15,9 @@ export const getSquareFromCoords = (
   squareSize: number,
   orientation: BoardOrientation = 'white'
 ): Square => {
-  const file = Math.floor(x / squareSize);
-  const rank = Math.floor(y / squareSize);
+  // Clamp file and rank to valid range [0, 7]
+  const file = Math.max(0, Math.min(7, Math.floor(x / squareSize)));
+  const rank = Math.max(0, Math.min(7, Math.floor(y / squareSize)));
 
   const isFlipped = orientation === 'black';
 
@@ -45,11 +46,15 @@ export const getCoordsFromSquare = (
   const isFlipped = orientation === 'black';
 
   if (isFlipped) {
+    // Black orientation: board is rotated 180 degrees
+    // a8 (0,7) -> (448, 448), h1 (7,0) -> (0, 0)
     return {
       x: (7 - file) * squareSize,
-      y: (8 - rank - 1) * squareSize,
+      y: rank * squareSize,
     };
   } else {
+    // White orientation: standard
+    // a8 (0,7) -> (0, 0), h1 (7,0) -> (448, 448)
     return {
       x: file * squareSize,
       y: (7 - rank) * squareSize,

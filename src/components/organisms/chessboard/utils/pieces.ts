@@ -28,6 +28,11 @@ export const getPieceSymbol = (piece: PieceSymbol): string => {
 };
 
 /**
+ * Alias for getPieceSymbol for test compatibility
+ */
+export const getPieceUnicode = getPieceSymbol;
+
+/**
  * Get human-readable name for a piece
  */
 export const getPieceName = (piece: PieceSymbol): string => {
@@ -67,6 +72,24 @@ export const isWhitePiece = (piece: PieceSymbol): boolean => {
  */
 export const isBlackPiece = (piece: PieceSymbol): boolean => {
   return piece === piece.toLowerCase();
+};
+
+/**
+ * Get piece type from symbol (king, queen, rook, bishop, knight, pawn)
+ */
+export const getPieceType = (
+  piece: PieceSymbol
+): 'king' | 'queen' | 'rook' | 'bishop' | 'knight' | 'pawn' => {
+  const type = piece.toLowerCase();
+  const types: { [key: string]: 'king' | 'queen' | 'rook' | 'bishop' | 'knight' | 'pawn' } = {
+    k: 'king',
+    q: 'queen',
+    r: 'rook',
+    b: 'bishop',
+    n: 'knight',
+    p: 'pawn',
+  };
+  return types[type] || 'pawn';
 };
 
 /**

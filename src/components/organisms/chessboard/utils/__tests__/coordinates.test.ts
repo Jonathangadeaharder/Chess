@@ -152,7 +152,9 @@ describe('coordinates.ts', () => {
 
     it('should convert square "e4" correctly when flipped', () => {
       const result = getCoordsFromSquare('e4' as Square, SQUARE_SIZE, orientation);
-      expect(result).toEqual({ x: 192, y: 256 });
+      // When rotated 180 degrees, (256, 256) becomes (192, 192)
+      // Formula: (7*64 - x, 7*64 - y) = (448-256, 448-256) = (192, 192)
+      expect(result).toEqual({ x: 192, y: 192 });
     });
   });
 
