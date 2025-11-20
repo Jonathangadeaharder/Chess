@@ -36,7 +36,8 @@ export default function BishopsPrison({ onComplete, onExit }: BishopsPrisonProps
   const { position, loadPosition, resetGame, moves } = useGameStore();
 
   const [moveCount, setMoveCount] = useState(0);
-  const [startTime] = useState(Date.now());
+  const [startTime] = useState(() => Date.now());
+  const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const [showCoach, setShowCoach] = useState(false);
   const [coachPrompt, setCoachPrompt] = useState<CoachPrompt | null>(null);
   const [gameStatus, setGameStatus] = useState<'playing' | 'won' | 'lost' | 'draw'>('playing');
@@ -59,13 +60,24 @@ export default function BishopsPrison({ onComplete, onExit }: BishopsPrisonProps
       ],
     };
 
-    setCoachPrompt(welcomePrompt);
-    setShowCoach(true);
+    queueMicrotask(() => {
+      setCoachPrompt(welcomePrompt);
+      setShowCoach(true);
+    });
 
     return () => {
       resetGame();
     };
   }, []);
+
+  // Update elapsed time every second
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setElapsedSeconds(Math.floor((Date.now() - startTime) / 1000));
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [startTime]);
 
   const handleWin = () => {
     setGameStatus('won');
@@ -129,17 +141,19 @@ export default function BishopsPrison({ onComplete, onExit }: BishopsPrisonProps
   useEffect(() => {
     const chess = new Chess(position.fen);
 
-    if (chess.isCheckmate()) {
-      if (position.turn === 'b') {
-        // White won
-        handleWin();
-      } else {
-        // Black won (unlikely but possible)
-        handleLoss();
+    queueMicrotask(() => {
+      if (chess.isCheckmate()) {
+        if (position.turn === 'b') {
+          // White won
+          handleWin();
+        } else {
+          // Black won (unlikely but possible)
+          handleLoss();
+        }
+      } else if (chess.isDraw() || chess.isStalemate() || chess.isThreefoldRepetition()) {
+        handleDraw();
       }
-    } else if (chess.isDraw() || chess.isStalemate() || chess.isThreefoldRepetition()) {
-      handleDraw();
-    }
+    });
   }, [position, handleWin, handleLoss, handleDraw]);
 
   const makeAIMove = () => {
@@ -218,7 +232,7 @@ export default function BishopsPrison({ onComplete, onExit }: BishopsPrisonProps
 
         <View style={styles.statItem}>
           <Ionicons name="time" size={20} color={Colors.info} />
-          <Text style={styles.statValue}>{Math.floor((Date.now() - startTime) / 1000)}s</Text>
+          <Text style={styles.statValue}>{elapsedSeconds}s</Text>
           <Text style={styles.statLabel}>Time</Text>
         </View>
 

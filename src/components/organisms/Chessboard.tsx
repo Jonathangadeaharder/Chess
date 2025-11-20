@@ -99,6 +99,19 @@ export default function Chessboard({
   const scale = useSharedValue(1);
   const opacity = useSharedValue(1);
 
+  // Animated style for dragged piece
+  const draggedPieceAnimatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        { translateX: translateX.value },
+        { translateY: translateY.value },
+        { scale: scale.value },
+      ],
+      opacity: opacity.value,
+      zIndex: draggedSquare ? 1000 : 0,
+    };
+  });
+
   // Parse the FEN string to get piece positions
   const piecePositions = useMemo(() => {
     const positions: { [key: string]: string } = {};
@@ -327,23 +340,9 @@ export default function Chessboard({
       });
   };
 
-  // Animated style for dragged piece
+  // Get dragged piece style for a specific square
   const getDraggedPieceStyle = (square: Square) => {
-    return useAnimatedStyle(() => {
-      if (draggedSquare !== square) {
-        return {};
-      }
-
-      return {
-        transform: [
-          { translateX: translateX.value },
-          { translateY: translateY.value },
-          { scale: scale.value },
-        ],
-        opacity: opacity.value,
-        zIndex: 1000,
-      };
-    });
+    return draggedSquare === square ? draggedPieceAnimatedStyle : {};
   };
 
   // Get board theme colors

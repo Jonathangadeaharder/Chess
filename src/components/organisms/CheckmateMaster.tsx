@@ -227,40 +227,6 @@ export default function CheckmateMaster({ onComplete, onExit }: CheckmateMasterP
 
   const currentPuzzle = puzzles[currentPuzzleIndex];
 
-  // Load puzzle
-  useEffect(() => {
-    if (currentPuzzle) {
-      resetGame();
-      loadPosition(currentPuzzle.fen);
-      setMovesMade([]);
-      setTimeRemaining(currentPuzzle.timeLimit);
-      setSolved(false);
-      setFailed(false);
-      crownAnim.setValue(0);
-
-      // Show puzzle intro
-      const introPrompt: CoachPrompt = {
-        id: 'checkmate-intro',
-        type: 'socratic-question',
-        text: `${getPatternName(currentPuzzle.patternType)}: ${currentPuzzle.description}`,
-      };
-
-      setCoachPrompt(introPrompt);
-      setShowCoach(true);
-
-      setTimeout(() => {
-        setShowCoach(false);
-        startTimer();
-      }, 3000);
-    }
-
-    return () => {
-      if (timerRef.current) {
-        clearInterval(timerRef.current);
-      }
-    };
-  }, [currentPuzzleIndex]);
-
   const startTimer = () => {
     setIsActive(true);
 
@@ -298,6 +264,52 @@ export default function CheckmateMaster({ onComplete, onExit }: CheckmateMasterP
       nextPuzzle();
     }, 4000);
   };
+
+  const nextPuzzle = () => {
+    if (currentPuzzleIndex < puzzles.length - 1) {
+      setCurrentPuzzleIndex(currentPuzzleIndex + 1);
+    } else {
+      // Game complete
+      const accuracy = attempts > 0 ? (score / attempts) * 100 : 0;
+      onComplete(score, accuracy);
+    }
+  };
+
+  // Load puzzle
+  useEffect(() => {
+    if (currentPuzzle) {
+      queueMicrotask(() => {
+        resetGame();
+        loadPosition(currentPuzzle.fen);
+        setMovesMade([]);
+        setTimeRemaining(currentPuzzle.timeLimit);
+        setSolved(false);
+        setFailed(false);
+        crownAnim.setValue(0);
+
+        // Show puzzle intro
+        const introPrompt: CoachPrompt = {
+          id: 'checkmate-intro',
+          type: 'socratic-question',
+          text: `${getPatternName(currentPuzzle.patternType)}: ${currentPuzzle.description}`,
+        };
+
+        setCoachPrompt(introPrompt);
+        setShowCoach(true);
+
+        setTimeout(() => {
+          setShowCoach(false);
+          startTimer();
+        }, 3000);
+      });
+    }
+
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+      }
+    };
+  }, [currentPuzzleIndex]);
 
   const handleMoveAttempt = (move: { from: Square; to: Square }) => {
     const moveNotation = `${move.from}${move.to}`;
@@ -358,16 +370,6 @@ export default function CheckmateMaster({ onComplete, onExit }: CheckmateMasterP
       setShowCoach(false);
       nextPuzzle();
     }, 3000);
-  };
-
-  const nextPuzzle = () => {
-    if (currentPuzzleIndex < puzzles.length - 1) {
-      setCurrentPuzzleIndex(currentPuzzleIndex + 1);
-    } else {
-      // Game complete
-      const accuracy = attempts > 0 ? (score / attempts) * 100 : 0;
-      onComplete(score, accuracy);
-    }
   };
 
   const handleHint = () => {

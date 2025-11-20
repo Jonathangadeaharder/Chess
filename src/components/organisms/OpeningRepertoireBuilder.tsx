@@ -10,7 +10,7 @@
  * - Visual repertoire tree
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   View,
   Text,
@@ -59,28 +59,32 @@ export default function OpeningRepertoireBuilder({ onClose }: { onClose?: () => 
   const [chess] = useState(() => new Chess());
   const [currentMoveIndex, setCurrentMoveIndex] = useState(0);
 
-  // Load repertoire from storage
-  useEffect(() => {
-    loadRepertoire();
-  }, []);
-
-  // Update board when line/move changes
-  useEffect(() => {
-    if (selectedLine) {
-      chess.reset();
-      for (let i = 0; i <= currentMoveIndex && i < selectedLine.moves.length; i++) {
-        chess.move(selectedLine.moves[i]);
-      }
-      loadPosition(chess.fen());
-    }
-  }, [selectedLine, currentMoveIndex]);
-
   const loadRepertoire = async () => {
     // TODO: Load from SQLite/AsyncStorage
     // For now, use mock data
     const mockRepertoire: RepertoireEntry[] = [];
     setRepertoire(mockRepertoire);
   };
+
+  // Load repertoire from storage
+  useEffect(() => {
+    queueMicrotask(() => {
+      loadRepertoire();
+    });
+  }, []);
+
+  // Update board when line/move changes
+  useEffect(() => {
+    if (selectedLine) {
+      queueMicrotask(() => {
+        chess.reset();
+        for (let i = 0; i <= currentMoveIndex && i < selectedLine.moves.length; i++) {
+          chess.move(selectedLine.moves[i]);
+        }
+        loadPosition(chess.fen());
+      });
+    }
+  }, [selectedLine, currentMoveIndex]);
 
   const saveRepertoire = async () => {
     // TODO: Save to SQLite/AsyncStorage
@@ -106,9 +110,10 @@ export default function OpeningRepertoireBuilder({ onClose }: { onClose?: () => 
     return lines;
   };
 
-  const addToRepertoire = (line: OpeningLine, color: 'white' | 'black') => {
+  const addToRepertoire = useCallback((line: OpeningLine, color: 'white' | 'black') => {
+    const timestamp = Date.now();
     const entry: RepertoireEntry = {
-      id: `${line.id}-${color}-${Date.now()}`,
+      id: `${line.id}-${color}-${timestamp}`,
       openingLineId: line.id,
       system: line.system,
       name: line.name,
@@ -127,7 +132,7 @@ export default function OpeningRepertoireBuilder({ onClose }: { onClose?: () => 
 
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     Alert.alert('Added to Repertoire', `${line.name} added as ${color}`);
-  };
+  }, [addXP]);
 
   const removeFromRepertoire = (id: string) => {
     Alert.alert('Remove from Repertoire', 'Are you sure you want to remove this line?', [

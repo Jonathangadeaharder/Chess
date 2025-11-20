@@ -227,11 +227,15 @@ export default function EndgameDrills({ onComplete }: { onComplete?: () => void 
     if (currentDrill) {
       chess.load(currentDrill.fen);
       loadPosition(currentDrill.fen);
-      setMovesMade([]);
-      setDrillCompleted(false);
-      setShowHint(false);
-      setTimeRemaining(currentDrill.timeLimit);
-      setDrillStarted(false);
+
+      // Defer state updates to avoid synchronous setState in effect
+      queueMicrotask(() => {
+        setMovesMade([]);
+        setDrillCompleted(false);
+        setShowHint(false);
+        setTimeRemaining(currentDrill.timeLimit);
+        setDrillStarted(false);
+      });
     }
   }, [currentDrillIndex]);
 

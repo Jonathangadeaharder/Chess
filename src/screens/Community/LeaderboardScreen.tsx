@@ -25,6 +25,7 @@ interface PersonalBest {
 export default function LeaderboardScreen() {
   const { profile, tacticalProgression, gameHistory } = useUserStore();
   const [selectedCategory, setSelectedCategory] = useState<StatCategory>('overview');
+  const [currentTime] = useState(() => Date.now());
 
   const handleCategoryChange = (category: StatCategory) => {
     setSelectedCategory(category);
@@ -147,7 +148,7 @@ export default function LeaderboardScreen() {
 
     const daysActive = profile.lastPracticeDate
       ? Math.floor(
-          (Date.now() - new Date(profile.lastPracticeDate).getTime()) / (1000 * 60 * 60 * 24)
+          (currentTime - new Date(profile.lastPracticeDate).getTime()) / (1000 * 60 * 60 * 24)
         )
       : 0;
 

@@ -45,10 +45,6 @@ export default function AnalyticsDashboard() {
   const [errorStats, setErrorStats] = useState<any>(null);
   const [experiments, setExperiments] = useState<any[]>([]);
 
-  useEffect(() => {
-    loadAnalytics();
-  }, []);
-
   const loadAnalytics = async () => {
     try {
       // Load session metrics
@@ -70,6 +66,12 @@ export default function AnalyticsDashboard() {
       console.error('Failed to load analytics:', error);
     }
   };
+
+  useEffect(() => {
+    queueMicrotask(() => {
+      loadAnalytics();
+    });
+  }, []);
 
   const onRefresh = async () => {
     setRefreshing(true);

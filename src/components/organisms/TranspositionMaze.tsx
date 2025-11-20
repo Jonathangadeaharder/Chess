@@ -132,10 +132,6 @@ export default function TranspositionMaze({ onComplete, onExit }: TranspositionM
 
   const currentPuzzle = TRANSPOSITION_PUZZLES[currentPuzzleIndex];
 
-  useEffect(() => {
-    resetPuzzle();
-  }, [currentPuzzleIndex]);
-
   const resetPuzzle = () => {
     chess.load(currentPuzzle.startFen);
     setCurrentPath([]);
@@ -170,6 +166,12 @@ export default function TranspositionMaze({ onComplete, onExit }: TranspositionM
 
     setAvailableMoves(nodes);
   };
+
+  useEffect(() => {
+    queueMicrotask(() => {
+      resetPuzzle();
+    });
+  }, [currentPuzzleIndex]);
 
   const isPartOfCorrectPath = (moveUci: string): boolean => {
     const testPath = [...currentPath, moveUci];

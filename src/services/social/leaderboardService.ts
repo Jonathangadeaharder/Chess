@@ -85,35 +85,25 @@ export class LeaderboardService {
     type: LeaderboardType,
     scope: LeaderboardScope
   ): Promise<number | null> {
-    try {
-      // TODO: Query backend for user's rank
-      return 42;
-    } catch (error) {
-      console.error('Error fetching user rank:', error);
-      return null;
-    }
+    // TODO: Query backend for user's rank
+    return 42;
   }
 
   /**
    * Get user's position in all leaderboards
    */
   async getUserRankings(userId: string): Promise<Record<LeaderboardType, number>> {
-    try {
-      // TODO: Fetch all rankings
-      return {
-        rating: 150,
-        xp: 200,
-        streak: 50,
-        wins: 300,
-        accuracy: 100,
-        puzzles: 250,
-        'weekly-xp': 25,
-        'monthly-xp': 80,
-      };
-    } catch (error) {
-      console.error('Error fetching user rankings:', error);
-      return {} as Record<LeaderboardType, number>;
-    }
+    // TODO: Fetch all rankings
+    return {
+      rating: 150,
+      xp: 200,
+      streak: 50,
+      wins: 300,
+      accuracy: 100,
+      puzzles: 250,
+      'weekly-xp': 25,
+      'monthly-xp': 80,
+    };
   }
 
   /**

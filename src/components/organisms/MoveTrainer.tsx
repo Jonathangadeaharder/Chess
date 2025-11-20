@@ -35,7 +35,7 @@ export default function MoveTrainer({ srsItem, onComplete, onSkip }: MoveTrainer
   const [moveIndex, setMoveIndex] = useState(0);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [attempts, setAttempts] = useState(0);
-  const [startTime] = useState(Date.now());
+  const [startTime] = useState(() => Date.now());
   const [showFeedback, setShowFeedback] = useState(false);
 
   // Animation
@@ -56,36 +56,6 @@ export default function MoveTrainer({ srsItem, onComplete, onSkip }: MoveTrainer
 
     loadPosition(chess.fen());
   }, [moveIndex, openingLine, loadPosition]);
-
-  // Handle move attempt
-  const handleMoveAttempt = useCallback(
-    (from: Square, to: Square) => {
-      const expectedMove = openingLine.moves[moveIndex];
-      const chess = new Chess();
-
-      // Replay line up to current position
-      for (let i = 0; i < moveIndex; i++) {
-        chess.move(openingLine.moves[i]);
-      }
-
-      // Try the user's move
-      try {
-        const userMove = chess.move({ from, to });
-
-        if (userMove.san === expectedMove) {
-          // Correct move!
-          handleCorrectMove();
-        } else {
-          // Wrong move
-          handleIncorrectMove();
-        }
-      } catch (error) {
-        // Invalid move
-        handleIncorrectMove();
-      }
-    },
-    [moveIndex, openingLine]
-  );
 
   const handleCorrectMove = () => {
     setIsCorrect(true);
@@ -166,6 +136,36 @@ export default function MoveTrainer({ srsItem, onComplete, onSkip }: MoveTrainer
       onComplete({ rating, timeSpent });
     }, 2000);
   };
+
+  // Handle move attempt
+  const handleMoveAttempt = useCallback(
+    (from: Square, to: Square) => {
+      const expectedMove = openingLine.moves[moveIndex];
+      const chess = new Chess();
+
+      // Replay line up to current position
+      for (let i = 0; i < moveIndex; i++) {
+        chess.move(openingLine.moves[i]);
+      }
+
+      // Try the user's move
+      try {
+        const userMove = chess.move({ from, to });
+
+        if (userMove.san === expectedMove) {
+          // Correct move!
+          handleCorrectMove();
+        } else {
+          // Wrong move
+          handleIncorrectMove();
+        }
+      } catch (error) {
+        // Invalid move
+        handleIncorrectMove();
+      }
+    },
+    [moveIndex, openingLine, handleCorrectMove, handleIncorrectMove]
+  );
 
   const handleGiveUp = () => {
     // Mark as "Again" (forgotten)

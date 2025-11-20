@@ -27,7 +27,7 @@ import {
   canAdvanceToNextTier,
   getNextELOTier,
   getMotifDisplayName,
-  type TacticalDrill,
+  type TacticalDrill as TacticalDrillType,
   type ELORating,
 } from '../../constants/tacticalDrills';
 import { getDueFailedPuzzles } from '../../services/tacticalAnalyticsService';
@@ -51,7 +51,7 @@ export default function TacticalDrill({
 
   // Current drill set - mix in failed puzzles if available
   const [currentELO, setCurrentELO] = useState<ELORating>(initialELO);
-  const [drills] = useState<TacticalDrill[]>(() => {
+  const [drills] = useState<TacticalDrillType[]>(() => {
     const dueFailedPuzzles = tacticalAnalytics ? getDueFailedPuzzles(tacticalAnalytics) : [];
     if (dueFailedPuzzles.length >= drillCount) {
       // Use only failed puzzles for review
@@ -70,7 +70,7 @@ export default function TacticalDrill({
   // Track drill details for analytics
   const [drillDetails, setDrillDetails] = useState<
     Array<{
-      drill: TacticalDrill;
+      drill: TacticalDrillType;
       correct: boolean;
       speedRating: string;
       timeUsed: number;
@@ -116,39 +116,119 @@ export default function TacticalDrill({
 
   const currentDrill = drills[currentDrillIndex];
 
+  const startTimer = () => {
+    setIsActive(true);
+    startTimeRef.current = Date.now();
+
+    // Animate timer bar
+    Animated.timing(timerBarAnim, {
+      toValue: 0,
+      duration: currentDrill.timeLimit * 1000,
+      useNativeDriver: false,
+    }).start();
+
+    timerRef.current = setInterval(() => {
+      setTimeRemaining(prev => {
+        if (prev <= 0.1) {
+          handleTimeout();
+          return 0;
+        }
+        return prev - 0.1;
+      });
+    }, 100);
+  };
+
+  const stopTimer = () => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+    setIsActive(false);
+    const elapsed = (Date.now() - startTimeRef.current) / 1000;
+    setTimeUsed(elapsed);
+    return elapsed;
+  };
+
+  const handleTimeout = () => {
+    stopTimer();
+    setFailed(true);
+    setSpeedRating('too-slow');
+
+    // Track drill details for analytics
+    setDrillDetails(prev => [
+      ...prev,
+      {
+        drill: currentDrill,
+        correct: false,
+        speedRating: 'too-slow',
+        timeUsed: currentDrill.timeLimit,
+      },
+    ]);
+
+    // Update stats
+    setStats(prev => {
+      const newStats = {
+        ...prev,
+        totalAttempts: prev.totalAttempts + 1,
+        failedCount: prev.failedCount + 1,
+      };
+      newStats.accuracy = (newStats.correct / newStats.totalAttempts) * 100;
+      return newStats;
+    });
+
+    playSound('error');
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+
+    const failPrompt: CoachPrompt = {
+      id: 'drill-fail',
+      type: 'hint',
+      text: `Too slow! The answer was ${currentDrill.solution}. ${currentDrill.explanation}`,
+    };
+
+    setCoachPrompt(failPrompt);
+    setShowCoach(true);
+
+    setTimeout(() => {
+      setShowCoach(false);
+      handleNextDrill();
+    }, 2500);
+  };
+
   // Load drill
   useEffect(() => {
     if (currentDrill) {
-      loadPosition(currentDrill.fen);
+      queueMicrotask(() => {
+        loadPosition(currentDrill.fen);
 
-      // Apply adaptive time multiplier if analytics available
-      const adaptiveTimeLimit = tacticalAnalytics
-        ? currentDrill.timeLimit * tacticalAnalytics.adaptiveSettings.timeMultiplier
-        : currentDrill.timeLimit;
+        // Apply adaptive time multiplier if analytics available
+        const adaptiveTimeLimit = tacticalAnalytics
+          ? currentDrill.timeLimit * tacticalAnalytics.adaptiveSettings.timeMultiplier
+          : currentDrill.timeLimit;
 
-      setTimeRemaining(adaptiveTimeLimit);
-      setSolved(false);
-      setFailed(false);
-      setSpeedRating('');
-      urgencyAnim.setValue(0);
-      timerBarAnim.setValue(1);
-      pulseAnim.setValue(1);
+        setTimeRemaining(adaptiveTimeLimit);
+        setSolved(false);
+        setFailed(false);
+        setSpeedRating('');
+        urgencyAnim.setValue(0);
+        timerBarAnim.setValue(1);
+        pulseAnim.setValue(1);
 
-      // Show drill intro
-      const introPrompt: CoachPrompt = {
-        id: 'drill-intro',
-        type: 'socratic-question',
-        text: `Find it FAST! Motif: ${getMotifDisplayName(currentDrill.motif)}. You have ${Math.round(adaptiveTimeLimit)} seconds!`,
-      };
+        // Show drill intro
+        const introPrompt: CoachPrompt = {
+          id: 'drill-intro',
+          type: 'socratic-question',
+          text: `Find it FAST! Motif: ${getMotifDisplayName(currentDrill.motif)}. You have ${Math.round(adaptiveTimeLimit)} seconds!`,
+        };
 
-      setCoachPrompt(introPrompt);
-      setShowCoach(true);
+        setCoachPrompt(introPrompt);
+        setShowCoach(true);
 
-      // Auto-start timer after 1.5s
-      setTimeout(() => {
-        setShowCoach(false);
-        startTimer();
-      }, 1500);
+        // Auto-start timer after 1.5s
+        setTimeout(() => {
+          setShowCoach(false);
+          startTimer();
+        }, 1500);
+      });
     }
 
     return () => {
@@ -185,39 +265,6 @@ export default function TacticalDrill({
       urgencyAnim.setValue(0);
     }
   }, [timeRemaining, isActive]);
-
-  const startTimer = () => {
-    setIsActive(true);
-    startTimeRef.current = Date.now();
-
-    // Animate timer bar
-    Animated.timing(timerBarAnim, {
-      toValue: 0,
-      duration: currentDrill.timeLimit * 1000,
-      useNativeDriver: false,
-    }).start();
-
-    timerRef.current = setInterval(() => {
-      setTimeRemaining(prev => {
-        if (prev <= 0.1) {
-          handleTimeout();
-          return 0;
-        }
-        return prev - 0.1;
-      });
-    }, 100);
-  };
-
-  const stopTimer = () => {
-    if (timerRef.current) {
-      clearInterval(timerRef.current);
-      timerRef.current = null;
-    }
-    setIsActive(false);
-    const elapsed = (Date.now() - startTimeRef.current) / 1000;
-    setTimeUsed(elapsed);
-    return elapsed;
-  };
 
   const handleMoveAttempt = (from: Square, to: Square) => {
     if (!isActive || solved || failed) return;
@@ -313,54 +360,21 @@ export default function TacticalDrill({
     }, 2500);
   };
 
+  const handleNextDrill = () => {
+    if (currentDrillIndex < drills.length - 1) {
+      setCurrentDrillIndex(currentDrillIndex + 1);
+    } else {
+      // All drills complete - update analytics and call onComplete
+      if (tacticalAnalytics) {
+        updateTacticalAnalytics(drillDetails, stats);
+      }
+      onComplete(stats);
+    }
+  };
+
   const handleWrongMove = () => {
     playSound('error');
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-  };
-
-  const handleTimeout = () => {
-    stopTimer();
-    setFailed(true);
-    setSpeedRating('too-slow');
-
-    // Track drill details for analytics
-    setDrillDetails(prev => [
-      ...prev,
-      {
-        drill: currentDrill,
-        correct: false,
-        speedRating: 'too-slow',
-        timeUsed: currentDrill.timeLimit,
-      },
-    ]);
-
-    // Update stats
-    setStats(prev => {
-      const newStats = {
-        ...prev,
-        totalAttempts: prev.totalAttempts + 1,
-        failedCount: prev.failedCount + 1,
-      };
-      newStats.accuracy = (newStats.correct / newStats.totalAttempts) * 100;
-      return newStats;
-    });
-
-    playSound('error');
-    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-
-    const failPrompt: CoachPrompt = {
-      id: 'drill-fail',
-      type: 'hint',
-      text: `Too slow! The answer was ${currentDrill.solution}. ${currentDrill.explanation}`,
-    };
-
-    setCoachPrompt(failPrompt);
-    setShowCoach(true);
-
-    setTimeout(() => {
-      setShowCoach(false);
-      handleNextDrill();
-    }, 2500);
   };
 
   const handleShowHint = () => {
@@ -379,18 +393,6 @@ export default function TacticalDrill({
       totalAttempts: prev.totalAttempts + 1,
       failedCount: prev.failedCount + 1,
     }));
-  };
-
-  const handleNextDrill = async () => {
-    if (currentDrillIndex < drills.length - 1) {
-      setCurrentDrillIndex(currentDrillIndex + 1);
-    } else {
-      // All drills complete - update analytics
-      if (tacticalAnalytics && drillDetails.length > 0) {
-        await updateTacticalAnalytics(stats, drillDetails);
-      }
-      onComplete(stats);
-    }
   };
 
   const getSpeedFeedback = (rating: string, time: number): string => {

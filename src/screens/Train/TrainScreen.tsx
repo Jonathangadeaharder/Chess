@@ -48,11 +48,6 @@ export default function TrainScreen() {
   const [celebratedAchievement, setCelebratedAchievement] = useState<Achievement | null>(null);
   const [showCelebration, setShowCelebration] = useState(false);
 
-  // Load due items on mount
-  useEffect(() => {
-    loadDueItems();
-  }, []);
-
   const loadDueItems = () => {
     const dueItems = getDueSRSItems();
     setReviewQueue(dueItems);
@@ -84,6 +79,13 @@ export default function TrainScreen() {
 
     setReviewQueue([...demoMoveItems, ...demoConceptItems]);
   };
+
+  // Load due items on mount
+  useEffect(() => {
+    queueMicrotask(() => {
+      loadDueItems();
+    });
+  }, []);
 
   const dueItems = getDueSRSItems();
   const movesToReview = dueItems.filter(item => item.type === 'move').length;

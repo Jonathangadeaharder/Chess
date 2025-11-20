@@ -43,7 +43,7 @@ export default function ConceptTrainer({ srsItem, onComplete, onSkip }: ConceptT
   const [isRevealed, setIsRevealed] = useState(false);
   const [userAnswer, setUserAnswer] = useState('');
   const [currentHintIndex, setCurrentHintIndex] = useState(-1);
-  const [startTime] = useState(Date.now());
+  const [startTime] = useState(() => Date.now());
 
   // Animation values
   const [flipAnim] = useState(new Animated.Value(0));

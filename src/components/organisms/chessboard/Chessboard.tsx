@@ -24,7 +24,7 @@ import type { Square } from '../../../types';
 // INNER COMPONENT (with access to contexts)
 // ============================================================================
 
-const ChessboardInner = forwardRef<ChessboardRef, {}>((_, ref) => {
+const ChessboardInner = forwardRef<ChessboardRef, Record<string, never>>((_, ref) => {
   const state = useChessboardState();
   const { makeMove, undoMove, loadPosition, resetGame, position } = useGameStore();
 

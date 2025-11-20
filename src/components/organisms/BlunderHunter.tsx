@@ -113,20 +113,24 @@ export default function BlunderHunter({ onComplete, onExit }: BlunderHunterProps
     if (currentPuzzle) {
       resetGame();
       loadPosition(currentPuzzle.fen);
-      setSolved(false);
-      setAttempts(0);
-      setShowHint(false);
-      setArrows([]);
 
-      // Show intro
-      const introPrompt: CoachPrompt = {
-        id: 'blunder-intro',
-        type: 'socratic-question',
-        text: `Your opponent just blundered with ${currentPuzzle.blunderMove}! Find the punishing move. Theme: ${currentPuzzle.theme}`,
-      };
+      // Defer state updates to avoid synchronous setState in effect
+      queueMicrotask(() => {
+        setSolved(false);
+        setAttempts(0);
+        setShowHint(false);
+        setArrows([]);
 
-      setCoachPrompt(introPrompt);
-      setShowCoach(true);
+        // Show intro
+        const introPrompt: CoachPrompt = {
+          id: 'blunder-intro',
+          type: 'socratic-question',
+          text: `Your opponent just blundered with ${currentPuzzle.blunderMove}! Find the punishing move. Theme: ${currentPuzzle.theme}`,
+        };
+
+        setCoachPrompt(introPrompt);
+        setShowCoach(true);
+      });
     }
   }, [currentPuzzle]);
 

@@ -52,40 +52,6 @@ export default function TheFuse({ onComplete, onExit }: TheFuseProps) {
 
   const currentPuzzle = puzzles[currentPuzzleIndex];
 
-  // Load puzzle and show intro
-  useEffect(() => {
-    if (currentPuzzle) {
-      loadPosition(currentPuzzle.fen);
-      setTimeRemaining(currentPuzzle.timeLimit);
-      setSolved(false);
-      setFailed(false);
-      fuseAnim.setValue(1);
-      explosionAnim.setValue(0);
-
-      // Show pattern intro
-      const introPrompt: CoachPrompt = {
-        id: 'fuse-intro',
-        type: 'socratic-question',
-        text: `Find the winning move! Pattern: ${getPatternDisplayName(currentPuzzle.pattern)}. The fuse is lit - you have ${currentPuzzle.timeLimit} seconds!`,
-      };
-
-      setCoachPrompt(introPrompt);
-      setShowCoach(true);
-
-      // Start timer after coach dismissal
-      setTimeout(() => {
-        setShowCoach(false);
-        startTimer();
-      }, 2000);
-    }
-
-    return () => {
-      if (timerRef.current) {
-        clearInterval(timerRef.current);
-      }
-    };
-  }, [currentPuzzleIndex]);
-
   const startTimer = () => {
     setIsActive(true);
     startTimeRef.current = Date.now();
@@ -115,6 +81,82 @@ export default function TheFuse({ onComplete, onExit }: TheFuseProps) {
     }
     setIsActive(false);
   };
+
+  const handleTimeout = () => {
+    stopTimer();
+    setFailed(true);
+
+    playSound('error');
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+
+    // Explosion animation
+    Animated.spring(explosionAnim, {
+      toValue: 1,
+      tension: 20,
+      friction: 3,
+      useNativeDriver: true,
+    }).start();
+
+    const failPrompt: CoachPrompt = {
+      id: 'fuse-fail',
+      type: 'hint',
+      text: `Time's up! The answer was ${currentPuzzle.solution}. ${currentPuzzle.explanation}`,
+    };
+
+    setCoachPrompt(failPrompt);
+    setShowCoach(true);
+
+    setTimeout(() => {
+      setShowCoach(false);
+      handleNextPuzzle();
+    }, 3000);
+  };
+
+  const handleNextPuzzle = () => {
+    if (currentPuzzleIndex < puzzles.length - 1) {
+      setCurrentPuzzleIndex(currentPuzzleIndex + 1);
+    } else {
+      // All puzzles complete
+      const averageTime = solvedPuzzles > 0 ? totalTime / solvedPuzzles : 0;
+      onComplete(solvedPuzzles, averageTime);
+    }
+  };
+
+  // Load puzzle and show intro
+  useEffect(() => {
+    if (currentPuzzle) {
+      queueMicrotask(() => {
+        loadPosition(currentPuzzle.fen);
+        setTimeRemaining(currentPuzzle.timeLimit);
+        setSolved(false);
+        setFailed(false);
+        fuseAnim.setValue(1);
+        explosionAnim.setValue(0);
+
+        // Show pattern intro
+        const introPrompt: CoachPrompt = {
+          id: 'fuse-intro',
+          type: 'socratic-question',
+          text: `Find the winning move! Pattern: ${getPatternDisplayName(currentPuzzle.pattern)}. The fuse is lit - you have ${currentPuzzle.timeLimit} seconds!`,
+        };
+
+        setCoachPrompt(introPrompt);
+        setShowCoach(true);
+
+        // Start timer after coach dismissal
+        setTimeout(() => {
+          setShowCoach(false);
+          startTimer();
+        }, 2000);
+      });
+    }
+
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+      }
+    };
+  }, [currentPuzzleIndex]);
 
   const handleMoveAttempt = (from: Square, to: Square) => {
     if (!isActive || solved || failed) return;
@@ -161,36 +203,6 @@ export default function TheFuse({ onComplete, onExit }: TheFuseProps) {
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
   };
 
-  const handleTimeout = () => {
-    stopTimer();
-    setFailed(true);
-
-    playSound('error');
-    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-
-    // Explosion animation
-    Animated.spring(explosionAnim, {
-      toValue: 1,
-      tension: 20,
-      friction: 3,
-      useNativeDriver: true,
-    }).start();
-
-    const failPrompt: CoachPrompt = {
-      id: 'fuse-fail',
-      type: 'hint',
-      text: `Time's up! The answer was ${currentPuzzle.solution}. ${currentPuzzle.explanation}`,
-    };
-
-    setCoachPrompt(failPrompt);
-    setShowCoach(true);
-
-    setTimeout(() => {
-      setShowCoach(false);
-      handleNextPuzzle();
-    }, 3000);
-  };
-
   const handleShowHint = () => {
     stopTimer();
     const hintPrompt: CoachPrompt = {
@@ -200,16 +212,6 @@ export default function TheFuse({ onComplete, onExit }: TheFuseProps) {
     };
     setCoachPrompt(hintPrompt);
     setShowCoach(true);
-  };
-
-  const handleNextPuzzle = () => {
-    if (currentPuzzleIndex < puzzles.length - 1) {
-      setCurrentPuzzleIndex(currentPuzzleIndex + 1);
-    } else {
-      // All puzzles complete
-      const averageTime = solvedPuzzles > 0 ? totalTime / solvedPuzzles : 0;
-      onComplete(solvedPuzzles, averageTime);
-    }
   };
 
   const fuseColor = fuseAnim.interpolate({
