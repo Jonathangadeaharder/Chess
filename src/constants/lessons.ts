@@ -285,7 +285,7 @@ export const LONDON_LESSONS: Lesson[] = [
       {
         type: 'text',
         heading: 'Why Bf4?',
-        text: 'The early Bf4 is what distinguishes the London from other d4 systems. By developing the bishop outside the pawn chain before playing e3, White avoids the \"bad bishop\" problem that plagues the Stonewall Attack.',
+        text: 'The early Bf4 is what distinguishes the London from other d4 systems. By developing the bishop outside the pawn chain before playing e3, White avoids the "bad bishop" problem that plagues the Stonewall Attack.',
       },
     ],
   },
