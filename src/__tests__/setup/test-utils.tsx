@@ -5,14 +5,21 @@
 
 import React, { ReactElement } from 'react';
 import { render, RenderOptions } from '@testing-library/react-native';
+import { StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+
+const testStyles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+  },
+});
 
 /**
  * Custom render that wraps components with necessary providers
  */
 export function renderWithProviders(ui: ReactElement, options?: Omit<RenderOptions, 'wrapper'>) {
   const AllProviders = ({ children }: { children: React.ReactNode }) => {
-    return <GestureHandlerRootView style={{ flex: 1 }}>{children}</GestureHandlerRootView>;
+    return <GestureHandlerRootView style={testStyles.wrapper}>{children}</GestureHandlerRootView>;
   };
 
   return render(ui, { wrapper: AllProviders, ...options });

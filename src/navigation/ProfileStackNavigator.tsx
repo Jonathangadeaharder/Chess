@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '../constants/theme';
 import type { ProfileStackParamList } from '../types';
@@ -49,7 +49,7 @@ export default function ProfileStackNavigator() {
           headerRight: () => (
             <TouchableOpacity
               onPress={() => navigation.navigate('Settings')}
-              style={{ marginRight: 4 }}
+              style={styles.settingsButton}
             >
               <Ionicons name="settings-outline" size={24} color={Colors.text} />
             </TouchableOpacity>
@@ -94,3 +94,9 @@ export default function ProfileStackNavigator() {
     </Stack.Navigator>
   );
 }
+
+const styles = StyleSheet.create({
+  settingsButton: {
+    marginRight: 4,
+  },
+});

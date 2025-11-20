@@ -197,12 +197,7 @@ export default function GameAnalysisScreen({ route, navigation }: GameAnalysisSc
                     Avg loss: {stockfishAnalysis.averageCentipawnLoss.white.toFixed(0)}cp
                   </Text>
                 </View>
-                <View
-                  style={[
-                    styles.accuracyItem,
-                    { borderLeftWidth: 1, borderLeftColor: Colors.border },
-                  ]}
-                >
+                <View style={styles.accuracyItemWithBorder}>
                   <Text style={styles.accuracyLabel}>Black Accuracy</Text>
                   <Text style={[styles.accuracyValue, { color: Colors.primary }]}>
                     {stockfishAnalysis.accuracy.black.toFixed(1)}%
@@ -225,7 +220,7 @@ export default function GameAnalysisScreen({ route, navigation }: GameAnalysisSc
               <Text style={styles.statLabel}>Best Moves</Text>
             </View>
             <View style={[styles.statItem, styles.statDivider]}>
-              <Text style={[styles.statValue, { color: '#FFA500' }]}>{stats?.inaccuracies}</Text>
+              <Text style={styles.statValueWarning}>{stats?.inaccuracies}</Text>
               <Text style={styles.statLabel}>Inaccuracies</Text>
             </View>
           </View>
@@ -453,6 +448,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
+  accuracyItemWithBorder: {
+    flex: 1,
+    alignItems: 'center',
+    borderLeftWidth: 1,
+    borderLeftColor: Colors.border,
+  },
   accuracyLabel: {
     fontSize: Typography.fontSize.sm,
     color: Colors.textSecondary,
@@ -484,6 +485,11 @@ const styles = StyleSheet.create({
     fontSize: Typography.fontSize['2xl'],
     fontWeight: Typography.fontWeight.bold,
     color: Colors.text,
+  },
+  statValueWarning: {
+    fontSize: Typography.fontSize['2xl'],
+    fontWeight: Typography.fontWeight.bold,
+    color: Colors.streakAlt,
   },
   statLabel: {
     fontSize: Typography.fontSize.sm,
