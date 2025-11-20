@@ -255,7 +255,7 @@ function detectFork(chess: Chess, moves: any[]): boolean {
     // Check if the moved piece attacks multiple valuable pieces
     const attacks = getAttackedSquares(chess, move.to);
     const valuablePiecesAttacked = attacks.filter(sq => {
-      const piece = chess.get(sq);
+      const piece = chess.get(sq as Square);
       return piece && piece.type !== 'p' && piece.color !== chess.turn();
     });
 
@@ -337,7 +337,7 @@ function detectDoubleAttack(chess: Chess, moves: any[]): boolean {
 
     const attackedSquares = getAttackedSquares(chess, move.to);
     const threatenedPieces = attackedSquares.filter(sq => {
-      const piece = chess.get(sq);
+      const piece = chess.get(sq as Square);
       return piece && piece.color !== chess.turn() && piece.type !== 'p';
     });
 
@@ -355,11 +355,11 @@ function detectDoubleAttack(chess: Chess, moves: any[]): boolean {
  */
 function getAttackedSquares(chess: Chess, square: string): string[] {
   const attacked: string[] = [];
-  const piece = chess.get(square);
+  const piece = chess.get(square as Square);
   if (!piece) return attacked;
 
   // Get all legal moves from this square
-  const moves = chess.moves({ square, verbose: true });
+  const moves = chess.moves({ square: square as any, verbose: true });
   for (const move of moves) {
     attacked.push(move.to);
   }
