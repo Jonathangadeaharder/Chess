@@ -280,7 +280,11 @@ export default function BlunderHunter({ onComplete, onExit }: BlunderHunterProps
       {/* Digital Coach */}
       {showCoach && coachPrompt && (
         <Modal visible={showCoach} transparent animationType="fade">
-          <DigitalCoachDialog prompt={coachPrompt} onDismiss={() => setShowCoach(false)} />
+          <DigitalCoachDialog
+            visible={showCoach}
+            prompt={coachPrompt}
+            onDismiss={() => setShowCoach(false)}
+          />
         </Modal>
       )}
     </View>

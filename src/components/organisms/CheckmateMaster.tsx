@@ -474,7 +474,11 @@ export default function CheckmateMaster({ onComplete, onExit }: CheckmateMasterP
 
       {/* Digital Coach Dialog */}
       {showCoach && coachPrompt && (
-        <DigitalCoachDialog prompt={coachPrompt} onDismiss={() => setShowCoach(false)} />
+        <DigitalCoachDialog
+          visible={showCoach}
+          prompt={coachPrompt}
+          onDismiss={() => setShowCoach(false)}
+        />
       )}
     </View>
   );

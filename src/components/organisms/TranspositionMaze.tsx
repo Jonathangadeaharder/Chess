@@ -405,7 +405,11 @@ export default function TranspositionMaze({ onComplete, onExit }: TranspositionM
 
       {/* Digital Coach Dialog */}
       {coachPrompt && (
-        <DigitalCoachDialog prompt={coachPrompt} onDismiss={() => setCoachPrompt(null)} />
+        <DigitalCoachDialog
+          visible={!!coachPrompt}
+          prompt={coachPrompt}
+          onDismiss={() => setCoachPrompt(null)}
+        />
       )}
     </View>
   );
