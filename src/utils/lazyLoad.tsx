@@ -11,6 +11,7 @@
 
 import React, { ComponentType, LazyExoticComponent, Suspense, lazy } from 'react';
 import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
+import { Colors } from '../constants/theme';
 
 /**
  * Default loading fallback component
@@ -18,7 +19,7 @@ import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
 export function DefaultLoadingFallback() {
   return (
     <View style={styles.loadingContainer}>
-      <ActivityIndicator size="large" color="#4a9eff" />
+      <ActivityIndicator size="large" color={Colors.accent} />
       <Text style={styles.loadingText}>Loading...</Text>
     </View>
   );
@@ -235,15 +236,15 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#1a1a1a',
+    backgroundColor: Colors.backgroundDark,
   },
   loadingText: {
     marginTop: 12,
     fontSize: 16,
-    color: '#999999',
+    color: Colors.textGray,
   },
   skeleton: {
-    backgroundColor: '#2a2a2a',
+    backgroundColor: Colors.backgroundDarkSecondary,
     borderRadius: 8,
     marginVertical: 8,
   },
