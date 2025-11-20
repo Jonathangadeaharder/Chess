@@ -46,7 +46,7 @@ export default function TacticalDrill({
   onComplete,
   onExit,
 }: TacticalDrillProps) {
-  const { loadPosition, makeMove, resetGame, game } = useGameStore();
+  const { loadPosition, makeMove, resetGame, chess } = useGameStore();
   const { tacticalAnalytics, updateTacticalAnalytics } = useUserStore();
 
   // Current drill set - mix in failed puzzles if available
@@ -269,7 +269,7 @@ export default function TacticalDrill({
   const handleMoveAttempt = (from: Square, to: Square) => {
     if (!isActive || solved || failed) return;
 
-    const move = game.move({ from, to, promotion: 'q' });
+    const move = chess.move({ from, to, promotion: 'q' });
 
     if (!move) {
       // Invalid move
@@ -283,7 +283,7 @@ export default function TacticalDrill({
       handleSuccess();
     } else {
       handleWrongMove();
-      game.undo(); // Undo the wrong move
+      chess.undo(); // Undo the wrong move
     }
   };
 

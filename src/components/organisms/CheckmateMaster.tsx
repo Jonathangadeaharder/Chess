@@ -206,7 +206,7 @@ interface CheckmateMasterProps {
 }
 
 export default function CheckmateMaster({ onComplete, onExit }: CheckmateMasterProps) {
-  const { loadPosition, makeMove, resetGame, position, isCheckmate } = useGameStore();
+  const { loadPosition, makeMove, resetGame, position } = useGameStore();
 
   const [puzzles] = useState<CheckmatePuzzle[]>(() =>
     [...CHECKMATE_PUZZLES].sort(() => Math.random() - 0.5).slice(0, 8)

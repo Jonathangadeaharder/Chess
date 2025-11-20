@@ -87,7 +87,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       const moved = get().makeMove(selectedSquare, square);
       if (!moved) {
         // If move failed, select the new square instead
-        const moves = chess.moves({ square, verbose: true });
+        const moves = chess.moves({ square: square as any, verbose: true });
         set({
           selectedSquare: square,
           highlightedSquares: moves.map((m: any) => m.to),
@@ -96,7 +96,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       }
     } else {
       // Select the square and highlight legal moves
-      const moves = chess.moves({ square, verbose: true });
+      const moves = chess.moves({ square: square as any, verbose: true });
       if (moves.length > 0) {
         set({
           selectedSquare: square,
@@ -164,7 +164,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   getLegalMoves: (square?: Square) => {
     const { chess } = get();
     if (square) {
-      return chess.moves({ square, verbose: false });
+      return chess.moves({ square: square as any, verbose: false });
     }
     return chess.moves();
   },
