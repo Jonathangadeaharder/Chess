@@ -203,8 +203,27 @@ declare module 'expo-notifications' {
       sound?: string;
       vibrationPattern?: number[];
       lightColor?: string;
+      description?: string;
     }
   ): Promise<void>;
+
+  export function getAllScheduledNotificationsAsync(): Promise<Notification[]>;
+
+  export enum AndroidImportance {
+    MIN = 1,
+    LOW = 2,
+    DEFAULT = 3,
+    HIGH = 4,
+    MAX = 5,
+  }
+
+  export enum AndroidNotificationPriority {
+    MIN = -2,
+    LOW = -1,
+    DEFAULT = 0,
+    HIGH = 1,
+    MAX = 2,
+  }
 }
 
 declare module 'expo-image-manipulator' {
